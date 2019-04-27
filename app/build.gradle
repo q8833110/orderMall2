@@ -1,0 +1,64 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.order.mall"
+        minSdkVersion 17
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation deps.support.v4
+    implementation deps.support.annotations
+    implementation deps.support.appCompat
+    implementation deps.support.recyclerView
+    implementation deps.support.design
+    implementation deps.support.supportVectorDrawable
+    implementation deps.support.animatedVectorDrawable
+    implementation deps.multidex
+    implementation deps.baseRvadapter
+    implementation deps.smartrefresh
+    implementation deps.banner
+    implementation deps.glide
+    implementation deps.eventbus
+    implementation deps.rxpermissions
+    implementation deps.gson
+    implementation deps.retrofit.core
+    implementation deps.retrofit.gson
+    implementation deps.retrofit.rxjava
+    implementation deps.okhttp.core
+    implementation deps.okhttp.logger
+    implementation deps.okio
+    implementation deps.dagger2.runtime
+    implementation 'com.android.support:support-v4:28.0.0'
+    annotationProcessor deps.dagger2.compiler
+    testAnnotationProcessor deps.dagger2.compiler
+    androidTestAnnotationProcessor deps.dagger2.compiler
+    implementation deps.rx.core
+    implementation deps.rx.android
+    implementation deps.rx.rxlifecycle
+    implementation deps.rx.rxlifecycleComponents
+    implementation deps.butterKnife.runtime
+    annotationProcessor deps.butterKnife.compiler
+    compileOnly deps.lombok
+    annotationProcessor deps.lombok
+    // 屏幕适配
+    implementation deps.autoSize
+
+    // 基础依赖包，必须要依赖
+    implementation 'com.gyf.immersionbar:immersionbar:3.0.0-beta02'
+// fragment快速实现（可选）
+    implementation 'com.gyf.immersionbar:immersionbar-components:3.0.0-beta02'
+}

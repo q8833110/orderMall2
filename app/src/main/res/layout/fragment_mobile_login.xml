@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingEnd="32dp"
+    android:paddingStart="32dp">
+
+    <EditText
+        android:id="@+id/et_mobile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="274dp"
+        android:background="@null"
+        android:drawablePadding="10dp"
+        android:drawableStart="@drawable/mobile"
+        android:hint="请输入手机号码"
+        android:paddingEnd="0dp"
+        android:paddingStart="13dp"
+        android:textColor="@color/colorB3B2B2"
+        android:textSize="15sp" />
+
+    <View
+        android:id="@+id/line_mobile"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/et_mobile"
+        android:layout_marginTop="15dp"
+        android:background="@color/colorLineccc" />
+
+    <EditText
+        android:id="@+id/et_Verification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/line_mobile"
+        android:layout_marginTop="32dp"
+        android:background="@null"
+        android:drawablePadding="10dp"
+        android:drawableStart="@drawable/password"
+        android:hint="请输入验证码"
+        android:paddingEnd="0dp"
+        android:paddingStart="13dp"
+        android:textColor="@color/colorB3B2B2"
+        android:textSize="15sp" />
+
+
+    <TextView
+        android:id="@+id/tv_verification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/line_mobile"
+        android:layout_marginTop="32dp"
+        android:layout_alignParentEnd="true"
+        android:gravity="end"
+        android:maxLines="1"
+        android:text="获取验证码"
+        android:textColor="@color/colorFullRed"
+        android:textSize="15sp" />
+
+    <View
+        android:id="@+id/line_password"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/et_Verification"
+        android:layout_marginTop="15dp"
+        android:background="@color/colorLineccc" />
+
+    <TextView
+        android:id="@+id/login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/line_password"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/bg_login_radius_button"
+        android:gravity="center_horizontal"
+        android:paddingTop="15dp"
+        android:text="登陆"
+        android:textColor="@color/colorWhite"
+        android:textSize="15sp" />
+</RelativeLayout>

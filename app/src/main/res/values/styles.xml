@@ -1,0 +1,25 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
+    <style name="SplashAppTheme" parent="AppTheme">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <!--<item name="android:listDivider">@drawable/divider</item>-->
+        <!--<item name="toolbarStyle" tools:ignore="NewApi">@style/MyToolBar</item>-->
+    </style>
+
+    <style name="MyToolBar" parent="Widget.AppCompat.Toolbar">
+        <!--左边边距-->
+        <item name="contentInsetStart">0dp</item>
+    </style>
+</resources>
