@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorF5F5F5"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_back" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/colorWhite"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:src="@drawable/success" />
+
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="15dp"
+            android:text="已提交订单，等待节点处理"
+            android:textColor="@color/colorBlank333333"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="1000元=1500报单积分"
+        android:textColor="@color/colorBlank333333"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="25dp"
+        android:text="请耐心等待后台节点处理"
+        android:textColor="#999999"
+        android:textSize="15sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:background="@color/colorFullRed" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorF5F5F5" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:padding="22dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="【订单编号】"
+            android:textColor="@color/colorBlank333333"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="BXC201904182191"
+            android:textColor="@color/colorBlank333333"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/id"
+            android:layout_marginTop="15dp"
+            android:text="【提现数额】"
+            android:textColor="@color/colorBlank333333"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/id"
+            android:layout_marginTop="15dp"
+            android:text="1000.00元"
+            android:textColor="@color/colorBlank333333"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/price"
+            android:layout_marginTop="15dp"
+            android:text="【手续费】"
+            android:textColor="@color/colorBlank333333"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/service_change"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/price"
+            android:layout_marginTop="15dp"
+            android:text="1000.00元"
+            android:textColor="@color/colorBlank333333"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/service_change"
+            android:layout_marginTop="15dp"
+            android:text="【订单时间】"
+            android:textColor="@color/colorBlank333333"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/service_change"
+            android:layout_marginTop="15dp"
+            android:text="1000.00元"
+            android:textColor="@color/colorBlank333333"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/time"
+            android:layout_marginTop="15dp"
+            android:text="【收款方式】"
+            android:textColor="@color/colorBlank333333"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/pay_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/time"
+            android:layout_marginTop="15dp"
+            android:text="1000.00元"
+            android:textColor="@color/colorBlank333333"
+            android:textSize="13sp" />
+
+        <ImageView
+            android:id="@+id/iv_pay_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/time"
+            android:layout_marginTop="15dp"
+            android:layout_toStartOf="@id/pay_style"
+            android:src="@drawable/zhifubao" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/pay_style"
+            android:layout_marginTop="15dp"
+            android:text="【收款账号】"
+            android:textColor="@color/colorBlank333333"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/pay_style"
+            android:layout_marginTop="15dp"
+            android:text="1000.00元"
+            android:textColor="@color/colorBlank333333"
+            android:textSize="13sp" />
+
+    </RelativeLayout>
+</LinearLayout>

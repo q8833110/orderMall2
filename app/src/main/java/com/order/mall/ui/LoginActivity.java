@@ -11,13 +11,20 @@ import android.widget.TextView;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.order.mall.R;
+import com.order.mall.data.network.ILoginApi;
+import com.order.mall.data.network.login.VerifyCodeReqDTO;
+import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.fragment.login.LoginFragment;
 import com.order.mall.ui.fragment.login.MobileLoginFragment;
 import com.order.mall.ui.fragment.login.RegisterFragment;
+import com.order.mall.util.RetrofitUtils;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Retrofit;
 
 public class LoginActivity extends BaseActivity {
     public static final int LOGIN_MAIN = 01;
@@ -31,6 +38,7 @@ public class LoginActivity extends BaseActivity {
 
     FragmentManager fragmentManager ;
 
+    private ILoginApi loginApi ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
@@ -41,10 +49,26 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void init(){
+        loginApi = RetrofitUtils.getInstance().getRetrofit().create(ILoginApi.class);
         fragmentManager = getSupportFragmentManager() ;
         toFragment(LOGIN_MAIN);
     }
 
+    /**
+     * 获取验证码
+     */
+    public void getRegisterVerifyCode(int type , String mobile){
+        VerifyCodeReqDTO reqDTO = new VerifyCodeReqDTO();
+        reqDTO.setType(type);
+        reqDTO.setMobile(mobile);
+        addObserver(loginApi.getVerifyCode(reqDTO),new NetworkObserver<ApiResult<String>>(){
+
+            @Override
+            public void onReady(ApiResult<String> stringApiResult) {
+                showToast(stringApiResult.getMessage());
+            }
+        });
+    }
 
     public void setIvBackShow(boolean canShow) {
         if (canShow) {

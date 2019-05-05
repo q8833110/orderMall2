@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="18dp"
+    android:paddingEnd="11dp"
+    android:paddingTop="11dp"
+    android:background="#f5f5f5">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/title"
+        android:text="充值"
+        android:textSize="15sp"
+        android:textColor="@color/colorBlank333333"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/time"
+        android:text="2019-4-30"
+        android:textSize="12sp"
+        android:layout_marginTop="12sp"
+        android:layout_below="@id/title"
+        android:textColor="#999999"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:textColor="@color/colorFullRed"
+        android:textSize="15sp"
+        android:text="+2000报单积分"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:textColor="@color/colorFullRed"
+        android:textSize="15sp"
+        android:id="@+id/jifen"
+        android:text="+2000报单积分"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/shengyujifen"
+        android:layout_marginTop="12sp"
+        android:layout_below="@id/jifen"
+        android:textColor="#999999"
+        android:textSize="12sp"
+        android:text="余额：8099报单积分"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#D9D9D9"
+        android:layout_marginTop="14dp"
+        android:layout_below="@id/time"
+        />
+</RelativeLayout>

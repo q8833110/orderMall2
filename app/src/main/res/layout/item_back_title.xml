@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/status_bar_height"
+        android:id="@+id/sys_title"
+        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/sys_title"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/back_white"
+            android:id="@+id/back"
+            android:paddingStart="10dp"
+            android:paddingEnd="20dp"
+            android:layout_centerVertical="true"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_title"
+            tools:text = "手机登陆"
+            android:textSize="18sp"
+            android:layout_centerInParent="true"
+            android:textColor="@color/colorWhite"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_right"
+            android:textSize="15sp"
+            android:textColor="@color/colorWhite"
+            tools:text="手机积分"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="10dp"/>
+    </RelativeLayout>
+</LinearLayout>

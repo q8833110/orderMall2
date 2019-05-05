@@ -1,5 +1,7 @@
 package com.order.mall.model.netword;
 
+import android.content.Intent;
+
 import java.lang.Error;
 
 /**
@@ -11,8 +13,8 @@ import java.lang.Error;
 
 public class ApiResult<T> {
     T data;
-    Error error;
-    Long timestamp;
+    int code;
+    String  message;
 
     public T getData() {
         return data;
@@ -22,19 +24,19 @@ public class ApiResult<T> {
         this.data = data;
     }
 
-    public Error getError() {
-        return error;
+    public int getCode() {
+        return code;
     }
 
-    public void setError(Error error) {
-        this.error = error;
+    public void setCode(int code) {
+        this.code = code;
     }
 
-    public Long getTimestamp() {
-        return timestamp;
+    public String getMessage() {
+        return message;
     }
 
-    public void setTimestamp(Long timestamp) {
-        this.timestamp = timestamp;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

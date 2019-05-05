@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_invitation"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:padding="10dp"
+        android:src="@drawable/back_white" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="邀好友 拿积分"
+        android:textColor="@color/colorWhite"
+        android:textSize="40sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="每邀请一个好友注册获得10个奖金积分"
+        android:textColor="@color/colorWhite"
+        android:textSize="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="6dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="120dp"
+        android:background="@drawable/bg8"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/bg9"
+            android:gravity="center"
+            android:text="我的邀请码"
+            android:textColor="@color/colorBlank333333"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="254dp"
+            android:layout_height="43dp"
+            android:layout_marginTop="17dp"
+            android:background="@drawable/bg_radi_20"
+            android:text="5693120"
+            android:textSize="18sp"
+            android:textColor="@color/colorBlank333333"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:id="@+id/tv_code"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:background="@drawable/bg9"
+            android:gravity="center"
+            android:text="我的邀请链接"
+            android:textColor="@color/colorBlank333333"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="254dp"
+            android:layout_height="43dp"
+            android:layout_marginTop="17dp"
+            android:background="@drawable/bg_radi_20"
+            android:text="链接：https://xx.com/12sx?P=56931..."
+            android:textSize="12sp"
+            android:textColor="@color/colorBlank333333"
+            android:gravity="center"
+            android:id="@+id/tv_url"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_copy_url"
+            android:text="复制邀请链接"
+            android:layout_marginTop="7dp"
+            android:textSize="12sp"
+            android:textColor="@color/colorFullRed"/>
+
+        <ImageView
+            android:layout_width="104dp"
+            android:layout_height="102dp"
+            android:id="@+id/iv_qrcode"
+            android:layout_marginTop="24dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_yellow"
+            android:textSize="18sp"
+            android:textColor="@color/colorBlank333333"
+            android:textStyle="bold"
+            android:text="生成邀请图片"
+            android:gravity="center"
+            android:layout_marginTop="9dp"
+            android:id="@+id/make_qrcode"
+            />
+    </LinearLayout>
+</LinearLayout>

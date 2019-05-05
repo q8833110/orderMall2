@@ -1,6 +1,7 @@
 package com.order.mall.ui.fragment.login;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.order.mall.R;
 import com.order.mall.ui.LoginActivity;
+import com.order.mall.ui.MainActivity;
 import com.order.mall.ui.fragment.BaseFragment;
 
 import butterknife.BindView;
@@ -62,7 +64,7 @@ public class LoginFragment extends BaseFragment {
 
     @OnClick(R.id.login)
     public void login(){
-
+        startActivity(new Intent(context , MainActivity.class));
     }
 
     @OnClick(R.id.register)

@@ -10,4 +10,13 @@
     <color name="colorLineccc">#CCCCCC</color>
     <color name="colorGreen00A0FF">#00A0FF</color>
     <color name="colorBlank333333">#333333</color>
+    <color name="colorGray666">#666666</color>
+    <color name="colorGreenF0F0F0">#F0F0F0</color>
+    <color name="colorF5F5F5">#f5f5f5</color>
+
+    <color name="colorD9D9">#D9D9D9</color>
+    
+    <color name="colorBDBDBD">#BDBDBD</color>
+
+    <color name="colorFEBA6C">#FEBA6C</color>
 </resources>

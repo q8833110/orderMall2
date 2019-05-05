@@ -1,10 +1,10 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowBackground">@android:color/white</item>
+        <!--<item name="android:windowContentOverlay">@null</item>-->
+        <!--<item name="android:windowBackground">@android:color/white</item>-->
     </style>
 
     <style name="SplashAppTheme" parent="AppTheme">
@@ -22,4 +22,29 @@
         <!--左边边距-->
         <item name="contentInsetStart">0dp</item>
     </style>
+
+    <!--仿ios-->
+    <style name="BottomDialogStyle">
+        <!-- 对话框背景 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- 边框 -->
+        <item name="android:windowFrame">@null</item>
+        <!-- 没有标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 是否浮现在Activity之上 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 背景透明 -->
+        <item name="android:windowIsTranslucent">false</item>
+        <!-- 是否有覆盖 -->
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- 进出的显示动画 -->
+        <!--<item name="android:windowAnimationStyle">@style/bottomDialogAnim</item>-->
+        <!-- 背景变暗 -->
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+    <!-- 动画 -->
+    <!--<style name="bottomDialogAnim" parent="android:Animation">-->
+        <!--<item name="@android:windowEnterAnimation">@anim/dialog_enter_anim</item>-->
+        <!--<item name="@android:windowExitAnimation">@anim/dialog_exit_anim</item>-->
+    <!--</style>-->
 </resources>

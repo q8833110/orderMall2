@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="26dp"
+    android:orientation="vertical"
+    android:background="@color/colorWhite"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="请确认您的地址"
+        android:textColor="@color/colorBlank333333"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="14dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="21dp"
+        android:text="张三 ，1870000000，成都市武侯区XX街30号XX小区6栋1单元404"
+        android:textColor="#999"
+        android:textSize="13sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorF5F5F5"
+        android:id="@+id/line1"
+        android:layout_marginTop="21dp"
+        android:layout_below="@id/content"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="取消"
+            android:id="@+id/cancel"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:textColor="@color/colorBlank333333"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="确认"
+            android:id="@+id/ok"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:textColor="@color/colorBlank333333"/>
+    </LinearLayout>
+</LinearLayout>

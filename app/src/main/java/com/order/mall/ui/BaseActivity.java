@@ -226,10 +226,10 @@ public class BaseActivity extends AppCompatActivity {
 
         @Override
         public void onNext(T t) {
-            Error error = t.getError();
-            if (null != error) {
-                onBizCodeError(error);
-            }
+//            Integer code = t.getCode();
+//            if (null != error) {
+//                onBizCodeError(error);
+//            }
             onReady(t);
             if (renderView) {
                 hideLoading();

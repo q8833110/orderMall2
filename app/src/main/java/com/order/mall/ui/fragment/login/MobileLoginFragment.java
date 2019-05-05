@@ -50,6 +50,12 @@ public class MobileLoginFragment extends BaseFragment {
 
     @OnClick(R.id.tv_verification)
     public void getVerification() {
+        if (context instanceof  LoginActivity){
+            ((LoginActivity) context).getRegisterVerifyCode(1 ,etMobile.getText().toString().trim());
+        }
+    }
+
+    public void startCountDown(){
         countDownUtil = new CountDownUtil(tvVerification, 60000, 1000);
         countDownUtil.start();
     }

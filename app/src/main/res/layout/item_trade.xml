@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp">
+
+        <TextView
+            android:id="@+id/id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="订单编号：QD2019041922121CDX1998"
+            android:textColor="@color/colorBlank333333"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="15dp"
+            android:text="交易成功"
+            android:paddingStart="13dp"
+            android:paddingEnd="13dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:background="@drawable/bg_rad_5_red"
+            android:layout_alignParentEnd="true"
+            android:textColor="@color/colorBlank333333"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorF5F5F5"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/banner" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12sp"
+            android:layout_toEndOf="@id/image"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="扫地机器人 全自动家用强力吸尘器 拖擦地一体机全自动家用强力自动扫地机器人"
+            android:textColor="@color/colorBlank333333"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_rate_title"
+            android:textSize="10sp"
+            android:textColor="@color/colorBlank333333"
+            android:text="7日年化收益率:"
+            android:layout_alignParentBottom="true"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_rate"
+            android:textSize="20sp"
+            android:textColor="@color/colorFullRed"
+            android:text="3.2%"
+            android:layout_toEndOf="@id/tv_rate_title"
+            android:layout_alignBottom="@id/tv_rate_title"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="抢单积分"
+            android:textSize="10sp"
+            android:textColor="@color/colorFullRed"
+            android:layout_alignBottom="@id/tv_rate_title"
+            android:id="@+id/jifen_title"
+            android:layout_alignParentEnd="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1799"
+            android:textSize="20sp"
+            android:textColor="@color/colorFullRed"
+            android:layout_alignBottom="@id/tv_rate_title"
+            android:layout_toStartOf="@id/jifen_title"
+            android:id="@+id/jifen"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="挂卖价格："
+            android:textSize="10sp"
+            android:textColor="@color/colorBlank333333"
+            android:layout_alignBottom="@id/tv_rate_title"
+            android:layout_toStartOf="@id/jifen"
+            />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="挂卖时间：2019-04-14"
+        android:textSize="12sp"
+        android:id="@+id/time"
+        android:layout_marginTop="16dp"
+        android:textColor="#999"
+        android:layout_marginBottom="18dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/colorF5F5F5" />
+</LinearLayout>

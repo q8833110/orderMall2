@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+    <include layout="@layout/title_back" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingStart="10dp"
+        android:layout_marginEnd="0dp"
+        android:gravity="center_vertical"
+        android:text="报单积分"
+        android:textSize="15sp"
+        android:textColor="@color/colorBlank333333"
+        android:textStyle="bold"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorF5F5F5" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="14dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:lineSpacingExtra="15dp"
+        android:text="会员充值用rmb购买报单积分，通过转账到后台预留的收款二维码和银行账户，上传截图凭证，后台审核通过到账，自动到账对应的保单积分到账户。"
+        android:textSize="13sp"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/colorBlank333333" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingStart="10dp"
+        android:layout_marginEnd="0dp"
+        android:gravity="center_vertical"
+        android:text="现金积分"
+        android:textSize="15sp"
+        android:textColor="@color/colorBlank333333"
+        android:textStyle="bold"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorF5F5F5" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="14dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:lineSpacingExtra="15dp"
+        android:text="现金积分由抢单商品完成收益后转化而来，现金积分可以提取现金。"
+        android:textSize="13sp"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/colorBlank333333" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingStart="10dp"
+        android:layout_marginEnd="0dp"
+        android:gravity="center_vertical"
+        android:text="奖金积分"
+        android:textSize="15sp"
+        android:textColor="@color/colorBlank333333"
+        android:textStyle="bold"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorF5F5F5" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="14dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:lineSpacingExtra="15dp"
+        android:text="奖金积分由推荐注册会员和下线收益提成所获得。"
+        android:textSize="13sp"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/colorBlank333333" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingStart="10dp"
+        android:layout_marginEnd="0dp"
+        android:gravity="center_vertical"
+        android:text="消费积分"
+        android:textSize="15sp"
+        android:textColor="@color/colorBlank333333"
+        android:textStyle="bold"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorF5F5F5" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="14dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:lineSpacingExtra="15dp"
+        android:text="消费积分由抢单商品完成收益后提取部分到消费积分而来，消费积分可以在商城进行消费购买商品。"
+        android:textSize="13sp"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/colorBlank333333" />
+</LinearLayout>

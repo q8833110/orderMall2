@@ -20,7 +20,6 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.order.mall.data.SharedPreferencesHelp;
-import com.order.mall.data.base.LoginInterceptor;
 import com.order.mall.di.ApplicationContext;
 import com.order.mall.util.Constant;
 
@@ -55,31 +54,6 @@ public class ApplicationModule {
     Application provideApplication() {
         return mApplication;
     }
-
-    @Singleton
-    @Provides
-    LoginInterceptor providesLoginInterceptor(SharedPreferencesHelp sharedPreferencesHelp) {
-        return new LoginInterceptor(sharedPreferencesHelp);
-    }
-
-    @Singleton
-    @Provides
-    Retrofit provideRetrofit(LoginInterceptor logInterceptor) {
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .addInterceptor(logInterceptor)
-                .connectTimeout(Constant.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-                .writeTimeout(Constant.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-                .readTimeout(Constant.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-                .addNetworkInterceptor(new HttpLoggingInterceptor())
-                .build();
-        return new Retrofit.Builder()
-                .baseUrl(Constant.SERVER)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(client)
-                .build();
-    }
-
     @Singleton
     @Provides
     Gson providerGson() {

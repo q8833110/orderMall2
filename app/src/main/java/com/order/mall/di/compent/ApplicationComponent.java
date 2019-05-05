@@ -18,16 +18,13 @@ package com.order.mall.di.compent;
 import android.app.Application;
 import android.content.Context;
 
-import com.google.gson.Gson;
 import com.order.mall.data.SharedPreferencesHelp;
-import com.order.mall.data.base.LoginInterceptor;
 import com.order.mall.di.ApplicationContext;
 import com.order.mall.di.Module.ApplicationModule;
 
 import javax.inject.Singleton;
 
 import dagger.Component;
-import retrofit2.Retrofit;
 
 
 @Singleton
@@ -39,7 +36,6 @@ public interface ApplicationComponent {
 
     Application application();
 
-    Retrofit retrofit();
 
     SharedPreferencesHelp sharedPreferencesHelp();
 

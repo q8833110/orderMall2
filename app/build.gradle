@@ -56,9 +56,14 @@ dependencies {
     annotationProcessor deps.lombok
     // 屏幕适配
     implementation deps.autoSize
-
     // 基础依赖包，必须要依赖
     implementation 'com.gyf.immersionbar:immersionbar:3.0.0-beta02'
-// fragment快速实现（可选）
+    // fragment快速实现（可选）
     implementation 'com.gyf.immersionbar:immersionbar-components:3.0.0-beta02'
+    implementation project(':tablibrary')
+
+    implementation 'com.kcrason:dynamicpagerindicator:1.0.6'
+
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+    implementation 'com.github.zcweng:switch-button:0.0.3@aar'
 }
