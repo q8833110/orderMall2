@@ -4,11 +4,13 @@ package com.order.mall.ui.fragment.login;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.order.mall.R;
 import com.order.mall.ui.LoginActivity;
@@ -57,15 +59,25 @@ public class RegisterFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.register, container, false);
         unbinder = ButterKnife.bind(this, rootView);
+        init();
         return rootView;
     }
 
     @OnClick(R.id.tv_verification)
     public void getVerification() {
-        if (countDownUtil == null) {
-            countDownUtil = new CountDownUtil(tvVerification, 60000, 1000);
+
+        String mobile = etMobile.getText().toString() ;
+        if (TextUtils.isEmpty(mobile)){
+            Toast.makeText(getContext() , "手机号不能为空" , Toast.LENGTH_LONG).show();
+            return ;
         }
-        countDownUtil.start();
+        if (context instanceof  LoginActivity){
+            ((LoginActivity) context).getRegisterVerifyCode(1 ,mobile , RegisterFragment.class.getSimpleName());
+        }
+    }
+
+    public void startDown(){
+        if (countDownUtil != null) countDownUtil.start();
     }
 
     @Override
@@ -79,9 +91,29 @@ public class RegisterFragment extends BaseFragment {
         }
     }
 
+
+    @OnClick(R.id.register)
+    public void register(){
+        String account = etAccount.getText().toString() ;
+        String mobile = etMobile.getText().toString();
+        String verifyCode = etVerification.getText().toString();
+        String password = etPassword.getText().toString() ;
+        String parentId = etInvitation.getText().toString();
+        if (TextUtils.isEmpty(mobile) || TextUtils.isEmpty(verifyCode) ||
+        TextUtils.isEmpty(verifyCode) || TextUtils.isEmpty(parentId) || TextUtils.isEmpty(password)
+        ){
+            Toast.makeText(getContext() , "请全部都要填写" , Toast.LENGTH_LONG).show();
+            return ;
+        }
+        if (context instanceof LoginActivity) {
+            ((LoginActivity) context).register(account , mobile , verifyCode , password , parentId);
+        }
+    }
     @Override
     public void init() {
-
+        if (countDownUtil == null) {
+            countDownUtil = new CountDownUtil(tvVerification, 60000, 1000);
+        }
     }
 
     @Override

@@ -3,16 +3,20 @@ package com.order.mall.ui.fragment.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.order.mall.R;
 import com.order.mall.ui.LoginActivity;
 import com.order.mall.ui.MainActivity;
 import com.order.mall.ui.fragment.BaseFragment;
+
+import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,7 +68,15 @@ public class LoginFragment extends BaseFragment {
 
     @OnClick(R.id.login)
     public void login(){
-        startActivity(new Intent(context , MainActivity.class));
+        String mobile = etMobile.getText().toString();
+        String pwd = etPassword.getText().toString();
+        if (TextUtils.isEmpty(mobile) || TextUtils.isEmpty(pwd)){
+            Toast.makeText(getContext() , "验证码或密码不能为空" , Toast.LENGTH_LONG).show();
+            return ;
+        }
+        if (context instanceof LoginActivity) {
+            ((LoginActivity) context).loginAccount(mobile , pwd);
+        }
     }
 
     @OnClick(R.id.register)

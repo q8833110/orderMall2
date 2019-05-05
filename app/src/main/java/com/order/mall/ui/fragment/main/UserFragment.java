@@ -13,6 +13,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.order.mall.R;
+import com.order.mall.data.SharedPreferencesHelp;
+import com.order.mall.data.network.login.UserRespDTO;
 import com.order.mall.ui.activity.Baodanjifen;
 import com.order.mall.ui.activity.CashJifenActivity;
 import com.order.mall.ui.activity.bonus.BonusMainActivity;
@@ -115,6 +117,7 @@ public class UserFragment extends LazyLoadFragment {
 
     private View rootView;
 
+    private UserRespDTO user ;
 
     @Nullable
     @Override
@@ -187,7 +190,10 @@ public class UserFragment extends LazyLoadFragment {
 
     @Override
     protected void loadData() {
-
+        user = SharedPreferencesHelp.getInstance(getContext()).getUser();
+        if (user != null){
+            tvName.setText(user.getAccount());
+        }
     }
 
     @Override

@@ -4,12 +4,14 @@ package com.order.mall.ui.fragment.login;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.order.mall.R;
 import com.order.mall.ui.LoginActivity;
@@ -48,15 +50,17 @@ public class MobileLoginFragment extends BaseFragment {
         return rootView;
     }
 
+
+
     @OnClick(R.id.tv_verification)
     public void getVerification() {
         if (context instanceof  LoginActivity){
-            ((LoginActivity) context).getRegisterVerifyCode(1 ,etMobile.getText().toString().trim());
+            ((LoginActivity) context).getRegisterVerifyCode(2 ,etMobile.getText().toString().trim() , MobileLoginFragment.class.getSimpleName());
         }
     }
 
     public void startCountDown(){
-        countDownUtil = new CountDownUtil(tvVerification, 60000, 1000);
+        if (countDownUtil != null)
         countDownUtil.start();
     }
 
@@ -71,12 +75,21 @@ public class MobileLoginFragment extends BaseFragment {
 
     @OnClick(R.id.login)
     public void login() {
-
+        String mobile = etMobile.getText().toString();
+        String verifyCode = etVerification.getText().toString();
+        if (TextUtils.isEmpty(mobile) || TextUtils.isEmpty(verifyCode)){
+            Toast.makeText(getContext() , "验证码或验证码不能为空" , Toast.LENGTH_LONG).show();
+            return ;
+        }
+        if (context instanceof LoginActivity) {
+            ((LoginActivity) context).login(mobile , verifyCode);
+        }
     }
 
     @Override
     public void init() {
-
+        if (countDownUtil == null)
+            countDownUtil = new CountDownUtil(tvVerification, 60000, 1000);
     }
 
     @Override

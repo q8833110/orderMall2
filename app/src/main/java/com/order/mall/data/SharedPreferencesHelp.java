@@ -5,10 +5,26 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
+import com.order.mall.data.network.login.UserRespDTO;
+import com.order.mall.util.RetrofitUtils;
 
 import javax.inject.Inject;
 
+import retrofit2.Retrofit;
+
 public class SharedPreferencesHelp {
+
+    private static SharedPreferencesHelp singleton;
+
+    private static final String KEY_USER = "SHARED_KEY_USER" ;
+
+    public static SharedPreferencesHelp getInstance(Context context) {
+        if (singleton == null) {
+            singleton = new SharedPreferencesHelp(context.getApplicationContext()  , new Gson());
+        }
+        return singleton;
+    }
+
     private static final String TAG = SharedPreferencesHelp.class.getSimpleName();
     private static final String PREF_FILE_NAME = "amigo";
     private Gson gson ;
@@ -62,4 +78,17 @@ public class SharedPreferencesHelp {
     }
 
 
+    public void putUser(UserRespDTO userRespDTO){
+        String user =  gson.toJson(userRespDTO);
+        putString(KEY_USER , user);
+    }
+
+    public UserRespDTO getUser(){
+        try {
+            UserRespDTO user = gson.fromJson(getString(KEY_USER), UserRespDTO.class);
+            return  user ;
+        }catch (Exception e){
+            return null ;
+        }
+    }
 }

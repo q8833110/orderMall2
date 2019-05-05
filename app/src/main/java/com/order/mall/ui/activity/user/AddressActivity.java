@@ -10,8 +10,13 @@ import android.widget.TextView;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.order.mall.R;
+import com.order.mall.data.SharedPreferencesHelp;
+import com.order.mall.data.network.IUserApi;
+import com.order.mall.data.network.user.UserDeliverAddress;
+import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
 import com.order.mall.ui.adapter.AddressAdapter;
+import com.order.mall.util.RetrofitUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +42,9 @@ public class AddressActivity extends BaseActivity {
 
     AddressAdapter adapter ;
 
+    private IUserApi userApi ;
+
+    private List<UserDeliverAddress> deliverAddressList ;
     @Override
     protected void initImmersionBar() {
         ImmersionBar.with(this)
@@ -51,14 +59,32 @@ public class AddressActivity extends BaseActivity {
         setContentView(R.layout.activity_address);
         unbinder = ButterKnife.bind(this);
         initRecy();
+        initData();
+    }
+
+    private void initData(){
+        userApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
+        long userId = SharedPreferencesHelp.getInstance(this).getUser().getId();
+        addObserver(userApi.getUserAddress(userId), new NetworkObserver<ApiResult<List<UserDeliverAddress>>>() {
+
+            @Override
+            public void onReady(ApiResult<List<UserDeliverAddress>> userDeliverAddressApiResult) {
+                if (userDeliverAddressApiResult.getData() != null ){
+
+                        List<UserDeliverAddress> addressList = userDeliverAddressApiResult.getData();
+                        if (addressList != null && addressList.size() > 0){
+                            deliverAddressList.clear();
+                            deliverAddressList.addAll(addressList);
+                            adapter.notifyDataSetChanged();
+                        }
+                }
+            }
+        });
     }
 
     private void initRecy(){
-        List<AddressAdapter.Data> list = new ArrayList<>();
-        for (int i = 0 ; i < 5 ; i++){
-            list.add(new AddressAdapter.Data());
-        }
-        adapter = new AddressAdapter(this ,R.layout.item_address ,list);
+        deliverAddressList = new ArrayList<>();
+        adapter = new AddressAdapter(this ,R.layout.item_address  , deliverAddressList);
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(adapter);
     }

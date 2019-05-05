@@ -1,9 +1,5 @@
 package com.order.mall.model.netword;
 
-import android.content.Intent;
-
-import java.lang.Error;
-
 /**
  * ApiResult
  *

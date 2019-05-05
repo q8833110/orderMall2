@@ -1,9 +1,12 @@
 package com.order.mall.ui;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,7 +14,10 @@ import android.widget.TextView;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.order.mall.R;
+import com.order.mall.data.SharedPreferencesHelp;
 import com.order.mall.data.network.ILoginApi;
+import com.order.mall.data.network.IUserApi;
+import com.order.mall.data.network.login.UserRespDTO;
 import com.order.mall.data.network.login.VerifyCodeReqDTO;
 import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.fragment.login.LoginFragment;
@@ -39,6 +45,7 @@ public class LoginActivity extends BaseActivity {
     FragmentManager fragmentManager ;
 
     private ILoginApi loginApi ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
@@ -57,17 +64,79 @@ public class LoginActivity extends BaseActivity {
     /**
      * 获取验证码
      */
-    public void getRegisterVerifyCode(int type , String mobile){
-        VerifyCodeReqDTO reqDTO = new VerifyCodeReqDTO();
-        reqDTO.setType(type);
-        reqDTO.setMobile(mobile);
-        addObserver(loginApi.getVerifyCode(reqDTO),new NetworkObserver<ApiResult<String>>(){
+    public void getRegisterVerifyCode(int type , String mobile , final String tag ){
+        addObserver(loginApi.getVerifyCode(type , mobile ),new NetworkObserver<ApiResult<String>>(){
 
             @Override
             public void onReady(ApiResult<String> stringApiResult) {
                 showToast(stringApiResult.getMessage());
+                if (stringApiResult.getCode() == 0){
+                    if (MobileLoginFragment.class.getSimpleName().equals(tag)){
+                        ((MobileLoginFragment)fragmentManager.findFragmentByTag(tag)).startCountDown();
+                    }else if (RegisterFragment.class.getSimpleName().equals(tag)){
+                        ((RegisterFragment)fragmentManager.findFragmentByTag(tag)).startDown();
+                    }
+                }
             }
         });
+    }
+
+    /**
+     * 获取验证码
+     * @param mobile
+     * @param verifycode
+     */
+    public void login(String mobile , String verifycode){
+        addObserver(loginApi.mobileLogin(mobile , verifycode) , new NetworkObserver<ApiResult<UserRespDTO>>(){
+
+            @Override
+            public void onReady(ApiResult<UserRespDTO> userRespDTOApiResult) {
+                showToast(userRespDTOApiResult.getMessage());
+                if (userRespDTOApiResult.getData() != null) {
+                    SharedPreferencesHelp.getInstance(LoginActivity.this).putUser(userRespDTOApiResult.getData());
+                    toMain();
+                }
+            }
+        } );
+    }
+
+    public void register(String account , String mobile , String verifyCode , String password , String parentId){
+        addObserver(loginApi.register(account , mobile , verifyCode , password , parentId) , new NetworkObserver<ApiResult<String>>(){
+
+            @Override
+            public void onReady(ApiResult<String> userRespDTOApiResult) {
+                showToast(userRespDTOApiResult.getMessage());
+                if (userRespDTOApiResult.getCode() == 0){
+                    toFragment(LOGIN_MAIN);
+                }
+            }
+        } );
+    }
+
+    /**
+     * 获取验证码
+     * @param mobile
+     * @param verifycode
+     */
+    public void loginAccount(String mobile , String verifycode){
+        addObserver(loginApi.Accountlogin(mobile , verifycode) , new NetworkObserver<ApiResult<UserRespDTO>>(){
+
+            @Override
+            public void onReady(ApiResult<UserRespDTO> userRespDTOApiResult) {
+                if (userRespDTOApiResult.getData() != null) {
+                    SharedPreferencesHelp.getInstance(LoginActivity.this).putUser(userRespDTOApiResult.getData());
+                    toMain();
+                }else{
+                    showToast(userRespDTOApiResult.getMessage());
+                }
+            }
+        } );
+    }
+
+    private void toMain(){
+
+        Intent intent = new Intent(this , MainActivity.class);
+        startActivity(intent);
     }
 
     public void setIvBackShow(boolean canShow) {
