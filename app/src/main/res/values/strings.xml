@@ -2,6 +2,6 @@
     <string name="app_name">挂单商城</string>
 
     <string name="hint_ed_mobile">手机号/邮箱/会员名</string>
-    <string name="hint_et_password">请输入登录密码</string>、
+    <string name="hint_et_password">请输入登录密码</string>
     <string name="mobile_login">手机登录</string>
 </resources>

@@ -3,195 +3,224 @@
     package="com.order.mall">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:name=".MyApp"
-        android:theme="@style/AppTheme">
 
+    <application
+        android:name=".MyApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/icon"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="design_width_in_dp"
-            android:value="375"/>
+            android:value="375" />
         <meta-data
             android:name="design_height_in_dp"
-            android:value="667"/>
+            android:value="667" />
 
-        <!--适配华为（huawei）刘海屏-->
+        <!-- 适配华为（huawei）刘海屏 -->
         <meta-data
             android:name="android.notch_support"
-            android:value="true"/>
-        <!--适配小米（xiaomi）刘海屏-->
+            android:value="true" />
+        <!-- 适配小米（xiaomi）刘海屏 -->
         <meta-data
             android:name="notch.config"
             android:value="portrait|landscape" />
-
         <meta-data
             android:name="android.max_aspect"
             android:value="2.4" />
+
         <activity android:name=".MainActivity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
 
-            <!--android:theme="@style/SplashAppTheme"-->
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+
+
+            <!-- android:theme="@style/SplashAppTheme" -->
         </activity>
-        <activity android:name=".ui.LoginActivity"
-            android:screenOrientation="portrait"
-            >
+        <activity
+            android:name=".ui.LoginActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-        <activity android:name=".ui.MainActivity"
-            android:screenOrientation="portrait"
+        <activity
+            android:name=".ui.MainActivity"
             android:hardwareAccelerated="false"
-            />
-
-        <activity android:name=".ui.activity.DetailsActivity"
-            android:screenOrientation="portrait"
-            />
-
-        <activity android:name=".ui.activity.pay.QiangdanPayActivity"
-            android:screenOrientation="portrait"
-           />
-
-        <activity android:name=".ui.activity.DetailsSellActivity"
-            android:screenOrientation="portrait"
-            />
-
-        <activity android:name=".ui.activity.DetailsMallActivity"
-            android:screenOrientation="portrait"
-            />
-
-        <activity android:name=".ui.activity.Baodanjifen"
-            android:screenOrientation="portrait"
-            />
-
-        <activity android:name=".ui.activity.JiFenDetails"
-            android:screenOrientation="portrait"
-            />
-
-        <activity android:name=".ui.activity.JifenxiangqingActivity"
-            android:screenOrientation="portrait"
-            />
-
-        <!--充值中心-->
-        <activity android:name=".ui.activity.RechargeCenterActivity"
-            android:screenOrientation="portrait"
-            />
-        <!--报单积分充值详情-->
-        <activity android:name=".ui.activity.ReportDetailActivity"
             android:screenOrientation="portrait" />
-        <!--充值订单提交-->
-        <activity android:name=".ui.activity.ReportOrderSubActivity"
+        <activity
+            android:name=".ui.activity.DetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.pay.QiangdanPayActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.DetailsSellActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.DetailsMallActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.Baodanjifen"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.JiFenDetails"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.JifenxiangqingActivity"
             android:screenOrientation="portrait" />
 
-        <!--充值界面-->
-        <activity android:name=".ui.activity.RechargeActivity"
+        <!-- 充值中心 -->
+        <activity
+            android:name=".ui.activity.RechargeCenterActivity"
+            android:screenOrientation="portrait" />
+        <!-- 报单积分充值详情 -->
+        <activity
+            android:name=".ui.activity.ReportDetailActivity"
+            android:screenOrientation="portrait" />
+        <!-- 充值订单提交 -->
+        <activity
+            android:name=".ui.activity.ReportOrderSubActivity"
             android:screenOrientation="portrait" />
 
-        <!--充值订单详情-->
-        <activity android:name=".ui.activity.PayDetailActivity"
+        <!-- 充值界面 -->
+        <activity
+            android:name=".ui.activity.RechargeActivity"
             android:screenOrientation="portrait" />
 
-        <!--现金积分-->
-        <activity android:name=".ui.activity.CashJifenActivity"
+        <!-- 充值订单详情 -->
+        <activity
+            android:name=".ui.activity.PayDetailActivity"
             android:screenOrientation="portrait" />
 
-        <!--现金积分明细-->
-        <activity android:name=".ui.activity.cash.CashJifenDetailsActivity"
+        <!-- 现金积分 -->
+        <activity
+            android:name=".ui.activity.CashJifenActivity"
             android:screenOrientation="portrait" />
 
-        <!--提现详情-->
-        <activity android:name=".ui.activity.cash.CashWithdrawalDetailsActivity"
+        <!-- 现金积分明细 -->
+        <activity
+            android:name=".ui.activity.cash.CashJifenDetailsActivity"
             android:screenOrientation="portrait" />
 
-        <!--提现中心-->
-        <activity android:name=".ui.activity.cash.WithdrawalCenterActivity"
+        <!-- 提现详情 -->
+        <activity
+            android:name=".ui.activity.cash.CashWithdrawalDetailsActivity"
             android:screenOrientation="portrait" />
 
-        <!--提现-->
-        <activity android:name=".ui.activity.cash.WithdrawalActivity"
+        <!-- 提现中心 -->
+        <activity
+            android:name=".ui.activity.cash.WithdrawalCenterActivity"
             android:screenOrientation="portrait" />
 
-        <!--提现状态-->
-        <activity android:name=".ui.activity.cash.WithdrawalStatusActivity"
+        <!-- 提现 -->
+        <activity
+            android:name=".ui.activity.cash.WithdrawalActivity"
             android:screenOrientation="portrait" />
 
-        <!--奖金积分-->
-        <activity android:name=".ui.activity.bonus.BonusMainActivity"
+        <!-- 提现状态 -->
+        <activity
+            android:name=".ui.activity.cash.WithdrawalStatusActivity"
             android:screenOrientation="portrait" />
 
-        <!--奖金积分明细-->
-        <activity android:name=".ui.activity.bonus.BonusJifenDetailsActivity"
+        <!-- 奖金积分 -->
+        <activity
+            android:name=".ui.activity.bonus.BonusMainActivity"
             android:screenOrientation="portrait" />
 
-        <!--消费积分-->
-        <activity android:name=".ui.activity.consume.ConsumeMainActivity"
+        <!-- 奖金积分明细 -->
+        <activity
+            android:name=".ui.activity.bonus.BonusJifenDetailsActivity"
             android:screenOrientation="portrait" />
 
-        <!--消费积分明细-->
-        <activity android:name=".ui.activity.consume.ConsumeJifenDetailsActivity"
+        <!-- 消费积分 -->
+        <activity
+            android:name=".ui.activity.consume.ConsumeMainActivity"
             android:screenOrientation="portrait" />
 
-        <!--积分说明-->
-        <activity android:name=".ui.JifenShuomingActivity"
+        <!-- 消费积分明细 -->
+        <activity
+            android:name=".ui.activity.consume.ConsumeJifenDetailsActivity"
             android:screenOrientation="portrait" />
 
-        <!--积分说明-->
-        <activity android:name=".ui.activity.user.InvitationActivity"
+        <!-- 积分说明 -->
+        <activity
+            android:name=".ui.JifenShuomingActivity"
             android:screenOrientation="portrait" />
 
-        <!--我的团队-->
-        <activity android:name=".ui.activity.user.MyteamActivity"
+        <!-- 积分说明 -->
+        <activity
+            android:name=".ui.activity.user.InvitationActivity"
             android:screenOrientation="portrait" />
 
-        <!--购物订单-->
-        <activity android:name=".ui.activity.user.ShoppingCenterActivity"
+        <!-- 我的团队 -->
+        <activity
+            android:name=".ui.activity.user.MyteamActivity"
             android:screenOrientation="portrait" />
 
-        <!--交易订单-->
-        <activity android:name=".ui.activity.user.TradeAllActivity"
+        <!-- 购物订单 -->
+        <activity
+            android:name=".ui.activity.user.ShoppingCenterActivity"
             android:screenOrientation="portrait" />
 
-        <!--地址管理-->
-        <activity android:name=".ui.activity.user.AddressActivity"
+        <!-- 交易订单 -->
+        <activity
+            android:name=".ui.activity.user.TradeAllActivity"
             android:screenOrientation="portrait" />
 
-        <!--编辑地址-->
-        <activity android:name=".ui.activity.user.AddAddressActivity"
+        <!-- 地址管理 -->
+        <activity
+            android:name=".ui.activity.user.AddressActivity"
             android:screenOrientation="portrait" />
 
-        <!--设置-->
-        <activity android:name=".ui.activity.user.SettingActivity"
+        <!-- 编辑地址 -->
+        <activity
+            android:name=".ui.activity.user.AddAddressActivity"
             android:screenOrientation="portrait" />
 
-        <!--修改密码-->
-        <activity android:name=".ui.activity.user.ChangePasswordActivity"
+        <!-- 设置 -->
+        <activity
+            android:name=".ui.activity.user.SettingActivity"
             android:screenOrientation="portrait" />
 
-        <!--收款方式-->
-        <activity android:name=".ui.activity.card.PayMethodActivity"
+        <!-- 修改密码 -->
+        <activity
+            android:name=".ui.activity.user.ChangePasswordActivity"
             android:screenOrientation="portrait" />
 
-        <!--添加银行卡-->
-        <activity android:name=".ui.activity.card.AddBankActivity"
+        <!-- 收款方式 -->
+        <activity
+            android:name=".ui.activity.card.PayMethodActivity"
             android:screenOrientation="portrait" />
 
-        <!--添加银行卡-->
-        <activity android:name=".ui.activity.card.AddWXActivity"
+        <!-- 添加银行卡 -->
+        <activity
+            android:name=".ui.activity.card.AddBankActivity"
             android:screenOrientation="portrait" />
 
-        <!--添加支付宝-->
-        <activity android:name=".ui.activity.card.AddZhifubaoActivity"
+        <!-- 添加银行卡 -->
+        <activity
+            android:name=".ui.activity.card.AddWXActivity"
             android:screenOrientation="portrait" />
+
+        <!-- 添加支付宝 -->
+        <activity
+            android:name=".ui.activity.card.AddZhifubaoActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

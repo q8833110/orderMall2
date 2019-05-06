@@ -127,11 +127,13 @@ public class AddressActivity extends BaseActivity implements AddressAdapter.Addr
     @Override
     public void edit(int position) {
         if (deliverAddressList == null || deliverAddressList.size() <= position) return ;
-
+        toEditAddress(deliverAddressList.get(position));
     }
 
     private void toEditAddress(UserDeliverAddress address){
         Intent intent = new Intent(this , AddAddressActivity.class);
-        intent
+        intent.putExtra(INTENT_KEY_ADDRESS_TYPE ,1);
+        intent.putExtra(INTENT_KEY_EDIT_ADDRESS ,address);
+        startActivity(intent);
     }
 }
