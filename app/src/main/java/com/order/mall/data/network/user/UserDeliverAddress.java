@@ -1,6 +1,9 @@
 package com.order.mall.data.network.user;
 
-public class UserDeliverAddress {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class UserDeliverAddress  implements Parcelable {
         /**
          * address : string
          * addressDetail : string
@@ -19,7 +22,29 @@ public class UserDeliverAddress {
         private String reciver;
         private int userId;
 
-        public String getAddress() {
+    protected UserDeliverAddress(Parcel in) {
+        address = in.readString();
+        addressDetail = in.readString();
+        id = in.readString();
+        isDefault = in.readByte() != 0;
+        mobile = in.readString();
+        reciver = in.readString();
+        userId = in.readInt();
+    }
+
+    public static final Creator<UserDeliverAddress> CREATOR = new Creator<UserDeliverAddress>() {
+        @Override
+        public UserDeliverAddress createFromParcel(Parcel in) {
+            return new UserDeliverAddress(in);
+        }
+
+        @Override
+        public UserDeliverAddress[] newArray(int size) {
+            return new UserDeliverAddress[size];
+        }
+    };
+
+    public String getAddress() {
             return address;
         }
 
@@ -74,4 +99,20 @@ public class UserDeliverAddress {
         public void setUserId(int userId) {
             this.userId = userId;
         }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(address);
+        dest.writeString(addressDetail);
+        dest.writeString(id);
+        dest.writeByte((byte) (isDefault ? 1 : 0));
+        dest.writeString(mobile);
+        dest.writeString(reciver);
+        dest.writeInt(userId);
+    }
+}

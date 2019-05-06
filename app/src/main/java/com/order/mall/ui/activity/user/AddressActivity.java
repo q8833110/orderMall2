@@ -26,8 +26,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class AddressActivity extends BaseActivity {
-
+public class AddressActivity extends BaseActivity implements AddressAdapter.AddressListener {
+    public static final String INTENT_KEY_EDIT_ADDRESS = "INTENT_KEY_EDIT_ADDRESS";
+    public static final String INTENT_KEY_ADDRESS_TYPE = "INTENT_KEY_ADDRESS_TYPE" ;
     @BindView(R.id.sys_title)
     View sysTitle;
     @BindView(R.id.back)
@@ -59,10 +60,16 @@ public class AddressActivity extends BaseActivity {
         setContentView(R.layout.activity_address);
         unbinder = ButterKnife.bind(this);
         initRecy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         initData();
     }
 
     private void initData(){
+        if (userApi == null)
         userApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
         long userId = SharedPreferencesHelp.getInstance(this).getUser().getId();
         addObserver(userApi.getUserAddress(userId), new NetworkObserver<ApiResult<List<UserDeliverAddress>>>() {
@@ -82,9 +89,12 @@ public class AddressActivity extends BaseActivity {
         });
     }
 
+
+
     private void initRecy(){
         deliverAddressList = new ArrayList<>();
         adapter = new AddressAdapter(this ,R.layout.item_address  , deliverAddressList);
+        adapter.setListener(this);
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(adapter);
     }
@@ -104,5 +114,24 @@ public class AddressActivity extends BaseActivity {
     @OnClick(R.id.back)
     public void back() {
         this.finish();
+    }
+
+    @Override
+    public void delete(int position) {
+        if (deliverAddressList == null || deliverAddressList.size() <= position) return ;
+
+        deliverAddressList.remove(position);
+        adapter.notifyItemRemoved(position);
+    }
+
+    @Override
+    public void edit(int position) {
+        if (deliverAddressList == null || deliverAddressList.size() <= position) return ;
+
+    }
+
+    private void toEditAddress(UserDeliverAddress address){
+        Intent intent = new Intent(this , AddAddressActivity.class);
+        intent
     }
 }
