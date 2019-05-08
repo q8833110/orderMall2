@@ -22,7 +22,7 @@ public interface ILoginApi {
     Observable<ApiResult<UserRespDTO>> Accountlogin(@Query("account") String account  , @Query("password") String password);
 
     @POST("user/register")
-    Observable<ApiResult<String>> register(@Query("account") String  account ,
+    Observable<ApiResult<Boolean>> register(@Query("account") String  account ,
                                         @Query("mobile") String mobile ,
                                         @Query("verifyCode") String verifyCode ,
                                         @Query("password") String password ,

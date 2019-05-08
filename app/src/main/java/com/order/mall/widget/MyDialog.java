@@ -31,15 +31,22 @@ public class MyDialog extends Dialog {
 
     public MyDialog(@NonNull Context context) {
         this(context , R.style.BottomDialogStyle);
+        Window window = this.getWindow();
+        window.requestFeature(Window.FEATURE_NO_TITLE);
+        window.setGravity(Gravity.CENTER);
+        window.getDecorView().setPadding(0, 0, 0, 0);
+        WindowManager.LayoutParams lp = window.getAttributes();
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(lp);
+        init();
     }
 
     public MyDialog(@NonNull Context context, int themeResId) {
-        super(context, R.style.BottomDialogStyle);
+        super(context, R.style.BottomDialogStyle );
     }
 
-    protected MyDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
-        super(context, cancelable, cancelListener);
-    }
+
 
     public void setCancelDialogListener(CancelDialogListener cancelDialogListener) {
         this.cancelDialogListener = cancelDialogListener;
@@ -49,9 +56,7 @@ public class MyDialog extends Dialog {
         this.okDialogListener = okDialogListener;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    private void init(){
         setContentView(R.layout.dialog);
         setCanceledOnTouchOutside(true);
         Window dialogWindow = getWindow();
@@ -62,7 +67,7 @@ public class MyDialog extends Dialog {
         dialogWindow.setAttributes(lp);
         ok = findViewById(R.id.ok);
         cancel = findViewById(R.id.cancel);
-        content = findViewById(R.id.tv_contact);
+        content = findViewById(R.id.content);
         title = findViewById(R.id.title);
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +84,6 @@ public class MyDialog extends Dialog {
             }
         });
     }
-
     public void setContent(String contentTxt){
         if (content != null){
             content.setText(contentTxt);

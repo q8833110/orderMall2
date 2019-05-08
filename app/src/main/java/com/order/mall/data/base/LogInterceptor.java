@@ -5,7 +5,10 @@ import android.util.Log;
 
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
+import okhttp3.FormBody;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.Request;
@@ -38,10 +41,11 @@ public class LogInterceptor implements Interceptor {
         MediaType mediaType;
         if (response.body() != null) {
             content = response.body().string();
-            mediaType = response.body().contentType();
+            Log.e(TAG, "intercept: " + response.headers().toString() );
+            mediaType = MediaType.parse("application/x-www-form-urlencoded;charset=utf-8");
         } else {
             content = "";
-            mediaType = MediaType.parse("application/json;charset=UTF-8");
+            mediaType = MediaType.parse("application/x-www-form-urlencoded;charset=utf-8");
         }
         int code = response.code();
         if (DEBUG) {

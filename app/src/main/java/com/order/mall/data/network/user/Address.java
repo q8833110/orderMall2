@@ -14,7 +14,7 @@ public class Address {
 
         private String address;
         private String addressDetail;
-        private String id;
+        private Long id;
         private boolean isDefault;
         private String mobile;
         private String reciver;
@@ -36,11 +36,11 @@ public class Address {
             this.addressDetail = addressDetail;
         }
 
-        public String getId() {
+        public Long getId() {
             return id;
         }
 
-        public void setId(String id) {
+        public void setId(Long id) {
             this.id = id;
         }
 

@@ -42,7 +42,6 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         subscriptions = new CompositeSubscription();
-        setUp();
         //初始化沉浸式
         if (isImmersionBarEnabled()) {
             initImmersionBar();

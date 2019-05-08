@@ -14,21 +14,28 @@ import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.google.gson.Gson;
 import com.gyf.immersionbar.ImmersionBar;
 import com.order.mall.R;
+import com.order.mall.data.SharedPreferencesHelp;
 import com.order.mall.data.base.JsonBean;
+import com.order.mall.data.network.IUserApi;
+import com.order.mall.data.network.user.Address;
 import com.order.mall.data.network.user.UserDeliverAddress;
+import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
 import com.order.mall.util.GetJsonDataUtil;
+import com.order.mall.util.RetrofitUtils;
 import com.order.mall.widget.MyDialog;
 import com.suke.widget.SwitchButton;
 
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 import static com.order.mall.ui.activity.user.AddressActivity.INTENT_KEY_EDIT_ADDRESS;
 
@@ -70,10 +77,14 @@ public class AddAddressActivity extends BaseActivity implements MyDialog.OkDialo
 
     private UserDeliverAddress userDeliverAddress;
 
+    private IUserApi userApi ;
     private List<JsonBean> options1Items = new ArrayList<>();
     private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
     private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
 
+    Unbinder unbinder ;
+
+    int userId ;
     @Override
     protected void initImmersionBar() {
         ImmersionBar.with(this)
@@ -85,7 +96,7 @@ public class AddAddressActivity extends BaseActivity implements MyDialog.OkDialo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_address);
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
         setUp();
         init();
     }
@@ -118,10 +129,7 @@ public class AddAddressActivity extends BaseActivity implements MyDialog.OkDialo
             }
         }
     }
-
-
     private void showDate() {
-
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -131,10 +139,22 @@ public class AddAddressActivity extends BaseActivity implements MyDialog.OkDialo
         });
         thread.start();
     }
-
+    OptionsPickerView pvOptions ;
     private void init() {
         dialog = new MyDialog(this);
-        OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+        dialog.setCancelDialogListener(this);
+        dialog.setOkDialogListener(this);
+        userApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
+        userId = (int) SharedPreferencesHelp.getInstance(this).getUser().getId();
+        switchButton.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+                isDefault = isChecked ;
+            }
+        });
+
+        showDate();
+        pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
                 //返回的分别是三个级别的选中位置
@@ -160,10 +180,15 @@ public class AddAddressActivity extends BaseActivity implements MyDialog.OkDialo
                 .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
                 .setContentTextSize(20)
                 .build();
+    }
 
+    @OnClick(R.id.rl_address)
+    public void addAddress(){
         pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
         pvOptions.show();
     }
+
+    boolean isDefault ;
 
     private void initJsonData() {//解析数据
 
@@ -192,14 +217,6 @@ public class AddAddressActivity extends BaseActivity implements MyDialog.OkDialo
                 String cityName = jsonBean.get(i).getCityList().get(c).getName();
                 cityList.add(cityName);//添加城市
                 ArrayList<String> city_AreaList = new ArrayList<>();//该城市的所有地区列表
-
-                //如果无地区数据，建议添加空字符串，防止数据为null 导致三个选项长度不匹配造成崩溃
-                /*if (jsonBean.get(i).getCityList().get(c).getArea() == null
-                        || jsonBean.get(i).getCityList().get(c).getArea().size() == 0) {
-                    city_AreaList.add("");
-                } else {
-                    city_AreaList.addAll(jsonBean.get(i).getCityList().get(c).getArea());
-                }*/
                 city_AreaList.addAll(jsonBean.get(i).getCityList().get(c).getArea());
                 province_AreaList.add(city_AreaList);//添加该省所有地区数据
             }
@@ -242,7 +259,11 @@ public class AddAddressActivity extends BaseActivity implements MyDialog.OkDialo
 
     @OnClick(R.id.tv_ok)
     public void tvOk() {
+        String content = etName.getText().toString() +" ," + etMobile.getText().toString() +
+                " ," + tvAddress.getText().toString() +  etAddressDetail.getText().toString() ;
+        dialog.setContent(content);
         dialog.show();
+
     }
 
     @Override
@@ -263,6 +284,29 @@ public class AddAddressActivity extends BaseActivity implements MyDialog.OkDialo
 
     @Override
     public void ok() {
+        String name = etName.getText().toString();
+        String mobile = etMobile.getText().toString();
+        String address = tvAddress.getText().toString();
+        String addressDetail = etAddressDetail.getText().toString();
+        HashMap<String , Object> hashMap = new HashMap<>();
+        hashMap.put("id" , "");
+        hashMap.put("userId" , userId);
+        hashMap.put("reciver" , name);
+        hashMap.put("mobile" , mobile);
+        hashMap.put("address" , address);
+        hashMap.put("addressDetail" , addressDetail);
+        hashMap.put("isDefault" ,isDefault);
+        addObserver(userApi.mergeAddress(hashMap), new NetworkObserver<ApiResult<Boolean>>(){
 
+                    @Override
+                    public void onReady(ApiResult<Boolean> booleanApiResult) {
+                        if (booleanApiResult.getData()){
+                            showToast("添加地址成功");
+                            back();
+                        }else{
+                            showToast("添加地址失败");
+                        }
+                    }
+                });
     }
 }
