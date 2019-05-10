@@ -61,8 +61,6 @@ public class LoginActivity extends BaseActivity {
         toFragment(LOGIN_MAIN);
         //TODO 测试Git版本控制
 
-
-
     }
 
     /**
