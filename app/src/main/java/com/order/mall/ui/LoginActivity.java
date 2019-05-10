@@ -60,6 +60,9 @@ public class LoginActivity extends BaseActivity {
         fragmentManager = getSupportFragmentManager() ;
         toFragment(LOGIN_MAIN);
         //TODO 测试Git版本控制
+
+
+
     }
 
     /**
