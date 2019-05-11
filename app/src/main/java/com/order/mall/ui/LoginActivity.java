@@ -62,7 +62,6 @@ public class LoginActivity extends BaseActivity {
         //TODO 测试Git版本控制
 
 
-
     }
 
     /**
