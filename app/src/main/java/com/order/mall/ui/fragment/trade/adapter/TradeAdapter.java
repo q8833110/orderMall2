@@ -1,6 +1,7 @@
 package com.order.mall.ui.fragment.trade.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -21,9 +22,11 @@ public class TradeAdapter extends CommonAdapter<FinancialProduct.DataBean> {
     @Override
     protected void convert(ViewHolder holder, FinancialProduct.DataBean order, int position) {
         ImageView iv=  holder.getView(R.id.iv_image);
-//        Glide.with(context).load(order.getImages()).into(iv);
-//        holder.setText(R.id.tv_title ,order.getTitle());
-//        holder.setText(R.id.tv_price ,order.getTradeScore()+"");
+        if (!TextUtils.isEmpty(order.getImages())) {
+            Glide.with(context).load(order.getImages()).into(iv);
+        }
+        holder.setText(R.id.tv_title ,order.getTitle());
+        holder.setText(R.id.tv_price ,order.getTradeScore()+"");
 //        holder.setText(R.id.time ,order.getEndTimeMs());
     }
 }
