@@ -12,6 +12,6 @@ public class LoginUtils {
      * @return
      */
     public static boolean isLogin(Context context){
-        return SharedPreferencesHelp.getInstance(context).getUser() == null ;
+        return SharedPreferencesHelp.getInstance(context).getUser() != null ;
     }
 }

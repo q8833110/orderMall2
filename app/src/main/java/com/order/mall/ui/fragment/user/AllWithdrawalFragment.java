@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.order.mall.R;
 import com.order.mall.ui.activity.ReportDetailActivity;
+import com.order.mall.ui.adapter.AllWithdrawalAdapter;
 import com.order.mall.ui.adapter.BaodanjifenAdapter;
 import com.order.mall.ui.fragment.main.LazyLoadFragment;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -37,7 +38,7 @@ public class AllWithdrawalFragment extends LazyLoadFragment {
     SmartRefreshLayout refresh;
     Unbinder unbinder;
 
-    private BaodanjifenAdapter adapter;
+    private AllWithdrawalAdapter adapter;
 
     public static AllWithdrawalFragment newInstance() {
         AllWithdrawalFragment fragment = new AllWithdrawalFragment();
@@ -75,11 +76,11 @@ public class AllWithdrawalFragment extends LazyLoadFragment {
     }
 
         private void initRecy(){
-            List<BaodanjifenAdapter.Payments> list = new ArrayList<>();
-            for (int i = 0; i < 5; i++) {
-                list.add(new BaodanjifenAdapter.Payments());
-            }
-            adapter = new BaodanjifenAdapter(getContext(), R.layout.item_recharge, list);
+//            List<BaodanjifenAdapter.Payments> list = new ArrayList<>();
+//            for (int i = 0; i < 5; i++) {
+//                list.add(new BaodanjifenAdapter.Payments());
+//            }
+//            adapter = new AllWithdrawalAdapter(getContext(), R.layout.item_recharge, list);
             adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {

@@ -73,11 +73,11 @@ public class CashFragment extends LazyLoadFragment {
     }
 
         private void initRecy(){
-            List<BaodanjifenAdapter.Payments> list = new ArrayList<>();
-            for (int i = 0; i < 5; i++) {
-                list.add(new BaodanjifenAdapter.Payments());
-            }
-            adapter = new BaodanjifenAdapter(getContext(), R.layout.item_cash, list);
+//            List<BaodanjifenAdapter.Payments> list = new ArrayList<>();
+//            for (int i = 0; i < 5; i++) {
+//                list.add(new BaodanjifenAdapter.Payments());
+//            }
+//            adapter = new BaodanjifenAdapter(getContext(), R.layout.item_cash, list);
             adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {

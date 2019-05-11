@@ -40,7 +40,7 @@ public class ShoppingCenterActivity extends BaseActivity {
 
     Unbinder unbinder ;
     private String[] titles = new String[]{
-            "全部" , "代付款" , "代发货" , "待收货"
+            "全部" ,  "代发货" , "待收货"
     };
     @Override
     protected void initImmersionBar() {
@@ -61,10 +61,9 @@ public class ShoppingCenterActivity extends BaseActivity {
     private void init() {
         // 设置Tab底部选中的指示器 Indicator的颜色
         List<Fragment> list = new ArrayList<>();
-        list.add(AllShoppingFragment.newInstance());
-        list.add(AllShoppingFragment.newInstance());
-        list.add(AllShoppingFragment.newInstance());
-        list.add(AllShoppingFragment.newInstance());
+        list.add(AllShoppingFragment.newInstance(1));
+        list.add(AllShoppingFragment.newInstance(2));
+        list.add(AllShoppingFragment.newInstance(3));
         pager.setAdapter(new TextAdapter(getSupportFragmentManager(), titles, list));
         dynamicPagerIndicator1.setViewPager(pager);
     }

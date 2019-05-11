@@ -134,7 +134,6 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void toMain(){
-
         Intent intent = new Intent(this , MainActivity.class);
         startActivity(intent);
     }

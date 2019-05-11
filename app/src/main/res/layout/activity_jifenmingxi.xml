@@ -12,10 +12,11 @@
         android:layout_height="@dimen/status_bar_height" />
 
     <RelativeLayout
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:id="@+id/title"
         android:layout_below="@id/sys_title"
+        android:layout_marginTop="11dp"
         android:layout_marginBottom="11dp">
 
         <ImageView
@@ -23,8 +24,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:paddingEnd="20dp"
             android:paddingStart="10dp"
+            android:paddingEnd="20dp"
             android:src="@drawable/back_blank" />
 
         <TextView
@@ -38,54 +39,54 @@
     </RelativeLayout>
 
     <View
+        android:id="@+id/line1"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#f5f5f5"
         android:layout_below="@id/title"
-        android:id="@+id/line1"/>
+        android:background="#f5f5f5" />
 
 
     <com.kcrason.dynamicpagerindicatorlibrary.DynamicPagerIndicator
         android:id="@+id/dynamic_pager_indicator1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/line1"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="2dp"
         android:paddingBottom="2dp"
         app:indicatorLineEndColor="@color/colorFullRed"
         app:indicatorLineHeight="2dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="2dp"
         app:indicatorLineScrollMode="transform"
         app:indicatorLineStartColor="@color/colorFullRed"
         app:pagerIndicatorMode="scrollable_center"
         app:tabNormalTextColor="@color/colorBlank333333"
         app:tabNormalTextSize="15sp"
-        app:tabSelectedTextSize="15sp"
         app:tabPadding="20dp"
-        android:layout_below="@id/line1"
-        app:tabSelectedTextColor="@color/colorFullRed" />
+        app:tabSelectedTextColor="@color/colorFullRed"
+        app:tabSelectedTextSize="15sp" />
 
     <View
+        android:id="@+id/line2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#f5f5f5"
-        android:id="@+id/line2"
-        android:layout_below="@id/dynamic_pager_indicator1"/>
+        android:layout_below="@id/dynamic_pager_indicator1"
+        android:background="#f5f5f5" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vg"
-        android:layout_below="@id/line2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"/>
-    
+        android:layout_below="@id/line2"
+        android:layout_marginBottom="50dp" />
+
     <TextView
+        android:id="@+id/tv_recharge"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/colorFullRed"
         android:layout_alignParentBottom="true"
+        android:background="@color/colorFullRed"
+        android:gravity="center"
         android:text="充值积分"
         android:textColor="@color/colorWhite"
-        android:textSize="15sp"
-        android:gravity="center"
-        android:id="@+id/tv_recharge"/>
+        android:textSize="15sp" />
 </RelativeLayout>

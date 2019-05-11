@@ -8,24 +8,24 @@
     <View
         android:id="@+id/sys_title"
         android:layout_width="match_parent"
-        android:background="@color/colorWhite"
-        android:layout_height="@dimen/status_bar_height" />
+        android:layout_height="@dimen/status_bar_height"
+        android:background="@color/colorWhite" />
 
     <RelativeLayout
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_below="@id/sys_title"
-        android:background="@color/colorWhite"
-        android:layout_marginBottom="11dp">
+        android:layout_marginBottom="11dp"
+        android:background="@color/colorWhite">
 
         <ImageView
             android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:paddingEnd="20dp"
             android:paddingStart="10dp"
+            android:paddingEnd="20dp"
             android:src="@drawable/back_blank" />
 
         <TextView
@@ -46,79 +46,73 @@
         android:background="#f5f5f5" />
 
     <RelativeLayout
+        android:id="@+id/rl_head"
         android:layout_width="match_parent"
         android:layout_height="69dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
         android:background="@color/colorWhite"
-        android:id="@+id/rl_head">
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="头像"
-            android:textSize="15sp"
             android:textColor="@color/colorBlank333333"
-            />
+            android:textSize="15sp" />
 
         <ImageView
+            android:id="@+id/iv_head_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:src="@drawable/more"
-            android:id="@+id/iv_head_right"
             android:layout_alignParentEnd="true"
-            />
+            android:layout_centerVertical="true"
+            android:src="@drawable/more" />
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_head"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_toStartOf="@id/iv_head_right"
-            android:id="@+id/iv_head"
             android:layout_centerVertical="true"
             android:layout_marginEnd="18dp"
-            />
+            android:layout_toStartOf="@id/iv_head_right" />
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_name"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
         android:background="@color/colorWhite"
-        android:id="@+id/rl_name">
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="用户名"
-            android:textSize="15sp"
             android:textColor="@color/colorBlank333333"
-            />
+            android:textSize="15sp" />
 
         <ImageView
+            android:id="@+id/iv_name_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:src="@drawable/more"
-            android:id="@+id/iv_name_right"
             android:layout_alignParentEnd="true"
-            />
+            android:layout_centerVertical="true"
+            android:src="@drawable/more" />
 
         <TextView
+            android:id="@+id/iv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@id/iv_name_right"
-            android:id="@+id/iv_name"
             android:layout_centerVertical="true"
             android:layout_marginEnd="18dp"
+            android:layout_toStartOf="@id/iv_name_right"
             android:text="卡卡"
-            android:textSize="15sp"
             android:textColor="#999"
-            android:textStyle="bold"
-            />
+            android:textSize="15sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
     <View
@@ -127,82 +121,76 @@
         android:background="@color/colorF5F5F5" />
 
     <RelativeLayout
+        android:id="@+id/rl_mobile"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
         android:background="@color/colorWhite"
-        android:id="@+id/rl_mobile">
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="绑定手机"
-            android:textSize="15sp"
             android:textColor="@color/colorBlank333333"
-            />
+            android:textSize="15sp" />
 
         <ImageView
+            android:id="@+id/iv_mobile_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:src="@drawable/more"
-            android:id="@+id/iv_mobile_right"
             android:layout_alignParentEnd="true"
-            />
+            android:layout_centerVertical="true"
+            android:src="@drawable/more" />
 
         <TextView
+            android:id="@+id/iv_mobile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@id/iv_mobile_right"
-            android:id="@+id/iv_mobile"
             android:layout_centerVertical="true"
             android:layout_marginEnd="18dp"
+            android:layout_toStartOf="@id/iv_mobile_right"
             android:text="卡卡"
-            android:textSize="15sp"
             android:textColor="#999"
-            android:textStyle="bold"
-            />
+            android:textSize="15sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_password"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
         android:background="@color/colorWhite"
-        android:id="@+id/rl_password">
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="修改密码"
-            android:textSize="15sp"
             android:textColor="@color/colorBlank333333"
-            />
+            android:textSize="15sp" />
 
         <ImageView
+            android:id="@+id/iv_password_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:src="@drawable/more"
-            android:id="@+id/iv_password_right"
             android:layout_alignParentEnd="true"
-            />
+            android:layout_centerVertical="true"
+            android:src="@drawable/more" />
 
         <TextView
+            android:id="@+id/iv_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@id/iv_password_right"
-            android:id="@+id/iv_password"
             android:layout_centerVertical="true"
             android:layout_marginEnd="18dp"
-            android:textSize="15sp"
+            android:layout_toStartOf="@id/iv_password_right"
             android:textColor="#999"
-            android:textStyle="bold"
-            />
+            android:textSize="15sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
     <View
@@ -211,33 +199,32 @@
         android:background="@color/colorF5F5F5" />
 
     <RelativeLayout
+        android:id="@+id/rl_version"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
         android:background="@color/colorWhite"
-        android:id="@+id/rl_version">
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="版本信息"
-            android:textSize="15sp"
             android:textColor="@color/colorBlank333333"
-            />
+            android:textSize="15sp" />
 
 
         <TextView
+            android:id="@+id/tv_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_version"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="45dp"
             android:text="v1.2.1"
-            android:textSize="15sp"
             android:textColor="#999"
-            android:textStyle="bold"
-            />
+            android:textSize="15sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 </LinearLayout>

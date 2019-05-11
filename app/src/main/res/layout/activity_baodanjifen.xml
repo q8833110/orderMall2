@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
@@ -19,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="64dp"
-        android:text="8000"
+        android:text="0"
         android:textColor="@color/colorWhite"
         android:textSize="30sp" />
 
@@ -102,44 +103,56 @@
         android:id="@+id/rl_shouzhi"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:layout_below="@id/ll_l1"
-        android:paddingEnd="10dp"
-        android:paddingStart="10dp">
+        android:layout_below="@id/line1"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp">
 
         <ImageView
+            android:id="@+id/iv_start1"
             android:layout_width="3dp"
             android:layout_height="14dp"
             android:layout_centerVertical="true"
-            android:id="@+id/iv_start1"
             android:background="@color/colorFullRed" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="收支明细"
             android:layout_centerVertical="true"
             android:layout_marginStart="6dp"
-            android:layout_toEndOf="@id/iv_start1"/>
+            android:layout_toEndOf="@id/iv_start1"
+            android:text="收支明细" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/more"/>
+            android:layout_centerVertical="true"
+            android:src="@drawable/more" />
     </RelativeLayout>
 
 
     <View
+        android:id="@+id/line2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorF5F5F5"
         android:layout_below="@id/rl_shouzhi"
-        android:id="@+id/line2"/>
+        android:background="@color/colorF5F5F5" />
 
-    <android.support.v7.widget.RecyclerView
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/rv"
-        android:layout_below="@id/line2"/>
+        android:layout_height="match_parent"
+        android:layout_below="@id/line2"
+        app:srlAccentColor="@color/colorFullRed"
+        app:srlEnablePreviewInEditMode="true"
+        app:srlPrimaryColor="@color/colorWhite">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
 
 </RelativeLayout>

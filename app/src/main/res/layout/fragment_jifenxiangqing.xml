@@ -8,23 +8,23 @@
     <View
         android:id="@+id/sys_title"
         android:layout_width="match_parent"
-        android:background="@color/colorWhite"
-        android:layout_height="@dimen/status_bar_height" />
+        android:layout_height="@dimen/status_bar_height"
+        android:background="@color/colorWhite" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@id/sys_title"
-        android:padding="11dp"
         android:background="@color/colorWhite">
 
         <ImageView
+            android:onClick="back"
             android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
+            android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:paddingStart="10dp"
             android:src="@drawable/back_blank" />
 
         <TextView
@@ -46,84 +46,81 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorWhite"
-        android:paddingBottom="37dp"
-        android:paddingEnd="19dp"
         android:paddingStart="22dp"
-        android:paddingTop="19dp">
+        android:paddingTop="19dp"
+        android:paddingEnd="19dp"
+        android:paddingBottom="37dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="【订单编号】"
-            android:textSize="13sp"
-            android:textColor="@color/colorBlank333333"/>
+            android:textColor="@color/colorBlank333333"
+            android:textSize="13sp" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="BXC201904182191"
-            android:layout_alignParentEnd="true"
-            android:textSize="13sp"
             android:id="@+id/order_id"
-            android:textColor="@color/colorBlank333333"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:textColor="@color/colorBlank333333"
+            android:textSize="13sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/order_id"
+            android:layout_marginTop="20dp"
             android:text="【抢单时间】"
-            android:textSize="13sp"
-            android:layout_marginTop="20dp"
-            android:layout_below="@id/order_id"
-            android:textColor="@color/colorBlank333333"/>
+            android:textColor="@color/colorBlank333333"
+            android:textSize="13sp" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="BXC201904182191"
-            android:layout_marginTop="20dp"
-            android:layout_alignParentEnd="true"
-            android:textSize="13sp"
-            android:layout_below="@id/order_id"
             android:id="@+id/time"
-            android:textColor="@color/colorBlank333333"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/order_id"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/colorBlank333333"
+            android:textSize="13sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/time"
+            android:layout_marginTop="20dp"
             android:text="【消费金额】"
-            android:textSize="13sp"
-            android:layout_marginTop="20dp"
-            android:layout_below="@id/time"
-            android:textColor="@color/colorBlank333333"/>
+            android:textColor="@color/colorBlank333333"
+            android:textSize="13sp" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="BXC201904182191"
-            android:layout_marginTop="20dp"
-            android:layout_alignParentEnd="true"
-            android:textSize="13sp"
-            android:layout_below="@id/time"
             android:id="@+id/tv_price"
-            android:textColor="@color/colorBlank333333"/>
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="【备注】"
-            android:textSize="13sp"
-            android:layout_marginTop="20dp"
-            android:layout_below="@id/tv_price"
-            android:textColor="@color/colorBlank333333"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_below="@id/time"
             android:layout_alignParentEnd="true"
-            android:textSize="13sp"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/colorBlank333333"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@id/tv_price"
+            android:layout_marginTop="20dp"
+            android:text="【备注】"
+            android:textColor="@color/colorBlank333333"
+            android:textSize="13sp" />
+
+        <TextView
             android:id="@+id/tv_beizhu"
-            android:textColor="@color/colorBlank333333"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_price"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/colorBlank333333"
+            android:textSize="13sp" />
     </RelativeLayout>
 </LinearLayout>

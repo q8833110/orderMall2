@@ -10,12 +10,10 @@ import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.util.List;
 
-import lombok.Data;
-
-public class BaodanjifenAdapter extends CommonAdapter<TradeBalanceList.DataBean> {
+public class AllWithdrawalAdapter extends CommonAdapter<TradeBalanceList.DataBean> {
 
 
-    public BaodanjifenAdapter(Context context, int layoutId, List<TradeBalanceList.DataBean> datas) {
+    public AllWithdrawalAdapter(Context context, int layoutId, List<TradeBalanceList.DataBean> datas) {
         super(context, layoutId, datas);
     }
 

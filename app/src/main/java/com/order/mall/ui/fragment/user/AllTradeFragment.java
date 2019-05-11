@@ -11,12 +11,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.order.mall.R;
+import com.order.mall.data.network.IUserApi;
+import com.order.mall.data.network.user.TradeOrderList;
+import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.activity.ReportDetailActivity;
 import com.order.mall.ui.adapter.ShoppingAdapter;
 import com.order.mall.ui.adapter.TradeAdapter;
 import com.order.mall.ui.fragment.main.LazyLoadFragment;
+import com.order.mall.util.RetrofitUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 
@@ -36,9 +41,19 @@ public class AllTradeFragment extends LazyLoadFragment {
     Unbinder unbinder;
 
     private TradeAdapter adapter;
+    private int type;
+    private IUserApi iUserApi;
+    private int pageNum = 1;
+    private int pageSize = 10;
+    private long userId = 500000;
 
-    public static AllTradeFragment newInstance() {
+    private List<TradeOrderList.DataBean> dataBeans = new ArrayList<>();
+
+    public static AllTradeFragment newInstance(int type) {
         AllTradeFragment fragment = new AllTradeFragment();
+        Bundle args = new Bundle();
+        args.putInt("type", type);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -47,13 +62,17 @@ public class AllTradeFragment extends LazyLoadFragment {
 
     @Override
     protected void loadData() {
+        getList();
     }
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_all_grade, container, false);
         unbinder = ButterKnife.bind(this, rootView);
+        iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
+        type = getArguments().getInt("type");
         init();
         return rootView;
     }
@@ -66,23 +85,47 @@ public class AllTradeFragment extends LazyLoadFragment {
         refresh.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
-                refreshLayout.finishRefresh();
-                refreshLayout.finishLoadMore();
+                pageNum = 1;
+                loadData();
+            }
+        });
+        refresh.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(RefreshLayout refreshLayout) {
+                pageNum++;
+                loadData();
             }
         });
     }
 
+    private void getList() {
+        addObserver(iUserApi.getTradeList(pageNum, pageSize, userId, type), new NetworkObserver<ApiResult<TradeOrderList>>() {
+
+            @Override
+            public void onReady(ApiResult<TradeOrderList> tradeOrderListApiResult) {
+                if (tradeOrderListApiResult.getData() != null && tradeOrderListApiResult.getData().getData() != null) {
+                    if (pageNum == 1) {
+                        dataBeans.clear();
+                    }
+                    dataBeans.addAll(tradeOrderListApiResult.getData().getData());
+                    adapter.notifyDataSetChanged();
+                }
+                refresh.finishRefresh();
+                refresh.finishLoadMore();
+            }
+        });
+
+    }
+
+
     private void initRecy() {
-        List<TradeAdapter.Data> list = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            list.add(new TradeAdapter.Data());
-        }
-        adapter = new TradeAdapter(getContext(), R.layout.item_trade, list);
+        adapter = new TradeAdapter(getContext(), R.layout.item_trade, dataBeans);
         adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                Intent intent = new Intent(getContext(), ReportDetailActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(getContext(), ReportDetailActivity.class);
+//                intent.putExtra("id", dataBeans.get(position).getId());
+//                startActivity(intent);
             }
 
             @Override

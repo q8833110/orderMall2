@@ -32,14 +32,15 @@ public class TradeAllActivity extends BaseActivity {
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.vg)
-    ViewPager pager ;
+    ViewPager pager;
     @BindView(R.id.dynamic_pager_indicator1)
     DynamicPagerIndicator dynamicPagerIndicator1;
 
-    Unbinder unbinder ;
+    Unbinder unbinder;
     private String[] titles = new String[]{
-            "全部" , "已抢购" , "已收益" , "已挂卖" ,"已卖出"
+            "全部", "已抢购", "已收益", "已挂卖", "已卖出"
     };
+
     @Override
     protected void initImmersionBar() {
         ImmersionBar.with(this)
@@ -59,11 +60,11 @@ public class TradeAllActivity extends BaseActivity {
     private void init() {
         // 设置Tab底部选中的指示器 Indicator的颜色
         List<Fragment> list = new ArrayList<>();
-        list.add(AllTradeFragment.newInstance());
-        list.add(AllTradeFragment.newInstance());
-        list.add(AllTradeFragment.newInstance());
-        list.add(AllTradeFragment.newInstance());
-        list.add(AllTradeFragment.newInstance());
+        list.add(AllTradeFragment.newInstance(1));
+        list.add(AllTradeFragment.newInstance(2));
+        list.add(AllTradeFragment.newInstance(3));
+        list.add(AllTradeFragment.newInstance(4));
+        list.add(AllTradeFragment.newInstance(5));
         pager.setAdapter(new TextAdapter(getSupportFragmentManager(), titles, list));
         dynamicPagerIndicator1.setViewPager(pager);
     }
