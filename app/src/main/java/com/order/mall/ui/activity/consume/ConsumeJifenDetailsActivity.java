@@ -58,10 +58,10 @@ public class ConsumeJifenDetailsActivity extends BaseActivity {
     private void init() {
         // 设置Tab底部选中的指示器 Indicator的颜色
         List<Fragment> list = new ArrayList<>();
-        list.add(AllRechargeFragment.newInstance());
-        list.add(AllRechargeFragment.newInstance());
-        list.add(AllRechargeFragment.newInstance());
-        list.add(AllRechargeFragment.newInstance());
+        list.add(AllRechargeFragment.newInstance(1));
+        list.add(AllRechargeFragment.newInstance(2));
+        list.add(AllRechargeFragment.newInstance(3));
+        list.add(AllRechargeFragment.newInstance(4));
         pager.setAdapter(new TextAdapter(getSupportFragmentManager(), titles, list));
         dynamicPagerIndicator1.setViewPager(pager);
     }

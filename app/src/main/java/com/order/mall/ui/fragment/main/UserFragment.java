@@ -14,7 +14,10 @@ import android.widget.TextView;
 
 import com.order.mall.R;
 import com.order.mall.data.SharedPreferencesHelp;
+import com.order.mall.data.network.IUserApi;
 import com.order.mall.data.network.login.UserRespDTO;
+import com.order.mall.data.network.user.UserData;
+import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.activity.Baodanjifen;
 import com.order.mall.ui.activity.CashJifenActivity;
 import com.order.mall.ui.activity.bonus.BonusMainActivity;
@@ -24,6 +27,7 @@ import com.order.mall.ui.activity.user.MyteamActivity;
 import com.order.mall.ui.activity.user.SettingActivity;
 import com.order.mall.ui.activity.user.ShoppingCenterActivity;
 import com.order.mall.ui.activity.user.TradeAllActivity;
+import com.order.mall.util.RetrofitUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -108,7 +112,11 @@ public class UserFragment extends LazyLoadFragment {
     ImageView iv8;
     @BindView(R.id.rl_setting)
     RelativeLayout rlSetting;
+
+
     Unbinder unbinder1;
+    private IUserApi iUserApi;
+    private int tradeBalance;
 
     public static UserFragment newInstance() {
         UserFragment fragment = new UserFragment();
@@ -117,68 +125,108 @@ public class UserFragment extends LazyLoadFragment {
 
     private View rootView;
 
-    private UserRespDTO user ;
+    private UserRespDTO user;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_user, container, false);
         unbinder1 = ButterKnife.bind(this, rootView);
+        iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getUserData();
+        //初始化等级
+
+    }
+
+    /**
+     * 获取用户数据
+     */
+    private void getUserData() {
+//        UserRespDTO user = SharedPreferencesHelp.getInstance(getActivity()).getUser();
+        addObserver(iUserApi.getUserData(500000), new NetworkObserver<ApiResult<UserData>>() {
+
+            @Override
+            public void onReady(ApiResult<UserData> userDataApiResult) {
+                initUserData(userDataApiResult.getData());
+            }
+        });
+
+    }
+
+    private void initUserData(UserData data) {
+        tvName.setText(data.getAccount());
+        //报单积分
+        tradeBalance = data.getTradeBalance();
+        tvBaodanjifen.setText(tradeBalance);
+        //现金积分
+        tvXianjinjifen.setText(data.getCashBalance());
+        //奖金积分
+        tvJiangjinjifen.setText(data.getBonusBalance());
+        //消费积分
+        tvXiaofeijifen.setText(data.getConsumeBalance());
+//        SharedPreferencesHelp.getInstance(getActivity()).putUser();
+
     }
 
 
     @OnClick(R.id.baodanjifen)
-    public void toBaodan(){
-        Intent intent = new Intent(getContext() , Baodanjifen.class);
+    public void toBaodan() {
+        Intent intent = new Intent(getContext(), Baodanjifen.class);
+        intent.putExtra("tradeBalance", tradeBalance);
         startActivity(intent);
     }
 
     @OnClick(R.id.rl_gouwudingdan)
-    public void toShopping(){
-        Intent intent = new Intent(getContext() , ShoppingCenterActivity.class);
+    public void toShopping() {
+        Intent intent = new Intent(getContext(), ShoppingCenterActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.ll_jiaoyi_title)
-    public void toTrade(){
-        Intent intent = new Intent(getContext() , TradeAllActivity.class);
+    public void toTrade() {
+        Intent intent = new Intent(getContext(), TradeAllActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.rl_setting)
-    public void toSetting(){
-        Intent intent = new Intent(getContext() , SettingActivity.class);
+    public void toSetting() {
+        Intent intent = new Intent(getContext(), SettingActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.ll_xianjinjifen)
-    public void toCash(){
-        Intent intent = new Intent(getContext() , CashJifenActivity.class);
+    public void toCash() {
+        Intent intent = new Intent(getContext(), CashJifenActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.rl_dizhiguanli)
-    public void toDizhi(){
-        Intent intent = new Intent(getContext() , AddressActivity.class);
+    public void toDizhi() {
+        Intent intent = new Intent(getContext(), AddressActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.ll_jiangjinjifen)
-    public void toBonus(){
-        Intent intent = new Intent(getContext() , BonusMainActivity.class);
+    public void toBonus() {
+        Intent intent = new Intent(getContext(), BonusMainActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.rl_yaoqinghaoyou)
-    public void toYaoqing(){
-        Intent intent = new Intent(getContext() , InvitationActivity.class);
+    public void toYaoqing() {
+        Intent intent = new Intent(getContext(), InvitationActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.rl_tuandui)
-    public void toTeam(){
-        Intent intent = new Intent(getContext() , MyteamActivity.class);
+    public void toTeam() {
+        Intent intent = new Intent(getContext(), MyteamActivity.class);
         startActivity(intent);
     }
 
@@ -191,7 +239,7 @@ public class UserFragment extends LazyLoadFragment {
     @Override
     protected void loadData() {
         user = SharedPreferencesHelp.getInstance(getContext()).getUser();
-        if (user != null){
+        if (user != null) {
             tvName.setText(user.getAccount());
         }
     }

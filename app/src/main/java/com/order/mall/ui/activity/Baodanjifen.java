@@ -11,8 +11,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.order.mall.R;
+import com.order.mall.data.network.IUserApi;
+import com.order.mall.data.network.user.TradeBalanceList;
+import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
 import com.order.mall.ui.adapter.PayMentDetailAdapter;
+import com.order.mall.ui.fragment.main.LazyLoadFragment;
+import com.order.mall.util.RetrofitUtils;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,43 +60,93 @@ public class Baodanjifen extends BaseActivity {
     View line2;
     @BindView(R.id.rv)
     RecyclerView rv;
+    @BindView(R.id.refresh)
+    SmartRefreshLayout refresh;
 
-    Unbinder unbinder ;
+    Unbinder unbinder;
+    private int pageNum = 1;
+    private int pageSize = 10;
+    private long userId = 500000;
+    private PayMentDetailAdapter adapter;
+    private IUserApi iUserApi;
+    List<TradeBalanceList.DataBean> list = new ArrayList<>();
 
-    private PayMentDetailAdapter adapter ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_baodanjifen);
         unbinder = ButterKnife.bind(this);
+        iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
+        int tradeBalance = getIntent().getIntExtra("tradeBalance", 0);
+        tvJifen.setText(String.valueOf(tradeBalance));
         init();
+        getAll();
     }
 
+    /**
+     * 获取全部列表
+     */
+    private void getAll() {
 
-    private void init(){
-        List<PayMentDetailAdapter.Payments> list = new ArrayList<>();
-        for (int i = 0 ; i < 5 ; i++){
-            list.add(new PayMentDetailAdapter.Payments());
-        }
-        adapter = new PayMentDetailAdapter(this ,R.layout.item_payment , list);
+        addObserver(iUserApi.getAllTradeBalanceDetailsList(pageNum, pageSize, userId), new NetworkObserver<ApiResult<TradeBalanceList>>() {
+            @Override
+            public void onReady(ApiResult<TradeBalanceList> tradeBalanceListApiResult) {
+                if (tradeBalanceListApiResult.getData() != null && tradeBalanceListApiResult.getData().getData() != null
+                        && tradeBalanceListApiResult.getData().getData().size() > 0) {
+                    if (pageNum == 1) {
+                        list.clear();
+                    }
+                    list.addAll(tradeBalanceListApiResult.getData().getData());
+                    adapter.notifyDataSetChanged();
+                }
+                refresh.finishRefresh();
+                refresh.finishLoadMore();
+            }
+        });
+    }
+
+    private void init() {
+
+        adapter = new PayMentDetailAdapter(this, R.layout.item_payment, list);
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
+        refresh.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshLayout) {
+                pageNum = 1;
+                getAll();
+            }
+        });
+        refresh.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(RefreshLayout refreshLayout) {
+                pageNum++;
+                getAll();
+            }
+        });
 
+    }
+
+    @OnClick(R.id.rl_shouzhi)
+    public void details() {
+        Intent intent = new Intent(this, JiFenDetails.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.back)
-    public void back(){
+    public void back() {
         this.finish();
     }
+
     @OnClick(R.id.tv_jifen)
-    public void toJifen(){
-        Intent intent = new Intent(this ,JiFenDetails.class);
+    public void toJifen() {
+        Intent intent = new Intent(this, JiFenDetails.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.ll_recharge)
-    public void toRecharge(){
-        Intent intent = new Intent(this ,RechargeCenterActivity.class);
+    public void toRecharge() {
+        Intent intent = new Intent(this, RechargeCenterActivity.class);
         startActivity(intent);
     }
 

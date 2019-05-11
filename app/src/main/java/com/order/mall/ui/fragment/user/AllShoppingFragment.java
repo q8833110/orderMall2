@@ -11,11 +11,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.order.mall.R;
+import com.order.mall.data.network.IUserApi;
+import com.order.mall.data.network.user.ShoppingList;
+import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.activity.ReportDetailActivity;
 import com.order.mall.ui.adapter.ShoppingAdapter;
 import com.order.mall.ui.fragment.main.LazyLoadFragment;
+import com.order.mall.util.RetrofitUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 
@@ -35,9 +40,18 @@ public class AllShoppingFragment extends LazyLoadFragment {
     Unbinder unbinder;
 
     private ShoppingAdapter adapter;
+    private int type;
+    private IUserApi iUserApi;
+    private int pageNum = 1;
+    private int pageSize = 10;
+    private long userId = 500000;
+    private List<ShoppingList.DataBean> dataBeans = new ArrayList<>();
 
-    public static AllShoppingFragment newInstance() {
+    public static AllShoppingFragment newInstance(int type) {
         AllShoppingFragment fragment = new AllShoppingFragment();
+        Bundle args = new Bundle();
+        args.putInt("type", type);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -46,6 +60,24 @@ public class AllShoppingFragment extends LazyLoadFragment {
 
     @Override
     protected void loadData() {
+        getList();
+    }
+
+    private void getList() {
+        addObserver(iUserApi.getShoppingList(pageNum, pageSize, userId, type), new NetworkObserver<ApiResult<ShoppingList>>() {
+
+            @Override
+            public void onReady(ApiResult<ShoppingList> shoppingListApiResult) {
+                if (shoppingListApiResult.getData() != null && shoppingListApiResult.getData().getData() != null) {
+                    if (pageNum == 1) {
+                        dataBeans.clear();
+                    }
+                    dataBeans.addAll(shoppingListApiResult.getData().getData());
+                }
+                refresh.finishRefresh();
+                refresh.finishLoadMore();
+            }
+        });
     }
 
     @Nullable
@@ -53,6 +85,8 @@ public class AllShoppingFragment extends LazyLoadFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_all_grade, container, false);
         unbinder = ButterKnife.bind(this, rootView);
+        iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
+        type = getArguments().getInt("type");
         init();
         return rootView;
     }
@@ -65,23 +99,26 @@ public class AllShoppingFragment extends LazyLoadFragment {
         refresh.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
-                refreshLayout.finishRefresh();
-                refreshLayout.finishLoadMore();
+                pageNum = 1;
+                getList();
+            }
+        });
+        refresh.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(RefreshLayout refreshLayout) {
+                pageNum++;
+                getList();
             }
         });
     }
 
     private void initRecy() {
-        List<ShoppingAdapter.Data> list = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            list.add(new ShoppingAdapter.Data());
-        }
-        adapter = new ShoppingAdapter(getContext(), R.layout.item_shopping, list);
+        adapter = new ShoppingAdapter(getContext(), R.layout.item_shopping, dataBeans);
         adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                Intent intent = new Intent(getContext(), ReportDetailActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(getContext(), ReportDetailActivity.class);
+//                startActivity(intent);
             }
 
             @Override

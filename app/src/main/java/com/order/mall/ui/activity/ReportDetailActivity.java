@@ -5,9 +5,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.gyf.immersionbar.ImmersionBar;
 import com.order.mall.R;
+import com.order.mall.data.network.IUserApi;
+import com.order.mall.data.network.user.RechargeDetails;
+import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
+import com.order.mall.util.RetrofitUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,13 +63,100 @@ public class ReportDetailActivity extends BaseActivity {
     @BindView(R.id.pay2)
     ImageView pay2;
 
-    Unbinder unbinder ;
+    Unbinder unbinder;
+    private IUserApi iUserApi;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_detail);
         unbinder = ButterKnife.bind(this);
-        init();
+
+        tvTitle.setText("详细信息");
+
+        String id = getIntent().getStringExtra("id");
+        iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
+        getDetails(id);
+
+    }
+
+    private void getDetails(String id) {
+        addObserver(iUserApi.rechargeDetails(id), new NetworkObserver<ApiResult<RechargeDetails>>() {
+
+
+            @Override
+            public void onReady(ApiResult<RechargeDetails> rechargeDetailsApiResult) {
+                if (rechargeDetailsApiResult.getData() != null) {
+                    init(rechargeDetailsApiResult.getData());
+
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+            }
+        });
+    }
+
+    private void init(RechargeDetails data) {
+        tvInfo.setText("+" + data.getTradeScore() + "报单积分");
+        id.setText(data.getId());
+        price.setText(data.getAmount() + "");
+        time.setText(data.getCreateTime());
+        payStyle.setText(data.getPayWayName());
+        paymentType.setText(data.getPayWayName());
+        amount.setText(data.getToAccount());
+        name.setText(data.getToUser());
+        Glide.with(this).load(data.getToQrCode()).into(ivQrcode);
+
+        String proofOfPay = data.getProofOfPay();
+        if (proofOfPay.contains(";")) {
+            String[] split = proofOfPay.split(";");
+            Glide.with(this).load(split[0]).into(pay1);
+            Glide.with(this).load(split[1]).into(pay2);
+
+        } else {
+            Glide.with(this).load(proofOfPay).into(pay1);
+        }
+        int status = data.getStatus();
+        switch (status) {
+            case -2:
+                Glide.with(this).load(R.drawable.pay_failure).into(ivStatus);
+                tvStatus.setText("充值失败");
+                tvProgress.setText("上传凭证无效，系统未查询到到账记录");
+                break;
+            case -1:
+                tvStatus.setText("订单已取消");
+                Glide.with(this).load(R.drawable.pay_failure).into(ivStatus);
+                break;
+            case 0:
+                tvStatus.setText("待支付");
+                Glide.with(this).load(R.drawable.success).into(ivStatus);
+                break;
+            case 1:
+                Glide.with(this).load(R.drawable.success).into(ivStatus);
+                tvStatus.setText("已提交订单，等待节点处理");
+                tvProgress.setText("请耐心等待后台节点处理");
+                break;
+            case 2:
+                Glide.with(this).load(R.drawable.success).into(ivStatus);
+                tvStatus.setText("订单已完成");
+                tvProgress.setText("节点已确认，充值积分已到账");
+                break;
+        }
+        if (data.getPayWayValue() == 1) {
+            //微信
+            Glide.with(this).load(R.drawable.weixin).into(ivPayStyle);
+        } else if (data.getPayWayValue() == 2) {
+            //支付宝
+            Glide.with(this).load(R.drawable.zhifubao).into(ivPayStyle);
+
+        } else if (data.getPayWayValue() == 3) {
+            //银行卡
+            Glide.with(this).load(R.drawable.bank).into(ivPayStyle);
+
+        }
     }
 
     @Override
@@ -74,9 +166,6 @@ public class ReportDetailActivity extends BaseActivity {
                 .init();
     }
 
-    private void init(){
-        tvTitle.setText("详细信息");
-    }
 
     @Override
     protected void onDestroy() {
@@ -85,7 +174,7 @@ public class ReportDetailActivity extends BaseActivity {
     }
 
     @OnClick(R.id.back)
-    public void back(){
+    public void back() {
         this.finish();
     }
 

@@ -9,8 +9,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.order.mall.R;
+import com.order.mall.data.network.IUserApi;
+import com.order.mall.data.network.user.UserTeam;
+import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
 import com.order.mall.ui.adapter.TeamAdapter;
+import com.order.mall.util.RetrofitUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,16 +47,43 @@ public class MyteamActivity extends BaseActivity {
     View line1;
     @BindView(R.id.rv)
     RecyclerView rv;
+    @BindView(R.id.tv_num)
+    TextView mNumTv;
+
     private TeamAdapter adapter;
     private Unbinder unbinder;
+    private IUserApi iUserApi;
+    private int userId = 500000;
+    private List<UserTeam.UserVoBean> userVoBeans = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team);
         unbinder = ButterKnife.bind(this);
+        iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
         init();
         initView();
+        getInfo();
+    }
+
+    private void getInfo() {
+        addObserver(iUserApi.userTeamInfo(userId), new NetworkObserver<ApiResult<UserTeam>>() {
+
+            @Override
+            public void onReady(ApiResult<UserTeam> userTeamApiResult) {
+                if (userTeamApiResult.getData() != null) {
+                    level.setText("L" + userTeamApiResult.getData().getLevel());
+                    mNumTv.setText(userTeamApiResult.getData().getTotalChildUser() + "");
+                    tvJifen.setText(userTeamApiResult.getData().getTotalAchievement() + "");
+                    if (userTeamApiResult.getData().getUserVo() != null) {
+                        userVoBeans.addAll(userTeamApiResult.getData().getUserVo());
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
+
     }
 
     private void initView() {
@@ -60,11 +91,7 @@ public class MyteamActivity extends BaseActivity {
     }
 
     private void init() {
-        List<TeamAdapter.Data> list = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            list.add(new TeamAdapter.Data());
-        }
-        adapter = new TeamAdapter(this, R.layout.item_team, list);
+        adapter = new TeamAdapter(this, R.layout.item_team, userVoBeans);
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
 

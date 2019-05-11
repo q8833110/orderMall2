@@ -15,6 +15,7 @@
         app:srlAccentColor="@color/colorFullRed"
         app:srlEnablePreviewInEditMode="true"
         app:srlPrimaryColor="@color/colorWhite">
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"

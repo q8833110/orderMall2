@@ -66,11 +66,11 @@ public class ConsumeMainActivity extends BaseActivity {
 
 
     private void init() {
-        List<PayMentDetailAdapter.Payments> list = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            list.add(new PayMentDetailAdapter.Payments());
-        }
-        adapter = new PayMentDetailAdapter(this, R.layout.item_payment, list);
+//        List<PayMentDetailAdapter.Payments> list = new ArrayList<>();
+//        for (int i = 0; i < 5; i++) {
+//            list.add(new PayMentDetailAdapter.Payments());
+//        }
+//        adapter = new PayMentDetailAdapter(this, R.layout.item_payment, list);
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
