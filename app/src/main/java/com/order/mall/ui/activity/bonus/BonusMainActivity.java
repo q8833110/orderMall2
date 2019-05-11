@@ -70,7 +70,7 @@ public class BonusMainActivity extends BaseActivity {
     }
 
     private void getAll() {
-
+        
     }
 
 
