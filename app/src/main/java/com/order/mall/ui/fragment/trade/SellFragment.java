@@ -48,12 +48,13 @@ public class SellFragment extends LazyLoadFragment {
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
 
-    private SellAdapter tradeAdapter ;
+    private SellAdapter tradeAdapter;
 
     private IFinancialProductsApi api;
     private int page = 1;
-    private List<SellOrder.DataBean>  orders ;
-    private int userId ;
+    private List<SellOrder.DataBean> orders;
+    private int userId;
+
     public static SellFragment newInstance() {
         SellFragment fragment = new SellFragment();
         return fragment;
@@ -65,40 +66,40 @@ public class SellFragment extends LazyLoadFragment {
         rootView = inflater.inflate(R.layout.fragment_qiangdan, container, false);
         unbinder = ButterKnife.bind(this, rootView);
         if (LoginUtils.isLogin(getContext()))
-        init();
+            init();
         else
-        toLogin();
+            toLogin();
         return rootView;
     }
 
-    private void init(){
+    private void init() {
         userId = (int) SharedPreferencesHelp.getInstance(getContext()).getUser().getId();
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 refreshLayout.finishRefresh();
                 page = 1;
-                referList(page , 10);
+                referList(page, 10);
             }
         });
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
                 refreshLayout.finishLoadMore();
-                page++ ;
-                referList(page , 10);
+                page++;
+                referList(page, 10);
             }
         });
         refreshLayout.setEnableLoadMore(true);
         refreshLayout.setEnableRefresh(true);
         api = RetrofitUtils.getInstance().getRetrofit().create(IFinancialProductsApi.class);
         orders = new ArrayList<>();
-        tradeAdapter = new SellAdapter(getContext() ,R.layout.item_sell ,orders);
+        tradeAdapter = new SellAdapter(getContext(), R.layout.item_sell, orders);
         tradeAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                Intent intent = new Intent(getContext() , DetailsSellActivity.class);
-                intent.putExtra(INTENT_KEY_ORDRE_ID , orders.get(position).getId());
+                Intent intent = new Intent(getContext(), DetailsSellActivity.class);
+                intent.putExtra(INTENT_KEY_ORDRE_ID, orders.get(position).getId());
                 startActivity(intent);
             }
 
@@ -118,8 +119,8 @@ public class SellFragment extends LazyLoadFragment {
             refreshLayout.autoRefresh();
     }
 
-    private void referList(final int page, int pageSize  ) {
-        addObserver(api.sellList(page, 10 ,userId ,3), new NetworkObserver<ApiResult<SellOrder>>() {
+    private void referList(final int page, int pageSize) {
+        addObserver(api.sellList(page, 10, userId, 3), new NetworkObserver<ApiResult<SellOrder>>() {
 
             @Override
             public void onReady(ApiResult<SellOrder> financialProductApiResult) {

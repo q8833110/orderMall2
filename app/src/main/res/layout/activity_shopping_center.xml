@@ -16,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_below="@id/sys_title"
+        android:layout_marginTop="11dp"
         android:layout_marginBottom="11dp">
 
         <ImageView

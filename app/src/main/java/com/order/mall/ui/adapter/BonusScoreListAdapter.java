@@ -1,12 +1,9 @@
 package com.order.mall.ui.adapter;
 
 import android.content.Context;
-import android.view.View;
-import android.widget.TextView;
 
 import com.order.mall.R;
 import com.order.mall.data.network.user.BounsScoreList;
-import com.order.mall.data.network.user.CashList;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 

@@ -12,10 +12,12 @@ import android.view.ViewGroup;
 
 import com.order.mall.R;
 import com.order.mall.data.network.IUserApi;
-import com.order.mall.data.network.user.CashScoreList;
+import com.order.mall.data.network.user.CashList;
+import com.order.mall.data.network.user.RechargeCenter;
 import com.order.mall.model.netword.ApiResult;
-import com.order.mall.ui.activity.cash.CashWithdrawalDetailsActivity;
-import com.order.mall.ui.adapter.CashScoreListAdapter;
+import com.order.mall.ui.activity.ReportDetailActivity;
+import com.order.mall.ui.adapter.CashCenterAdapter;
+import com.order.mall.ui.adapter.RechargeCenterAdapter;
 import com.order.mall.ui.fragment.main.LazyLoadFragment;
 import com.order.mall.util.RetrofitUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -31,7 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class CashFragment extends LazyLoadFragment {
+public class AllCashFragment extends LazyLoadFragment {
 
     @BindView(R.id.rv)
     RecyclerView rv;
@@ -39,25 +41,25 @@ public class CashFragment extends LazyLoadFragment {
     SmartRefreshLayout refresh;
     Unbinder unbinder;
 
-    private CashScoreListAdapter adapter;
+    private CashCenterAdapter adapter;
     private IUserApi iUserApi;
+
     private int pageNum = 1;
     private int pageSize = 10;
     private long userId = 500000;
-    private int type = 0;
+    private int type;
 
-    private List<CashScoreList.DataBean> dataBeans = new ArrayList<>();
-
-    public static CashFragment newInstance(int type) {
-        CashFragment fragment = new CashFragment();
+    public static AllCashFragment newInstance(int type) {
+        AllCashFragment fragment = new AllCashFragment();
         Bundle args = new Bundle();
         args.putInt("type", type);
         fragment.setArguments(args);
+
         return fragment;
     }
 
     private View rootView;
-
+    private List<CashList.DataBean> dataBeans = new ArrayList<>();
 
     @Override
     protected void loadData() {
@@ -66,34 +68,13 @@ public class CashFragment extends LazyLoadFragment {
         } else {
             getList();
         }
+
     }
 
     private void getAll() {
-        addObserver(iUserApi.cashBalanceDetailsListAll(pageNum, pageSize, userId), new NetworkObserver<ApiResult<CashScoreList>>() {
-
+        addObserver(iUserApi.userEncashmentListAll(pageNum, pageSize, userId), new NetworkObserver<ApiResult<CashList>>() {
             @Override
-            public void onReady(ApiResult<CashScoreList> cashListApiResult) {
-                if (cashListApiResult.getData() != null && cashListApiResult.getData().getData() != null) {
-                    if (pageNum == 1) {
-                        dataBeans.clear();
-                    }
-                    dataBeans.addAll(cashListApiResult.getData().getData());
-                    adapter.notifyDataSetChanged();
-                }
-                refresh.finishRefresh();
-                refresh.finishLoadMore();
-            }
-        });
-
-
-    }
-
-    private void getList() {
-
-        addObserver(iUserApi.cashBalanceDetailsList(pageNum, pageSize, userId, type), new NetworkObserver<ApiResult<CashScoreList>>() {
-
-            @Override
-            public void onReady(ApiResult<CashScoreList> cashListApiResult) {
+            public void onReady(ApiResult<CashList> cashListApiResult) {
                 if (cashListApiResult.getData() != null && cashListApiResult.getData().getData() != null) {
                     if (pageNum == 1) {
                         dataBeans.clear();
@@ -107,6 +88,7 @@ public class CashFragment extends LazyLoadFragment {
         });
 
     }
+
 
     @Nullable
     @Override
@@ -114,9 +96,28 @@ public class CashFragment extends LazyLoadFragment {
         rootView = inflater.inflate(R.layout.fragment_all_grade, container, false);
         unbinder = ButterKnife.bind(this, rootView);
         iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
+//        userId = SharedPreferencesHelp.getInstance(getActivity()).getUser().getId();
         type = getArguments().getInt("type");
         init();
+
         return rootView;
+    }
+
+    private void getList() {
+        addObserver(iUserApi.userEncashmentList(pageNum, pageSize, userId, type), new NetworkObserver<ApiResult<CashList>>() {
+            @Override
+            public void onReady(ApiResult<CashList> cashListApiResult) {
+                if (cashListApiResult.getData() != null && cashListApiResult.getData().getData() != null) {
+                    if (pageNum == 1) {
+                        dataBeans.clear();
+                    }
+                    dataBeans.addAll(cashListApiResult.getData().getData());
+                    adapter.notifyDataSetChanged();
+                }
+                refresh.finishRefresh();
+                refresh.finishLoadMore();
+            }
+        });
     }
 
     private void init() {
@@ -141,13 +142,14 @@ public class CashFragment extends LazyLoadFragment {
     }
 
     private void initRecy() {
-        adapter = new CashScoreListAdapter(getContext(), R.layout.item_cash, dataBeans);
+
+        adapter = new CashCenterAdapter(getContext(), R.layout.item_recharge, dataBeans);
         adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                Intent intent = new Intent(getContext(), CashWithdrawalDetailsActivity.class);
-                intent.putExtra("id", dataBeans.get(position).getId());
-                startActivity(intent);
+//                Intent intent = new Intent(getContext(), ReportDetailActivity.class);
+//                intent.putExtra("id", dataBeans.get(position).getId());
+//                startActivity(intent);
             }
 
             @Override

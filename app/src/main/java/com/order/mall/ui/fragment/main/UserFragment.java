@@ -143,7 +143,6 @@ public class UserFragment extends LazyLoadFragment {
         super.onResume();
         getUserData();
         //初始化等级
-
     }
 
     /**
@@ -178,6 +177,28 @@ public class UserFragment extends LazyLoadFragment {
 
     }
 
+    @OnClick({R.id.ll_qiangdan, R.id.ll_shouyiy, R.id.ll_guamai, R.id.ll_maichu})
+    public void onTrade(View v) {
+        int position = 0;
+        switch (v.getId()) {
+            case R.id.ll_qiangdan:
+                position = 1;
+                break;
+            case R.id.ll_shouyiy:
+                position = 2;
+                break;
+            case R.id.ll_guamai:
+                position = 3;
+                break;
+            case R.id.ll_maichu:
+                position = 4;
+                break;
+
+        }
+        Intent intent = new Intent(getContext(), TradeAllActivity.class);
+        intent.putExtra("position", position);
+        startActivity(intent);
+    }
 
     @OnClick(R.id.baodanjifen)
     public void toBaodan() {
@@ -220,7 +241,7 @@ public class UserFragment extends LazyLoadFragment {
     @OnClick(R.id.ll_jiangjinjifen)
     public void toBonus() {
         Intent intent = new Intent(getContext(), BonusMainActivity.class);
-        intent.putExtra("bonusBalance",bonusBalance);
+        intent.putExtra("bonusBalance", bonusBalance);
         startActivity(intent);
     }
 

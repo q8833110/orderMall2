@@ -12,15 +12,12 @@ import android.widget.TextView;
 
 import com.order.mall.R;
 import com.order.mall.data.network.IUserApi;
-import com.order.mall.data.network.user.CashList;
+import com.order.mall.data.network.user.CashScoreList;
 import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
 import com.order.mall.ui.activity.cash.CashJifenDetailsActivity;
 import com.order.mall.ui.activity.cash.CashWithdrawalDetailsActivity;
-import com.order.mall.ui.activity.cash.WithdrawalCenterActivity;
 import com.order.mall.ui.adapter.CashScoreListAdapter;
-import com.order.mall.ui.adapter.PayMentDetailAdapter;
-import com.order.mall.ui.fragment.main.LazyLoadFragment;
 import com.order.mall.util.RetrofitUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -74,7 +71,7 @@ public class CashJifenActivity extends BaseActivity {
     private int pageSize = 10;
     private long userId = 500000;
     private IUserApi iUserApi;
-    private List<CashList.DataBean> dataBeans = new ArrayList<>();
+    private List<CashScoreList.DataBean> dataBeans = new ArrayList<>();
 
 
     @Override
@@ -91,10 +88,10 @@ public class CashJifenActivity extends BaseActivity {
     }
 
     private void getAll() {
-        addObserver(iUserApi.cashBalanceDetailsListAll(pageNum, pageSize, userId), new NetworkObserver<ApiResult<CashList>>() {
+        addObserver(iUserApi.cashBalanceDetailsListAll(pageNum, pageSize, userId), new NetworkObserver<ApiResult<CashScoreList>>() {
 
             @Override
-            public void onReady(ApiResult<CashList> cashListApiResult) {
+            public void onReady(ApiResult<CashScoreList> cashListApiResult) {
                 if (cashListApiResult.getData() != null && cashListApiResult.getData().getData() != null) {
                     if (pageNum == 1) {
                         dataBeans.clear();
@@ -164,16 +161,18 @@ public class CashJifenActivity extends BaseActivity {
 
     @OnClick(R.id.ll_withdrawal)
     public void toJifen() {
-        Intent intent = new Intent(this, CashJifenDetailsActivity.class);
-        intent.putExtra("position", 1);
+        //提现中心
+        Intent intent = new Intent(this, CashCenterActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.ll_transfer)
     public void toRecharge() {
-        Intent intent = new Intent(this, CashJifenDetailsActivity.class);
-        intent.putExtra("position", 2);
-        startActivity(intent);
+//        Intent intent = new Intent(this, CashJifenDetailsActivity.class);
+//        intent.putExtra("position", 2);
+//        startActivity(intent);
+        showToast("去转账");
+
     }
 
 

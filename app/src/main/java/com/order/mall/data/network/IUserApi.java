@@ -3,6 +3,7 @@ package com.order.mall.data.network;
 import com.order.mall.data.network.user.Address;
 import com.order.mall.data.network.user.BounsScoreList;
 import com.order.mall.data.network.user.CashList;
+import com.order.mall.data.network.user.CashScoreList;
 import com.order.mall.data.network.user.CashScoreDetails;
 import com.order.mall.data.network.user.RechargeCenter;
 import com.order.mall.data.network.user.RechargeDetails;
@@ -108,31 +109,45 @@ public interface IUserApi {
 
     //现金积分列表
     @POST("balanceDetails/cashBalanceDetailsList")
-    Observable<ApiResult<CashList>> cashBalanceDetailsList(@Query("pageNum") int pageNum,
-                                                           @Query("pageSize") int pageSize,
-                                                           @Query("userId") long userId,
-                                                           @Query("type") int type);
+    Observable<ApiResult<CashScoreList>> cashBalanceDetailsList(@Query("pageNum") int pageNum,
+                                                                @Query("pageSize") int pageSize,
+                                                                @Query("userId") long userId,
+                                                                @Query("type") int type);
 
     //全部现金积分列表
     @POST("balanceDetails/cashBalanceDetailsList")
-    Observable<ApiResult<CashList>> cashBalanceDetailsListAll(@Query("pageNum") int pageNum,
-                                                              @Query("pageSize") int pageSize,
-                                                              @Query("userId") long userId);
+    Observable<ApiResult<CashScoreList>> cashBalanceDetailsListAll(@Query("pageNum") int pageNum,
+                                                                   @Query("pageSize") int pageSize,
+                                                                   @Query("userId") long userId);
 
     //充值订单详情
     @POST("balanceDetails/oneCashBalanceDetails")
     Observable<ApiResult<CashScoreDetails>> oneCashBalanceDetails(@Query("id") String id);
 
+
     //奖金积分列表
     @POST("balanceDetails/bonusBalanceDetailsList")
-    Observable<ApiResult<CashList>> bonusBalanceDetailsList(@Query("pageNum") int pageNum,
-                                                            @Query("pageSize") int pageSize,
-                                                            @Query("userId") long userId,
-                                                            @Query("type") int type);
+    Observable<ApiResult<BounsScoreList>> bonusBalanceDetailsList(@Query("pageNum") int pageNum,
+                                                                  @Query("pageSize") int pageSize,
+                                                                  @Query("userId") long userId,
+                                                                  @Query("type") int type);
 
     //奖金积分列表（全部）
     @POST("balanceDetails/bonusBalanceDetailsList")
     Observable<ApiResult<BounsScoreList>> bonusBalanceDetailsListAll(@Query("pageNum") int pageNum,
                                                                      @Query("pageSize") int pageSize,
                                                                      @Query("userId") long userId);
+
+    //提现列表（全部）
+    @POST("userEncashment/userEncashmentList")
+    Observable<ApiResult<CashList>> userEncashmentListAll(@Query("pageNum") int pageNum,
+                                                          @Query("pageSize") int pageSize,
+                                                          @Query("userId") long userId);
+
+    //提现列表
+    @POST("userEncashment/userEncashmentList")
+    Observable<ApiResult<CashList>> userEncashmentList(@Query("pageNum") int pageNum,
+                                                       @Query("pageSize") int pageSize,
+                                                       @Query("userId") long userId,
+                                                       @Query("encashStatus") int encashStatus);
 }

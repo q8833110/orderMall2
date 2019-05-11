@@ -76,7 +76,17 @@
         android:id="@+id/vg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/line2" />
+        android:layout_below="@id/line2"
+        android:layout_marginBottom="50dp" />
 
-
+    <TextView
+        android:id="@+id/tv_recharge"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorFullRed"
+        android:gravity="center"
+        android:text="充值积分"
+        android:textColor="@color/colorWhite"
+        android:textSize="15sp" />
 </RelativeLayout>

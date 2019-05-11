@@ -5,11 +5,11 @@ import java.util.List;
 public class CashList {
 
     /**
-     * total : 3
+     * total : 1
      * size : 10
      * pages : 1
      * pageNum : 1
-     * data : [{"id":"575059039315034112","userId":500000,"userSourceId":null,"tradeAccount":null,"cashValue":2000,"serviceValue":0,"cashType":1,"createDate":"2019-05-06 20:39:19","balanceAfterOperate":345,"remark":null,"completeDate":"2019-05-06 20:39:22"}]
+     * data : [{"id":"575653466861469696","userId":500000,"rmbValue":900,"encashValue":10000,"encashValueRate":10,"serviceValue":1000,"serviceValueRate":10,"createDate":"2019-05-08T12:01:22.000+0800","reciveWay":0,"accountName":"accountRealName","accountNo":"aliPayAccount","encashStatus":0,"remark":null}]
      */
 
     private List<DataBean> data;
@@ -24,30 +24,34 @@ public class CashList {
 
     public static class DataBean {
         /**
-         * id : 575059039315034112
+         * id : 575653466861469696
          * userId : 500000
-         * userSourceId : null
-         * tradeAccount : null
-         * cashValue : 2000
-         * serviceValue : 0
-         * cashType : 1
-         * createDate : 2019-05-06 20:39:19
-         * balanceAfterOperate : 345
+         * rmbValue : 900
+         * encashValue : 10000
+         * encashValueRate : 10
+         * serviceValue : 1000
+         * serviceValueRate : 10
+         * createDate : 2019-05-08T12:01:22.000+0800
+         * reciveWay : 0
+         * accountName : accountRealName
+         * accountNo : aliPayAccount
+         * encashStatus : 0
          * remark : null
-         * completeDate : 2019-05-06 20:39:22
          */
 
         private String id;
         private int userId;
-        private Object userSourceId;
-        private Object tradeAccount;
-        private int cashValue;
+        private int rmbValue;
+        private int encashValue;
+        private int encashValueRate;
         private int serviceValue;
-        private int cashType;
+        private int serviceValueRate;
         private String createDate;
-        private int balanceAfterOperate;
+        private int reciveWay;
+        private String accountName;
+        private String accountNo;
+        private int encashStatus;
         private Object remark;
-        private String completeDate;
 
         public String getId() {
             return id;
@@ -65,28 +69,28 @@ public class CashList {
             this.userId = userId;
         }
 
-        public Object getUserSourceId() {
-            return userSourceId;
+        public int getRmbValue() {
+            return rmbValue;
         }
 
-        public void setUserSourceId(Object userSourceId) {
-            this.userSourceId = userSourceId;
+        public void setRmbValue(int rmbValue) {
+            this.rmbValue = rmbValue;
         }
 
-        public Object getTradeAccount() {
-            return tradeAccount;
+        public int getEncashValue() {
+            return encashValue;
         }
 
-        public void setTradeAccount(Object tradeAccount) {
-            this.tradeAccount = tradeAccount;
+        public void setEncashValue(int encashValue) {
+            this.encashValue = encashValue;
         }
 
-        public int getCashValue() {
-            return cashValue;
+        public int getEncashValueRate() {
+            return encashValueRate;
         }
 
-        public void setCashValue(int cashValue) {
-            this.cashValue = cashValue;
+        public void setEncashValueRate(int encashValueRate) {
+            this.encashValueRate = encashValueRate;
         }
 
         public int getServiceValue() {
@@ -97,12 +101,12 @@ public class CashList {
             this.serviceValue = serviceValue;
         }
 
-        public int getCashType() {
-            return cashType;
+        public int getServiceValueRate() {
+            return serviceValueRate;
         }
 
-        public void setCashType(int cashType) {
-            this.cashType = cashType;
+        public void setServiceValueRate(int serviceValueRate) {
+            this.serviceValueRate = serviceValueRate;
         }
 
         public String getCreateDate() {
@@ -113,12 +117,36 @@ public class CashList {
             this.createDate = createDate;
         }
 
-        public int getBalanceAfterOperate() {
-            return balanceAfterOperate;
+        public int getReciveWay() {
+            return reciveWay;
         }
 
-        public void setBalanceAfterOperate(int balanceAfterOperate) {
-            this.balanceAfterOperate = balanceAfterOperate;
+        public void setReciveWay(int reciveWay) {
+            this.reciveWay = reciveWay;
+        }
+
+        public String getAccountName() {
+            return accountName;
+        }
+
+        public void setAccountName(String accountName) {
+            this.accountName = accountName;
+        }
+
+        public String getAccountNo() {
+            return accountNo;
+        }
+
+        public void setAccountNo(String accountNo) {
+            this.accountNo = accountNo;
+        }
+
+        public int getEncashStatus() {
+            return encashStatus;
+        }
+
+        public void setEncashStatus(int encashStatus) {
+            this.encashStatus = encashStatus;
         }
 
         public Object getRemark() {
@@ -127,14 +155,6 @@ public class CashList {
 
         public void setRemark(Object remark) {
             this.remark = remark;
-        }
-
-        public String getCompleteDate() {
-            return completeDate;
-        }
-
-        public void setCompleteDate(String completeDate) {
-            this.completeDate = completeDate;
         }
     }
 }

@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name=".MyApp"
         android:allowBackup="true"
@@ -32,8 +33,7 @@
 
         <activity
             android:name=".ui.LoginActivity"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.MainActivity"
             android:hardwareAccelerated="false"
@@ -192,14 +192,19 @@
         <activity
             android:name=".ui.activity.card.AddWXActivity"
             android:screenOrientation="portrait" />
+        <!--提现中心-->
+        <activity
+            android:name=".ui.activity.CashCenterActivity"
+            android:screenOrientation="portrait" />
 
         <!-- 添加支付宝 -->
         <activity
             android:name=".ui.activity.card.AddZhifubaoActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".SplashActivity"
-            android:screenOrientation="portrait"
-            android:hardwareAccelerated="true">
+        <activity
+            android:name=".SplashActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,5 +1,6 @@
-package com.order.mall.ui.activity.user;
+package com.order.mall.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -12,8 +13,8 @@ import com.kcrason.dynamicpagerindicatorlibrary.DynamicPagerIndicator;
 import com.order.mall.R;
 import com.order.mall.ui.BaseActivity;
 import com.order.mall.ui.adapter.TextAdapter;
-import com.order.mall.ui.fragment.user.AllShoppingFragment;
-import com.order.mall.ui.fragment.user.AllTradeFragment;
+import com.order.mall.ui.fragment.user.AllCashFragment;
+import com.order.mall.ui.fragment.user.AllRechargeFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class TradeAllActivity extends BaseActivity {
+public class CashCenterActivity extends BaseActivity {
+
 
     @BindView(R.id.sys_title)
     View sysTitle;
@@ -35,12 +37,13 @@ public class TradeAllActivity extends BaseActivity {
     ViewPager pager;
     @BindView(R.id.dynamic_pager_indicator1)
     DynamicPagerIndicator dynamicPagerIndicator1;
+    @BindView(R.id.tv_recharge)
+    TextView rechargeTv;
 
     Unbinder unbinder;
     private String[] titles = new String[]{
-            "全部", "已抢购", "已收益", "已挂卖", "已卖出"
+            "全部", "进行中", "操作失败", "已完成"
     };
-    private int position;
 
     @Override
     protected void initImmersionBar() {
@@ -53,23 +56,29 @@ public class TradeAllActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trade_all);
+        setContentView(R.layout.activity_center_recharge_and_cash);
         unbinder = ButterKnife.bind(this);
-        position = getIntent().getIntExtra("position", 0);
+        tvTitle.setText("提现中心");
+        rechargeTv.setText("积分提现");
         init();
     }
 
     private void init() {
         // 设置Tab底部选中的指示器 Indicator的颜色
         List<Fragment> list = new ArrayList<>();
-        list.add(AllTradeFragment.newInstance(1));
-        list.add(AllTradeFragment.newInstance(2));
-        list.add(AllTradeFragment.newInstance(3));
-        list.add(AllTradeFragment.newInstance(4));
-        list.add(AllTradeFragment.newInstance(5));
+        list.add(AllCashFragment.newInstance(-1));
+        list.add(AllCashFragment.newInstance(0));
+        list.add(AllCashFragment.newInstance(2));
+        list.add(AllCashFragment.newInstance(1));
         pager.setAdapter(new TextAdapter(getSupportFragmentManager(), titles, list));
         dynamicPagerIndicator1.setViewPager(pager);
-        pager.setCurrentItem(position);
+    }
+
+
+    @OnClick(R.id.tv_recharge)
+    public void toRecharge() {
+        Intent intent = new Intent(this, ReportOrderSubActivity.class);
+        startActivity(intent);
     }
 
     @Override

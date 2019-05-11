@@ -5,8 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.order.mall.R;
-import com.order.mall.data.network.user.CashList;
-import com.order.mall.data.network.user.TradeBalanceList;
+import com.order.mall.data.network.user.CashScoreList;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
@@ -15,15 +14,15 @@ import java.util.List;
 /**
  * 现金积分列表适配器
  */
-public class CashScoreListAdapter extends CommonAdapter<CashList.DataBean> {
+public class CashScoreListAdapter extends CommonAdapter<CashScoreList.DataBean> {
 
 
-    public CashScoreListAdapter(Context context, int layoutId, List<CashList.DataBean> datas) {
+    public CashScoreListAdapter(Context context, int layoutId, List<CashScoreList.DataBean> datas) {
         super(context, layoutId, datas);
     }
 
     @Override
-    protected void convert(ViewHolder holder, CashList.DataBean data, int position) {
+    protected void convert(ViewHolder holder, CashScoreList.DataBean data, int position) {
 
         holder.setText(R.id.jifen, "+" + data.getCashValue() / 100 + "现金积分");
         holder.setText(R.id.shengyujifen, "余额：" + data.getBalanceAfterOperate() / 100 + "现金积分");

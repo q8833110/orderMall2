@@ -36,14 +36,16 @@ public class JiFenDetails extends BaseActivity {
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.vg)
-    ViewPager pager ;
+    ViewPager pager;
     @BindView(R.id.dynamic_pager_indicator1)
     DynamicPagerIndicator dynamicPagerIndicator1;
 
-    Unbinder unbinder ;
+    Unbinder unbinder;
     private String[] titles = new String[]{
-            "全部" , "充值" , "抢单"
+            "全部", "充值", "抢单"
     };
+    private int position;
+
     @Override
     protected void initImmersionBar() {
         ImmersionBar.with(this)
@@ -57,6 +59,7 @@ public class JiFenDetails extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jifenmingxi);
         unbinder = ButterKnife.bind(this);
+        position = getIntent().getIntExtra("position", 0);
         init();
     }
 
@@ -70,6 +73,7 @@ public class JiFenDetails extends BaseActivity {
 
         pager.setAdapter(new TextAdapter(getSupportFragmentManager(), titles, list));
         dynamicPagerIndicator1.setViewPager(pager);
+        pager.setCurrentItem(position);
     }
 
 

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.order.mall.R;
 import com.order.mall.data.network.IUserApi;
+import com.order.mall.data.network.user.RechargeCenter;
 import com.order.mall.data.network.user.TradeBalanceList;
 import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
@@ -22,6 +23,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,6 +110,19 @@ public class Baodanjifen extends BaseActivity {
     private void init() {
 
         adapter = new PayMentDetailAdapter(this, R.layout.item_payment, list);
+        adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+                Intent intent = new Intent(Baodanjifen.this, JifenxiangqingActivity.class);
+                intent.putExtra("id", list.get(position).getId());
+                startActivity(intent);
+            }
+
+            @Override
+            public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                return false;
+            }
+        });
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
         refresh.setOnRefreshListener(new OnRefreshListener() {
@@ -146,8 +161,18 @@ public class Baodanjifen extends BaseActivity {
 
     @OnClick(R.id.ll_recharge)
     public void toRecharge() {
+        //充值中心
         Intent intent = new Intent(this, RechargeCenterActivity.class);
+        intent.putExtra("position", 1);
         startActivity(intent);
+    }
+
+    @OnClick(R.id.ll_qiangdan)
+    public void toRecharge2() {
+//        Intent intent = new Intent(this, JiFenDetails.class);
+//        intent.putExtra("position", 2);
+//        startActivity(intent);
+        showToast("去抢单");
     }
 
     @Override
