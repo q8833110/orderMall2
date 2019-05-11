@@ -14,11 +14,67 @@ public class PreyPay {
          * userId : 0
          */
 
-        private int bonusBalance;
-        private int cashBalance;
-        private int consumeBalance;
+        private float bonusBalance;
+        private float cashBalance;
+        private float consumeBalance;
         private int id;
-        private int tradeBalance;
-        private int tradeScore;
+        private float tradeBalance;
+        private float tradeScore;
         private int userId;
-    }
+
+        public float getBonusBalance() {
+                return bonusBalance;
+        }
+
+        public void setBonusBalance(float bonusBalance) {
+                this.bonusBalance = bonusBalance;
+        }
+
+        public float getCashBalance() {
+                return cashBalance;
+        }
+
+        public void setCashBalance(float cashBalance) {
+                this.cashBalance = cashBalance;
+        }
+
+        public float getConsumeBalance() {
+                return consumeBalance;
+        }
+
+        public void setConsumeBalance(float consumeBalance) {
+                this.consumeBalance = consumeBalance;
+        }
+
+        public int getId() {
+                return id;
+        }
+
+        public void setId(int id) {
+                this.id = id;
+        }
+
+        public float getTradeBalance() {
+                return tradeBalance;
+        }
+
+        public void setTradeBalance(float tradeBalance) {
+                this.tradeBalance = tradeBalance;
+        }
+
+        public float getTradeScore() {
+                return tradeScore;
+        }
+
+        public void setTradeScore(float tradeScore) {
+                this.tradeScore = tradeScore;
+        }
+
+        public int getUserId() {
+                return userId;
+        }
+
+        public void setUserId(int userId) {
+                this.userId = userId;
+        }
+}

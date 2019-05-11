@@ -79,7 +79,10 @@ public class MallFragment extends LazyLoadFragment {
 
     @Override
     protected void loadData() {
+        addNet();
+    }
 
+    private void addNet(){
 
     }
 

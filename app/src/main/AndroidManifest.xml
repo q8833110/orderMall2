@@ -30,26 +30,9 @@
             android:name="android.max_aspect"
             android:value="2.4" />
 
-        <activity android:name=".MainActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-
-
-            <!-- android:theme="@style/SplashAppTheme" -->
-        </activity>
         <activity
             android:name=".ui.LoginActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ui.MainActivity"
@@ -214,7 +197,9 @@
         <activity
             android:name=".ui.activity.card.AddZhifubaoActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".SplashActivity">
+        <activity android:name=".SplashActivity"
+            android:screenOrientation="portrait"
+            android:hardwareAccelerated="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

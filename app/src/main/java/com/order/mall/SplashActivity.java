@@ -1,19 +1,25 @@
 package com.order.mall;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
+import com.order.mall.ui.BaseActivity;
+import com.order.mall.ui.MainActivity;
+import com.order.mall.util.RxHelper;
 
-public class SplashActivity extends AppCompatActivity {
+import rx.functions.Action1;
 
-    private ImageView ivSp ;
+public class SplashActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        ivSp = findViewById(R.id.iv_sp);
-        Glide.with(this).load(R.mipmap.splash);
+        RxHelper.delay(3, new Action1<Long>() {
+            @Override
+            public void call(Long aLong) {
+                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
