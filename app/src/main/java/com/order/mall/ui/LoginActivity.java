@@ -59,7 +59,7 @@ public class LoginActivity extends BaseActivity {
         loginApi = RetrofitUtils.getInstance().getRetrofit().create(ILoginApi.class);
         fragmentManager = getSupportFragmentManager() ;
         toFragment(LOGIN_MAIN);
-        //TODO 测试Git版本控制
+        //TODO 测试Git版本控制2.0
 
 
     }
