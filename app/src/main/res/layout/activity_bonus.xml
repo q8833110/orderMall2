@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="64dp"
-        android:text="8000"
+        android:text="0"
         android:textColor="@color/colorWhite"
         android:textSize="30sp" />
 
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_jifen"
         android:layout_centerHorizontal="true"
-        android:text="报单积分"
+        android:text="奖金积分"
         android:textColor="@color/colorWhite"
         android:textSize="15sp" />
 

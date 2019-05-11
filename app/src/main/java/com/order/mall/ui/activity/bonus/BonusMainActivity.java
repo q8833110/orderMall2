@@ -62,7 +62,15 @@ public class BonusMainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bonus);
         unbinder = ButterKnife.bind(this);
+        int bonusBalance = getIntent().getIntExtra("bonusBalance", 0);
+        tvJifen.setText(bonusBalance + "");
         init();
+        getAll();
+
+    }
+
+    private void getAll() {
+
     }
 
 
@@ -83,7 +91,7 @@ public class BonusMainActivity extends BaseActivity {
     }
 
     @OnClick(R.id.rl_shouzhi)
-    public void toMingxi(){
+    public void toMingxi() {
         Intent intent = new Intent(this, BonusJifenDetailsActivity.class);
         startActivity(intent);
     }

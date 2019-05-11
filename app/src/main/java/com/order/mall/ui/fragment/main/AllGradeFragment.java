@@ -43,8 +43,12 @@ public class AllGradeFragment extends LazyLoadFragment {
     private BaodanjifenAdapter adapter;
     private IUserApi iUserApi;
 
-    public static AllGradeFragment newInstance() {
+    public static AllGradeFragment newInstance(int type) {
         AllGradeFragment fragment = new AllGradeFragment();
+        Bundle args = new Bundle();
+        args.putInt("type", type);
+        fragment.setArguments(args);
+
         return fragment;
     }
 

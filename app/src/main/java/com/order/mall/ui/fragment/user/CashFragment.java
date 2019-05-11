@@ -11,12 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.order.mall.R;
+import com.order.mall.data.network.IUserApi;
+import com.order.mall.data.network.user.CashList;
+import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.activity.ReportDetailActivity;
 import com.order.mall.ui.activity.cash.CashWithdrawalDetailsActivity;
 import com.order.mall.ui.adapter.BaodanjifenAdapter;
+import com.order.mall.ui.adapter.CashScoreListAdapter;
 import com.order.mall.ui.fragment.main.LazyLoadFragment;
+import com.order.mall.util.RetrofitUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 
@@ -35,10 +41,20 @@ public class CashFragment extends LazyLoadFragment {
     SmartRefreshLayout refresh;
     Unbinder unbinder;
 
-    private BaodanjifenAdapter adapter;
+    private CashScoreListAdapter adapter;
+    private IUserApi iUserApi;
+    private int pageNum = 1;
+    private int pageSize = 10;
+    private long userId = 500000;
+    private int type = 0;
 
-    public static CashFragment newInstance() {
+    private List<CashList.DataBean> dataBeans = new ArrayList<>();
+
+    public static CashFragment newInstance(int type) {
         CashFragment fragment = new CashFragment();
+        Bundle args = new Bundle();
+        args.putInt("type", type);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -47,6 +63,51 @@ public class CashFragment extends LazyLoadFragment {
 
     @Override
     protected void loadData() {
+        if (type == -1) {
+            getAll();
+        } else {
+            getList();
+        }
+    }
+
+    private void getAll() {
+        addObserver(iUserApi.cashBalanceDetailsListAll(pageNum, pageSize, userId), new NetworkObserver<ApiResult<CashList>>() {
+
+            @Override
+            public void onReady(ApiResult<CashList> cashListApiResult) {
+                if (cashListApiResult.getData() != null && cashListApiResult.getData().getData() != null) {
+                    if (pageNum == 1) {
+                        dataBeans.clear();
+                    }
+                    dataBeans.addAll(cashListApiResult.getData().getData());
+                    adapter.notifyDataSetChanged();
+                }
+                refresh.finishRefresh();
+                refresh.finishLoadMore();
+            }
+        });
+
+
+    }
+
+    private void getList() {
+
+        addObserver(iUserApi.cashBalanceDetailsList(pageNum, pageSize, userId, type), new NetworkObserver<ApiResult<CashList>>() {
+
+            @Override
+            public void onReady(ApiResult<CashList> cashListApiResult) {
+                if (cashListApiResult.getData() != null && cashListApiResult.getData().getData() != null) {
+                    if (pageNum == 1) {
+                        dataBeans.clear();
+                    }
+                    dataBeans.addAll(cashListApiResult.getData().getData());
+                    adapter.notifyDataSetChanged();
+                }
+                refresh.finishRefresh();
+                refresh.finishLoadMore();
+            }
+        });
+
     }
 
     @Nullable
@@ -54,6 +115,8 @@ public class CashFragment extends LazyLoadFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_all_grade, container, false);
         unbinder = ButterKnife.bind(this, rootView);
+        iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
+        type = getArguments().getInt("type");
         init();
         return rootView;
     }
@@ -66,33 +129,37 @@ public class CashFragment extends LazyLoadFragment {
         refresh.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
-                refreshLayout.finishRefresh();
-                refreshLayout.finishLoadMore();
+                pageNum = 1;
+                loadData();
+            }
+        });
+        refresh.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(RefreshLayout refreshLayout) {
+                pageNum++;
+                loadData();
             }
         });
     }
 
-        private void initRecy(){
-//            List<BaodanjifenAdapter.Payments> list = new ArrayList<>();
-//            for (int i = 0; i < 5; i++) {
-//                list.add(new BaodanjifenAdapter.Payments());
-//            }
-//            adapter = new BaodanjifenAdapter(getContext(), R.layout.item_cash, list);
-            adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                    Intent intent = new Intent(getContext() ,CashWithdrawalDetailsActivity.class);
-                    startActivity(intent);
-                }
+    private void initRecy() {
+        adapter = new CashScoreListAdapter(getContext(), R.layout.item_cash, dataBeans);
+        adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+                Intent intent = new Intent(getContext(), CashWithdrawalDetailsActivity.class);
+                intent.putExtra("id", dataBeans.get(position).getId());
+                startActivity(intent);
+            }
 
-                @Override
-                public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
-                    return false;
-                }
-            });
-            rv.setAdapter(adapter);
-            rv.setLayoutManager(new LinearLayoutManager(getContext()));
-        }
+            @Override
+            public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                return false;
+            }
+        });
+        rv.setAdapter(adapter);
+        rv.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
 
 
     @Override

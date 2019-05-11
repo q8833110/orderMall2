@@ -117,6 +117,8 @@ public class UserFragment extends LazyLoadFragment {
     Unbinder unbinder1;
     private IUserApi iUserApi;
     private int tradeBalance;
+    private int cashBalance;
+    private int bonusBalance;
 
     public static UserFragment newInstance() {
         UserFragment fragment = new UserFragment();
@@ -165,9 +167,11 @@ public class UserFragment extends LazyLoadFragment {
         tradeBalance = data.getTradeBalance();
         tvBaodanjifen.setText(tradeBalance);
         //现金积分
-        tvXianjinjifen.setText(data.getCashBalance());
+        cashBalance = data.getCashBalance();
+        tvXianjinjifen.setText(cashBalance);
         //奖金积分
-        tvJiangjinjifen.setText(data.getBonusBalance());
+        bonusBalance = data.getBonusBalance();
+        tvJiangjinjifen.setText(bonusBalance);
         //消费积分
         tvXiaofeijifen.setText(data.getConsumeBalance());
 //        SharedPreferencesHelp.getInstance(getActivity()).putUser();
@@ -203,6 +207,7 @@ public class UserFragment extends LazyLoadFragment {
     @OnClick(R.id.ll_xianjinjifen)
     public void toCash() {
         Intent intent = new Intent(getContext(), CashJifenActivity.class);
+        intent.putExtra("cashBalance", cashBalance);
         startActivity(intent);
     }
 
@@ -215,6 +220,7 @@ public class UserFragment extends LazyLoadFragment {
     @OnClick(R.id.ll_jiangjinjifen)
     public void toBonus() {
         Intent intent = new Intent(getContext(), BonusMainActivity.class);
+        intent.putExtra("bonusBalance",bonusBalance);
         startActivity(intent);
     }
 

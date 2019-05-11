@@ -16,6 +16,7 @@ import com.order.mall.ui.adapter.TextAdapter;
 import com.order.mall.ui.fragment.main.AllGradeFragment;
 import com.order.mall.ui.fragment.trade.QiangdanFragment;
 import com.order.mall.ui.fragment.trade.SellFragment;
+import com.order.mall.ui.fragment.user.CashFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,23 +63,10 @@ public class JiFenDetails extends BaseActivity {
     private void init() {
         // 设置Tab底部选中的指示器 Indicator的颜色
         List<Fragment> list = new ArrayList<>();
-        AllGradeFragment allGradeFragment1 = new AllGradeFragment();
-        Bundle bundle=new Bundle();
-        bundle.putInt("type",-1);
-        allGradeFragment1.setArguments(bundle);
-        list.add(allGradeFragment1);
 
-        AllGradeFragment allGradeFragment2 = new AllGradeFragment();
-        Bundle bundle2=new Bundle();
-        bundle2.putInt("type",0);
-        allGradeFragment2.setArguments(bundle2);
-        list.add(allGradeFragment2);
-
-        AllGradeFragment allGradeFragment3 = new AllGradeFragment();
-        Bundle bundle3 = new Bundle();
-        bundle3.putInt("type", 1);
-        allGradeFragment3.setArguments(bundle3);
-        list.add(allGradeFragment3);
+        list.add(AllGradeFragment.newInstance(-1));
+        list.add(AllGradeFragment.newInstance(0));
+        list.add(AllGradeFragment.newInstance(1));
 
         pager.setAdapter(new TextAdapter(getSupportFragmentManager(), titles, list));
         dynamicPagerIndicator1.setViewPager(pager);
