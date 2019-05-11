@@ -9,7 +9,6 @@ import java.util.List;
 
 public class TradeAdapter extends CommonAdapter<TradeAdapter.Data> {
 
-
     public TradeAdapter(Context context, int layoutId, List<Data> datas) {
         super(context, layoutId, datas);
     }

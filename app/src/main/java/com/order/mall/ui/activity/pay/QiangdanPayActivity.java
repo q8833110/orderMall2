@@ -9,6 +9,7 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.order.mall.R;
 import com.order.mall.data.SharedPreferencesHelp;
 import com.order.mall.data.network.IFinancialProductsApi;
+import com.order.mall.data.network.financial.FinancialProductOrder;
 import com.order.mall.data.network.financial.PreyPay;
 import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
@@ -81,7 +82,25 @@ public class QiangdanPayActivity extends BaseActivity {
             @Override
             public void onReady(ApiResult<PreyPay> preyPayApiResult) {
                 if (preyPayApiResult.getData() !=null){
+                      PreyPay preyPay = preyPayApiResult.getData();
+                      tvJifen.setText(preyPay.getTradeScore() +"");
+                      tvJifen1.setText(preyPay.getTradeBalance() +"");
+                }
+            }
+        });
+    }
 
+    @OnClick(R.id.tv_pay)
+    public void pay(){
+        addObserver(api.pay(productsId , userId) , new NetworkObserver<ApiResult<FinancialProductOrder>>(){
+
+            @Override
+            public void onReady(ApiResult<FinancialProductOrder> financialProductOrderApiResult) {
+                if (financialProductOrderApiResult.getData() != null){
+                    showToast("抢单成功");
+                    // TODO: 2019/5/11/011  跳转已购列表 
+                }else{
+                    showToast(financialProductOrderApiResult.getMessage());
                 }
             }
         });

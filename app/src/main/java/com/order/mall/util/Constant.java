@@ -39,6 +39,6 @@ public final class Constant {
      */
     public static final String QQ_APP_ID = "1106511016";
 
-    public static final String SERVER = "http://47.74.244.100:80/" ;
+    public static final String SERVER = "http://www.wogjxm.com/" ;
 
 }

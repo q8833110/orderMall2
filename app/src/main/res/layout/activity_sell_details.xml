@@ -53,6 +53,7 @@
             android:paddingEnd="10dp"
             android:paddingStart="10dp"
             android:paddingTop="15dp"
+            android:id="@+id/tv_title"
             android:text="科沃斯扫地机器人DJ35智能家用全自动吸小米粒洗擦地拖地扫一体机扫地机器人..."
             android:textColor="@color/colorBlank333333"
             android:textSize="14dp" />
@@ -228,16 +229,15 @@
                 android:textColor="@color/colorFullRed"
                 android:textSize="12sp" />
 
-            <EditText
+            <TextView
                 android:id="@+id/et_jifen"
-                android:layout_width="wrap_content"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="22dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginTop="24dp"
                 android:layout_toStartOf="@id/baodanjifen"
-                android:background="@null"
-                android:hint="输入出售报单积分数"
+                android:gravity="right"
                 android:textColor="#999999"
                 android:textSize="15sp" />
         </RelativeLayout>

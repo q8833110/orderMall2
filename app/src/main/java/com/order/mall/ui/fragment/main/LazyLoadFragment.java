@@ -1,5 +1,6 @@
 package com.order.mall.ui.fragment.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.util.Log;
 import com.order.mall.data.network.homepage.Home;
 import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
+import com.order.mall.ui.LoginActivity;
 import com.order.mall.ui.widget.Dialog.LoadingDialog;
 
 import java.util.List;
@@ -45,6 +47,11 @@ public abstract class LazyLoadFragment extends Fragment {
         tryLoadData();
     }
 
+
+    public void toLogin(){
+        Intent intent = new Intent(getContext() , LoginActivity.class);
+        startActivity(intent);
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
