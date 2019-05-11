@@ -11,11 +11,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.order.mall.R;
+import com.order.mall.data.network.IUserApi;
+import com.order.mall.data.network.user.BounsScoreList;
+import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
 import com.order.mall.ui.activity.JiFenDetails;
 import com.order.mall.ui.activity.RechargeCenterActivity;
+import com.order.mall.ui.activity.ReportDetailActivity;
 import com.order.mall.ui.activity.cash.TransferJifenActivity;
+import com.order.mall.ui.adapter.BonusScoreListAdapter;
 import com.order.mall.ui.adapter.PayMentDetailAdapter;
+import com.order.mall.util.RetrofitUtils;
+import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,13 +62,19 @@ public class BonusMainActivity extends BaseActivity {
     @BindView(R.id.rv)
     RecyclerView rv;
 
-    private PayMentDetailAdapter adapter;
+    private BonusScoreListAdapter adapter;
+    private IUserApi iUserApi;
+    private int pageNum = 1;
+    private int pageSize = 10;
+    private long userId = 500000;
+    private List<BounsScoreList.DataBean> dataBeans = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bonus);
         unbinder = ButterKnife.bind(this);
+        iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
         int bonusBalance = getIntent().getIntExtra("bonusBalance", 0);
         tvJifen.setText(bonusBalance + "");
         init();
@@ -70,16 +83,38 @@ public class BonusMainActivity extends BaseActivity {
     }
 
     private void getAll() {
-        
+        addObserver(iUserApi.bonusBalanceDetailsListAll(pageNum, pageSize, userId), new NetworkObserver<ApiResult<BounsScoreList>>() {
+
+            @Override
+            public void onReady(ApiResult<BounsScoreList> bounsScoreListApiResult) {
+                if (bounsScoreListApiResult.getData() != null && bounsScoreListApiResult.getData().getData() != null) {
+                    if (pageNum == 1) {
+                        dataBeans.clear();
+                    }
+                    dataBeans.addAll(bounsScoreListApiResult.getData().getData());
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
 
     private void init() {
-//        List<PayMentDetailAdapter.Payments> list = new ArrayList<>();
-//        for (int i = 0; i < 5; i++) {
-//            list.add(new PayMentDetailAdapter.Payments());
-//        }
-//        adapter = new PayMentDetailAdapter(this, R.layout.item_payment, list);
+
+        adapter = new BonusScoreListAdapter(this, R.layout.item_payment, dataBeans);
+        adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+//                Intent intent = new Intent(getContext(), ReportDetailActivity.class);
+//                intent.putExtra("id",dataBeans.get(position).getId());
+//                startActivity(intent);
+            }
+
+            @Override
+            public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                return false;
+            }
+        });
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
 

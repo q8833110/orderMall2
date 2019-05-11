@@ -12,6 +12,7 @@ import com.kcrason.dynamicpagerindicatorlibrary.DynamicPagerIndicator;
 import com.order.mall.R;
 import com.order.mall.ui.BaseActivity;
 import com.order.mall.ui.adapter.TextAdapter;
+import com.order.mall.ui.fragment.user.AllBonusFragment;
 import com.order.mall.ui.fragment.user.AllRechargeFragment;
 import com.order.mall.ui.fragment.user.CashFragment;
 
@@ -59,9 +60,9 @@ public class BonusJifenDetailsActivity extends BaseActivity {
     private void init() {
         // 设置Tab底部选中的指示器 Indicator的颜色
         List<Fragment> list = new ArrayList<>();
-        list.add(AllRechargeFragment.newInstance(1));
-        list.add(AllRechargeFragment.newInstance(2));
-        list.add(AllRechargeFragment.newInstance(3));
+        list.add(AllBonusFragment.newInstance(-1));
+        list.add(AllBonusFragment.newInstance(0));
+        list.add(AllBonusFragment.newInstance(1));
         pager.setAdapter(new TextAdapter(getSupportFragmentManager(), titles, list));
         dynamicPagerIndicator1.setViewPager(pager);
     }
