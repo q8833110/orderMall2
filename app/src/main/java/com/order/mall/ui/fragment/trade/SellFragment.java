@@ -51,10 +51,6 @@ public class SellFragment extends LazyLoadFragment {
 
     private void init(){
         orders = new ArrayList<>();
-        for (int i = 0 ; i < 5 ; i ++){
-            orders.add(null);
-        }
-
         tradeAdapter = new TradeAdapter(getContext() ,R.layout.item_sell ,orders);
         tradeAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override

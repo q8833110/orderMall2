@@ -1,5 +1,8 @@
 package com.order.mall.data.network.financial;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 public class FinancialProduct {
@@ -57,7 +60,7 @@ public class FinancialProduct {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean  implements Parcelable{
         /**
          * annualizedRate : 0
          * days : 0
@@ -71,22 +74,47 @@ public class FinancialProduct {
          * tradeScore : 0
          */
 
-        private int annualizedRate;
+        private float annualizedRate;
         private int days;
         private int endTimeMs;
         private int id;
         private String images;
-        private int predictInterest;
+        private float predictInterest;
         private String title;
         private int total;
-        private int tradeScore;
+        private float tradeScore;
         private List<String> imagess;
 
-        public int getAnnualizedRate() {
+        protected DataBean(Parcel in) {
+            annualizedRate = in.readFloat();
+            days = in.readInt();
+            endTimeMs = in.readInt();
+            id = in.readInt();
+            images = in.readString();
+            predictInterest = in.readFloat();
+            title = in.readString();
+            total = in.readInt();
+            tradeScore = in.readFloat();
+            imagess = in.createStringArrayList();
+        }
+
+        public static final Creator<DataBean> CREATOR = new Creator<DataBean>() {
+            @Override
+            public DataBean createFromParcel(Parcel in) {
+                return new DataBean(in);
+            }
+
+            @Override
+            public DataBean[] newArray(int size) {
+                return new DataBean[size];
+            }
+        };
+
+        public float getAnnualizedRate() {
             return annualizedRate;
         }
 
-        public void setAnnualizedRate(int annualizedRate) {
+        public void setAnnualizedRate(float annualizedRate) {
             this.annualizedRate = annualizedRate;
         }
 
@@ -122,11 +150,11 @@ public class FinancialProduct {
             this.images = images;
         }
 
-        public int getPredictInterest() {
+        public float getPredictInterest() {
             return predictInterest;
         }
 
-        public void setPredictInterest(int predictInterest) {
+        public void setPredictInterest(float predictInterest) {
             this.predictInterest = predictInterest;
         }
 
@@ -146,11 +174,11 @@ public class FinancialProduct {
             this.total = total;
         }
 
-        public int getTradeScore() {
+        public float getTradeScore() {
             return tradeScore;
         }
 
-        public void setTradeScore(int tradeScore) {
+        public void setTradeScore(float tradeScore) {
             this.tradeScore = tradeScore;
         }
 
@@ -160,6 +188,25 @@ public class FinancialProduct {
 
         public void setImagess(List<String> imagess) {
             this.imagess = imagess;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel parcel, int i) {
+            parcel.writeFloat(annualizedRate);
+            parcel.writeInt(days);
+            parcel.writeInt(endTimeMs);
+            parcel.writeInt(id);
+            parcel.writeString(images);
+            parcel.writeFloat(predictInterest);
+            parcel.writeString(title);
+            parcel.writeInt(total);
+            parcel.writeFloat(tradeScore);
+            parcel.writeStringList(imagess);
         }
     }
 }

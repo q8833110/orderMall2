@@ -77,7 +77,7 @@ public class MainFragment extends LazyLoadFragment {
         urls.add("http://tcmall.oss-cn-shenzhen.aliyuncs.com/imgs/201905082051280690181601.jpg");
         banner.setImageLoader(new GlideImageLoader());
         banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);//设置圆形指示器
-        banner.setIndicatorGravity(BannerConfig.RIGHT);//设置指示器位置
+        banner.setIndicatorGravity(BannerConfig.CENTER);//设置指示器位置
         banner.setDelayTime(2000);//设置轮播时间
         banner.setImages(urls);
         banner.start();

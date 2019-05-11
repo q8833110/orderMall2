@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="#f5f5f5">
+        android:background="#f5f5f5"
+        android:orientation="vertical">
+
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/status_bar_height"
-            android:background="@color/colorWhite"
-            />
+            android:background="@color/colorWhite" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
@@ -42,33 +44,36 @@
             android:layout_height="224dp" />
 
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:lineSpacingExtra="5dp"
             android:background="@color/colorWhite"
+            android:ellipsize="end"
+            android:lineSpacingExtra="5dp"
+            android:maxLines="2"
+            android:paddingBottom="20dp"
             android:paddingEnd="10dp"
             android:paddingStart="10dp"
             android:paddingTop="15dp"
-            android:paddingBottom="20dp"
-            android:text="科沃斯扫地机器人DJ35智能家用全自动吸小米粒洗擦地拖地扫一体机扫地机器人..."
             android:textColor="@color/colorBlank333333"
-            android:textSize="14dp" />
+            android:textSize="14sp"
+            tools:text="科沃斯扫地机器人DJ35智能家用全自动吸小米粒洗擦地拖地扫一体机扫地机器人..." />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
             android:paddingEnd="10dp"
-            android:paddingStart="10dp"
-            android:background="@color/colorWhite">
+            android:paddingStart="10dp">
 
             <TextView
                 android:id="@+id/tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="1799"
                 android:textColor="@color/colorFullRed"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                tools:text="1799" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -85,25 +90,25 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="28dp"
-                android:text="01时15分58秒:"
                 android:textColor="@color/colorFullRed"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                tools:text="01时15分58秒:" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
                 android:layout_toStartOf="@id/time"
-                android:text="距结束仅剩::"
+                android:text="距结束仅剩:"
                 android:textColor="#999999"
                 android:textSize="10sp" />
 
         </RelativeLayout>
 
         <LinearLayout
-            android:background="@color/colorWhite"
             android:layout_width="match_parent"
             android:layout_height="75dp"
+            android:background="@color/colorWhite"
             android:orientation="horizontal"
             android:paddingEnd="10dp"
             android:paddingStart="10dp">
@@ -189,28 +194,28 @@
             android:layout_width="match_parent"
             android:layout_height="10dp"
             android:background="@color/colorF5F5F5" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:orientation="horizontal"
+            android:background="@color/colorWhite"
             android:gravity="center_vertical"
-            android:background="@color/colorWhite">
+            android:orientation="horizontal"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp">
 
             <View
                 android:layout_width="3dp"
                 android:layout_height="15dp"
-                android:background="@color/colorFullRed"
-                />
+                android:background="@color/colorFullRed" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:text="交易规则"
-                android:textSize="14sp"
-                android:textColor="#333333"/>
+                android:textColor="#333333"
+                android:textSize="14sp" />
         </LinearLayout>
 
         <View
@@ -222,11 +227,59 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="89dp"
-            android:paddingStart="19dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
             android:paddingEnd="19dp"
-            android:background="@color/colorWhite">
+            android:paddingStart="19dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="15dp">
 
+            <TextView
+                android:id="@+id/mairu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="买入"
+                android:textColor="@color/colorBlank333333"
+                android:textSize="12sp"
+                android:layout_marginStart="26dp"/>
+
+            <TextView
+                android:id="@+id/daoqi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="到期"
+                android:layout_marginEnd="26dp"
+                android:textColor="@color/colorBlank333333"
+                android:textSize="12sp" />
+
+            <com.order.mall.ui.widget.ProgressView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@id/daoqi"
+                android:id="@+id/progress_view"
+                android:layout_marginStart="26dp"
+                android:layout_marginEnd="26dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/progress_view"
+                android:id="@+id/tv_today"
+                tools:text="今日(4月30日）"
+                android:textSize="12sp"
+                android:textColor="#999"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_end_day"
+                tools:text="5月1日"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/progress_view"
+                android:textSize="12sp"
+                android:textColor="#999"
+                />
         </RelativeLayout>
 
         <View
@@ -235,30 +288,32 @@
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
             android:background="@color/colorFullRed" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
             android:orientation="horizontal"
-            android:paddingStart="14dp"
-            android:paddingEnd="16dp"
-            android:paddingTop="16dp"
             android:paddingBottom="18dp"
-            android:background="@color/colorWhite">
+            android:paddingEnd="16dp"
+            android:paddingStart="14dp"
+            android:paddingTop="16dp">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/tip"
-                android:paddingTop="2dp"/>
+                android:paddingTop="2dp"
+                android:src="@drawable/tip" />
 
             <TextView
+                android:id="@+id/tv_tips"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
+                android:lineSpacingExtra="10dp"
                 android:text="买入后商品冻结7日，到期后解封并结算收益，可在挂卖区域进行挂卖"
-                android:textSize="12sp"
                 android:textColor="#999999"
-                android:lineSpacingExtra="10dp"/>
+                android:textSize="12sp" />
         </LinearLayout>
 
         <View
@@ -267,15 +322,14 @@
             android:background="@color/colorF5F5F5" />
 
         <TextView
+            android:id="@+id/tv_qiangdan"
             android:layout_width="match_parent"
             android:layout_height="49dp"
-            android:background="@color/colorFullRed"
-            android:text="抢单"
             android:layout_gravity="bottom"
-            android:id="@+id/tv_qiangdan"
-            android:textColor="@color/colorWhite"
-            android:textSize="16sp"
+            android:background="@color/colorFullRed"
             android:gravity="center"
-            />
+            android:text="抢单"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp" />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

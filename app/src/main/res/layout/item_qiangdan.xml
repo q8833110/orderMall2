@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:textSize="10sp"
         android:textColor="@color/colorFullRed"
-        android:text="保单积分"
+        android:text="报单积分"
         android:layout_marginTop="43dp"
         android:layout_toEndOf="@id/tv_price"
         android:layout_below="@id/tv_title"

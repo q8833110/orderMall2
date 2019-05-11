@@ -4,4 +4,6 @@
     <string name="hint_ed_mobile">手机号/邮箱/会员名</string>
     <string name="hint_et_password">请输入登录密码</string>
     <string name="mobile_login">手机登录</string>
+
+    <string name="days">买入后商品冻结%1$d日，到期后解封并结算收益，可在挂卖区域进行挂卖</string>
 </resources>

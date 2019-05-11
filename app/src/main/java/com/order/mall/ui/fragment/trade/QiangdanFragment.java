@@ -33,6 +33,7 @@ import butterknife.Unbinder;
 
 public class QiangdanFragment extends LazyLoadFragment {
 
+    public static final String INTENT_KEY_PRODUCT = "INTENT_KEY_PRODUCT" ;
     @BindView(R.id.rv)
     RecyclerView rv;
     Unbinder unbinder;
@@ -58,7 +59,6 @@ public class QiangdanFragment extends LazyLoadFragment {
         rootView = inflater.inflate(R.layout.fragment_qiangdan, container, false);
         unbinder = ButterKnife.bind(this, rootView);
         init();
-        loadData();
         return rootView;
     }
 
@@ -88,6 +88,7 @@ public class QiangdanFragment extends LazyLoadFragment {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                 Intent intent = new Intent(getContext(), DetailsActivity.class);
+                intent.putExtra(INTENT_KEY_PRODUCT , orders.get(position));
                 startActivity(intent);
             }
 
@@ -98,11 +99,13 @@ public class QiangdanFragment extends LazyLoadFragment {
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         rv.setAdapter(tradeAdapter);
+        refreshLayout.autoRefresh();
     }
 
     @Override
     protected void loadData() {
-        referList(page ,10);
+        if (refreshLayout != null)
+        refreshLayout.autoRefresh();
     }
 
     private void referList(final int page, int pageSize) {

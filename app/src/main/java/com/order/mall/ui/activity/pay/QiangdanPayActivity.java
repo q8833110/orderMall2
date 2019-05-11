@@ -7,11 +7,18 @@ import android.widget.TextView;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.order.mall.R;
+import com.order.mall.data.SharedPreferencesHelp;
+import com.order.mall.data.network.IFinancialProductsApi;
+import com.order.mall.data.network.financial.PreyPay;
+import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
+import com.order.mall.util.RetrofitUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.order.mall.ui.activity.DetailsActivity.INTENT_KEY_PRODUCT_ID;
 
 public class QiangdanPayActivity extends BaseActivity {
 
@@ -30,11 +37,34 @@ public class QiangdanPayActivity extends BaseActivity {
     @BindView(R.id.tv_pay)
     TextView tvPay;
 
+    IFinancialProductsApi api ;
+
+    private int productsId ;
+
+    private int userId ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qiangdan);
         ButterKnife.bind(this);
+        setUp();
+        init();
+        net();
+    }
+
+    @Override
+    protected void setUp() {
+        super.setUp();
+        if (getIntent() != null){
+            productsId = getIntent().getIntExtra(INTENT_KEY_PRODUCT_ID ,-1);
+        }
+    }
+
+    private void init(){
+        api = RetrofitUtils.getInstance().getRetrofit().create(IFinancialProductsApi.class);
+        userId = (int) SharedPreferencesHelp.getInstance(this).getUser().getId();
+
     }
 
     @Override
@@ -42,6 +72,19 @@ public class QiangdanPayActivity extends BaseActivity {
         ImmersionBar.with(this)
                 .statusBarDarkFont(true, 0.2f) //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
                 .init();
+    }
+
+
+    private void net(){
+        addObserver(api.prepay(productsId  , userId) , new NetworkObserver<ApiResult<PreyPay>>(){
+
+            @Override
+            public void onReady(ApiResult<PreyPay> preyPayApiResult) {
+                if (preyPayApiResult.getData() !=null){
+
+                }
+            }
+        });
     }
 
     @OnClick(R.id.back)
