@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.order.mall.R;
+import com.order.mall.data.network.financial.FinancialProduct;
 import com.order.mall.ui.activity.DetailsActivity;
 import com.order.mall.ui.activity.DetailsSellActivity;
 import com.order.mall.ui.fragment.main.LazyLoadFragment;
@@ -33,7 +34,7 @@ public class SellFragment extends LazyLoadFragment {
 
     private TradeAdapter tradeAdapter ;
 
-    private List<TradeAdapter.Order>  orders ;
+    private List<FinancialProduct.DataBean>  orders ;
     public static SellFragment newInstance() {
         SellFragment fragment = new SellFragment();
         return fragment;
@@ -51,7 +52,7 @@ public class SellFragment extends LazyLoadFragment {
     private void init(){
         orders = new ArrayList<>();
         for (int i = 0 ; i < 5 ; i ++){
-            orders.add(new TradeAdapter.Order());
+            orders.add(null);
         }
 
         tradeAdapter = new TradeAdapter(getContext() ,R.layout.item_sell ,orders);

@@ -3,12 +3,8 @@ package com.order.mall.data.base;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 
-import okhttp3.FormBody;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.Request;
@@ -41,7 +37,7 @@ public class LogInterceptor implements Interceptor {
         MediaType mediaType;
         if (response.body() != null) {
             content = response.body().string();
-            Log.e(TAG, "intercept: " + response.headers().toString() );
+            Log.e(TAG, "intercept: " + response.headers().toString());
             mediaType = MediaType.parse("application/x-www-form-urlencoded;charset=utf-8");
         } else {
             content = "";

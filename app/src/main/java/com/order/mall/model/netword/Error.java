@@ -8,7 +8,6 @@ package com.order.mall.model.netword;
  */
 
 public class Error {
-
     private int code;
     private String debugMessage;
     private String displayMessage;

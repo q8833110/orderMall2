@@ -3,24 +3,24 @@ package com.order.mall.data.network.user;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class UserDeliverAddress  implements Parcelable {
-        /**
-         * address : string
-         * addressDetail : string
-         * id : string
-         * isDefault : false
-         * mobile : string
-         * reciver : string
-         * userId : 0
-         */
+public class UserDeliverAddress implements Parcelable {
+    /**
+     * address : string
+     * addressDetail : string
+     * id : string
+     * isDefault : false
+     * mobile : string
+     * reciver : string
+     * userId : 0
+     */
 
-        private String address;
-        private String addressDetail;
-        private String id;
-        private boolean isDefault;
-        private String mobile;
-        private String reciver;
-        private int userId;
+    private String address;
+    private String addressDetail;
+    private String id;
+    private boolean isDefault;
+    private String mobile;
+    private String reciver;
+    private int userId;
 
     protected UserDeliverAddress(Parcel in) {
         address = in.readString();
@@ -45,60 +45,60 @@ public class UserDeliverAddress  implements Parcelable {
     };
 
     public String getAddress() {
-            return address;
-        }
+        return address;
+    }
 
-        public void setAddress(String address) {
-            this.address = address;
-        }
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-        public String getAddressDetail() {
-            return addressDetail;
-        }
+    public String getAddressDetail() {
+        return addressDetail;
+    }
 
-        public void setAddressDetail(String addressDetail) {
-            this.addressDetail = addressDetail;
-        }
+    public void setAddressDetail(String addressDetail) {
+        this.addressDetail = addressDetail;
+    }
 
-        public String getId() {
-            return id;
-        }
+    public String getId() {
+        return id;
+    }
 
-        public void setId(String id) {
-            this.id = id;
-        }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-        public boolean isIsDefault() {
-            return isDefault;
-        }
+    public boolean isIsDefault() {
+        return isDefault;
+    }
 
-        public void setIsDefault(boolean isDefault) {
-            this.isDefault = isDefault;
-        }
+    public void setIsDefault(boolean isDefault) {
+        this.isDefault = isDefault;
+    }
 
-        public String getMobile() {
-            return mobile;
-        }
+    public String getMobile() {
+        return mobile;
+    }
 
-        public void setMobile(String mobile) {
-            this.mobile = mobile;
-        }
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
 
-        public String getReciver() {
-            return reciver;
-        }
+    public String getReciver() {
+        return reciver;
+    }
 
-        public void setReciver(String reciver) {
-            this.reciver = reciver;
-        }
+    public void setReciver(String reciver) {
+        this.reciver = reciver;
+    }
 
-        public int getUserId() {
-            return userId;
-        }
+    public int getUserId() {
+        return userId;
+    }
 
-        public void setUserId(int userId) {
-            this.userId = userId;
-        }
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
     @Override
     public int describeContents() {

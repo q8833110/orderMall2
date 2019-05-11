@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class VerifyCodeReqDTO {
-    private Integer type ;
+    private Integer type;
 
-    private String mobile ;
+    private String mobile;
 
     public Integer getType() {
         return type;

@@ -120,7 +120,7 @@ public class BaseActivity extends AppCompatActivity {
 //    ===================== 网路请求 observable
 
 
-    public void showLoading() {
+    public  void showLoading() {
         if (mProgressDialog == null) {
             mProgressDialog = new LoadingDialog(this);
         }

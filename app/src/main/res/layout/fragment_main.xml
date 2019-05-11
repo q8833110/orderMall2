@@ -2,7 +2,8 @@
 
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -14,9 +15,10 @@
             android:layout_width="match_parent"
             android:layout_height="37dp"
             android:layout_marginStart="12dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
             android:paddingEnd="0dp"
-            android:layout_marginTop="10dp">
+            android:paddingBottom="5dp">
 
             <ImageView
                 android:id="@+id/iv_message"
@@ -48,13 +50,6 @@
             android:id="@+id/banner"
             android:layout_width="match_parent"
             android:layout_height="188dp"
-            android:visibility="gone"/>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="188dp"
-            android:layout_marginTop="8dp"
-            android:id="@+id/iv"
             />
 
         <LinearLayout
@@ -171,7 +166,8 @@
             android:layout_marginTop="11dp"
             android:lineSpacingExtra="10sp"
             android:paddingBottom="26dp"
-            android:text="积分商城是一款以积分购买产品获取收益的APP,积分商城内还可以购买实体商品"
+            android:id="@+id/tv_mall"
+            tools:text="积分商城是一款以积分购买产品获取收益的APP,积分商城内还可以购买实体商品"
             android:textColor="@color/colorBlank333333"
             android:textSize="12sp" />
 
@@ -219,54 +215,8 @@
             android:layout_marginTop="11dp"
             android:lineSpacingExtra="10sp"
             android:paddingBottom="5dp"
-            android:text="1.抢单产品限时抢单，使用报单积分进行抢单，抢单后冻结7天，时间到了本金+收益一起拿回；"
-            android:textColor="@color/colorBlank333333"
-            android:textSize="12sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="11dp"
-            android:layout_marginStart="11dp"
-            android:lineSpacingExtra="10sp"
-            android:paddingBottom="5dp"
-            android:text="2. 会员必须充值用rmb才可以购买报单积分；"
-            android:textColor="@color/colorBlank333333"
-            android:textSize="12sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="11dp"
-            android:layout_marginStart="11dp"
-            android:layout_marginTop="11dp"
-            android:lineSpacingExtra="10sp"
-            android:paddingBottom="5dp"
-            android:text="3.单个账户每天只能抢成功1单， 商品抢到后到期到挂卖区挂卖。挂卖后的订单在后台订单记录可以看到，客服点击购买，可以批量操作，购买后就给用户结算对应的奖励；"
-            android:textColor="@color/colorBlank333333"
-            android:textSize="12sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="11dp"
-            android:layout_marginStart="11dp"
-            android:layout_marginTop="11dp"
-            android:lineSpacingExtra="10sp"
-            android:paddingBottom="5dp"
-            android:text="4.抢单区每天发布一个抢单商品，单价份额开始抢购的时间冻结周期；"
-            android:textColor="@color/colorBlank333333"
-            android:textSize="12sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="11dp"
-            android:layout_marginStart="11dp"
-            android:layout_marginTop="11dp"
-            android:lineSpacingExtra="10sp"
-            android:paddingBottom="15dp"
-            android:text="5. 挂卖区用户可以去挂卖自己抢单解冻后的商品，挂卖成功后直接到账现金积分和消费积分账户"
+            android:id="@+id/tv_procdct"
+            tools:text="1.抢单产品限时抢单，使用报单积分进行抢单，抢单后冻结7天，时间到了本金+收益一起拿回；"
             android:textColor="@color/colorBlank333333"
             android:textSize="12sp" />
 

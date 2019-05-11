@@ -12,10 +12,12 @@ import android.view.ViewGroup;
 import com.kcrason.dynamicpagerindicatorlibrary.DynamicPagerIndicator;
 import com.library.tabstrip.PagerSlidingTabStrip;
 import com.order.mall.R;
+import com.order.mall.data.network.IFinancialProductsApi;
 import com.order.mall.ui.adapter.TextAdapter;
 import com.order.mall.ui.fragment.trade.QiangdanFragment;
 import com.order.mall.ui.fragment.trade.SellFragment;
 import com.order.mall.ui.fragment.trade.adapter.TradeAdapter;
+import com.order.mall.util.RetrofitUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +45,6 @@ public class TradeFragment extends LazyLoadFragment {
         TradeFragment fragment = new TradeFragment();
         return fragment;
     }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -64,7 +65,6 @@ public class TradeFragment extends LazyLoadFragment {
 
     @Override
     protected void loadData() {
-
     }
 
     @Override
