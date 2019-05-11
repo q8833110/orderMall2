@@ -1,6 +1,7 @@
 package com.order.mall.data.network;
 
 import com.order.mall.data.network.user.Address;
+import com.order.mall.data.network.user.BounsScoreList;
 import com.order.mall.data.network.user.CashList;
 import com.order.mall.data.network.user.CashScoreDetails;
 import com.order.mall.data.network.user.RechargeCenter;
@@ -131,7 +132,7 @@ public interface IUserApi {
 
     //奖金积分列表（全部）
     @POST("balanceDetails/bonusBalanceDetailsList")
-    Observable<ApiResult<CashList>> bonusBalanceDetailsListAll(@Query("pageNum") int pageNum,
-                                                               @Query("pageSize") int pageSize,
-                                                               @Query("userId") long userId);
+    Observable<ApiResult<BounsScoreList>> bonusBalanceDetailsListAll(@Query("pageNum") int pageNum,
+                                                                     @Query("pageSize") int pageSize,
+                                                                     @Query("userId") long userId);
 }
