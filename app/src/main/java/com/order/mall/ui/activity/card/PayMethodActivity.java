@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.order.mall.R;
+import com.order.mall.data.SharedPreferencesHelp;
 import com.order.mall.data.network.IUserApi;
 import com.order.mall.data.network.user.AlipayList;
 import com.order.mall.data.network.user.BankList;
@@ -81,7 +82,7 @@ public class PayMethodActivity extends BaseActivity {
     @BindView(R.id.rv_weixin)
     RecyclerView rvWeixin;
     private IUserApi iUserApi;
-    private long userId = 500000;
+    private long userId ;
     private List<AlipayList> alipayLists = new ArrayList<>();
     private List<BankList> bankLists = new ArrayList<>();
     private List<WeixinList> weixinLists = new ArrayList<>();
@@ -102,6 +103,8 @@ public class PayMethodActivity extends BaseActivity {
         setContentView(R.layout.activity_pay_method);
         iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
         unbinder = ButterKnife.bind(this);
+        userId = SharedPreferencesHelp.getInstance(this).getUser().getId();
+
         initRecy();
     }
 

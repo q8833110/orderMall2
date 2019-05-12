@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.order.mall.R;
+import com.order.mall.data.SharedPreferencesHelp;
 import com.order.mall.data.network.IUserApi;
 import com.order.mall.data.network.user.BounsScoreList;
 import com.order.mall.model.netword.ApiResult;
@@ -74,7 +75,7 @@ public class BonusMainActivity extends BaseActivity {
     private IUserApi iUserApi;
     private int pageNum = 1;
     private int pageSize = 10;
-    private long userId = 500000;
+    private long userId ;
     private List<BounsScoreList.DataBean> dataBeans = new ArrayList<>();
     private int bonusBalance;
 
@@ -86,6 +87,8 @@ public class BonusMainActivity extends BaseActivity {
         iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
         bonusBalance = getIntent().getIntExtra("bonusBalance", 0);
         tvJifen.setText(bonusBalance + "");
+        userId = SharedPreferencesHelp.getInstance(this).getUser().getId();
+
         init();
         getAll();
 

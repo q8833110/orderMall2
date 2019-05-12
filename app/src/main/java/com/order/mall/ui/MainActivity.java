@@ -59,10 +59,18 @@ public class MainActivity extends BaseActivity implements MainFragment.Listener 
         setContentView(R.layout.activity_main);
         unbinder = ButterKnife.bind(this);
         init();
+        int position = getIntent().getIntExtra("position", 0);
         if (savedInstanceState == null) {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             hideAll(transaction);
-            switchFragment(transaction, 1);
+            if (position == 2) {
+                switchFragment(transaction, 2);
+            } else if (position == 3) {
+                switchFragment(transaction, 3);
+            } else {
+                switchFragment(transaction, 1);
+            }
+
         }
     }
 
@@ -234,9 +242,9 @@ public class MainActivity extends BaseActivity implements MainFragment.Listener 
 
     @Override
     public void toQiangdan() {
-        FragmentTransaction transaction ;
+        FragmentTransaction transaction;
         if (fragmentManager != null) {
-           transaction = fragmentManager.beginTransaction();
+            transaction = fragmentManager.beginTransaction();
             hideAll(transaction);
             switchFragment(transaction, 2);
         }

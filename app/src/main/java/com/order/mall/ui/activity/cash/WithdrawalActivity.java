@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.gyf.immersionbar.ImmersionBar;
 import com.order.mall.R;
+import com.order.mall.data.SharedPreferencesHelp;
 import com.order.mall.data.network.IUserApi;
 import com.order.mall.data.network.user.AlipayList;
 import com.order.mall.data.network.user.BankList;
@@ -77,7 +78,7 @@ public class WithdrawalActivity extends BaseActivity implements TextWatcher {
     private IUserApi iUserApi;
     private double rate;
     private double cashNum;
-    private long userId = 500000;
+    private long userId ;
     private List<AlipayList> alipayLists = new ArrayList<>();
     private List<BankList> bankLists = new ArrayList<>();
     private List<WeixinList> weixinLists = new ArrayList<>();
@@ -90,6 +91,8 @@ public class WithdrawalActivity extends BaseActivity implements TextWatcher {
         unbinder = ButterKnife.bind(this);
         iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
         init();
+        userId = SharedPreferencesHelp.getInstance(this).getUser().getId();
+
         etPrice.addTextChangedListener(this);
         initDialog();
         getRate();

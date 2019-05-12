@@ -1,6 +1,7 @@
 package com.order.mall.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,11 +11,14 @@ import com.bumptech.glide.Glide;
 import com.order.mall.R;
 import com.order.mall.data.network.IUserApi;
 import com.order.mall.data.network.user.ShoppingList;
+import com.order.mall.ui.activity.DetailsMallActivity;
 import com.order.mall.util.RetrofitUtils;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.util.List;
+
+import static com.order.mall.ui.fragment.main.MallFragment.INTENT_KEY_SHOP_ID;
 
 public class ShoppingAdapter extends CommonAdapter<ShoppingList.DataBean> {
 
@@ -52,7 +56,7 @@ public class ShoppingAdapter extends CommonAdapter<ShoppingList.DataBean> {
             status.setTextColor(context.getResources().getColor(R.color.colorFullRed));
             delete.setVisibility(View.GONE);
             line1.setVisibility(View.GONE);
-            button2.setText("再次购买");
+            button2.setVisibility(View.GONE);
         } else if (data.getStatus() == 2) {
             status.setText("待收货");
             status.setTextColor(context.getResources().getColor(R.color.colorFullRed));
@@ -64,19 +68,13 @@ public class ShoppingAdapter extends CommonAdapter<ShoppingList.DataBean> {
             status.setTextColor(context.getResources().getColor(R.color.colorBlank333333));
             delete.setVisibility(View.VISIBLE);
             line1.setVisibility(View.VISIBLE);
-            button2.setText("再次购买");
-
+            button2.setVisibility(View.GONE);
         }
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (data.getStatus() == 2) {
-                    //确认收货
-                    mListener.receive(data.getId());
-                } else {
-                    //再次购买
-                    Toast.makeText(context, "再次购买", Toast.LENGTH_SHORT).show();
-                }
+                //确认收货
+                mListener.receive(data.getId());
             }
         });
     }

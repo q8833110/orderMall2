@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 import com.order.mall.R;
+import com.order.mall.data.SharedPreferencesHelp;
 import com.order.mall.data.network.IUserApi;
 import com.order.mall.data.network.user.TradeBalanceList;
 import com.order.mall.model.netword.ApiResult;
@@ -56,7 +57,7 @@ public class AllGradeFragment extends LazyLoadFragment {
 
     private int pageNum = 1;
     private int pageSize = 10;
-    private long userId = 500000;
+    private long userId ;
     private int type = 0;
     List<TradeBalanceList.DataBean> list = new ArrayList<>();
 
@@ -77,6 +78,8 @@ public class AllGradeFragment extends LazyLoadFragment {
         unbinder = ButterKnife.bind(this, rootView);
         iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
         type = getArguments().getInt("type");
+        userId = SharedPreferencesHelp.getInstance(getContext()).getUser().getId();
+
         init();
         return rootView;
     }

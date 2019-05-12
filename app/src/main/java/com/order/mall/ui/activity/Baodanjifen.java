@@ -11,11 +11,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.order.mall.R;
+import com.order.mall.data.SharedPreferencesHelp;
 import com.order.mall.data.network.IUserApi;
 import com.order.mall.data.network.user.RechargeCenter;
 import com.order.mall.data.network.user.TradeBalanceList;
 import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
+import com.order.mall.ui.MainActivity;
 import com.order.mall.ui.adapter.PayMentDetailAdapter;
 import com.order.mall.ui.fragment.main.LazyLoadFragment;
 import com.order.mall.util.RetrofitUtils;
@@ -68,7 +70,7 @@ public class Baodanjifen extends BaseActivity {
     Unbinder unbinder;
     private int pageNum = 1;
     private int pageSize = 10;
-    private long userId = 500000;
+    private long userId;
     private PayMentDetailAdapter adapter;
     private IUserApi iUserApi;
     List<TradeBalanceList.DataBean> list = new ArrayList<>();
@@ -81,6 +83,8 @@ public class Baodanjifen extends BaseActivity {
         iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
         int tradeBalance = getIntent().getIntExtra("tradeBalance", 0);
         tvJifen.setText(String.valueOf(tradeBalance));
+        userId = SharedPreferencesHelp.getInstance(this).getUser().getId();
+
         init();
         getAll();
     }
@@ -169,10 +173,10 @@ public class Baodanjifen extends BaseActivity {
 
     @OnClick(R.id.ll_qiangdan)
     public void toRecharge2() {
-//        Intent intent = new Intent(this, JiFenDetails.class);
-//        intent.putExtra("position", 2);
-//        startActivity(intent);
-        showToast("去抢单");
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("position", 2);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     @Override

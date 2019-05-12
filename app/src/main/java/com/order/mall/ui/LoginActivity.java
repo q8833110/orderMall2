@@ -42,9 +42,9 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.tv_title)
     TextView tvTitle;
 
-    FragmentManager fragmentManager ;
+    FragmentManager fragmentManager;
 
-    private ILoginApi loginApi ;
+    private ILoginApi loginApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,26 +55,26 @@ public class LoginActivity extends BaseActivity {
         init();
     }
 
-    private void init(){
+    private void init() {
         loginApi = RetrofitUtils.getInstance().getRetrofit().create(ILoginApi.class);
-        fragmentManager = getSupportFragmentManager() ;
+        fragmentManager = getSupportFragmentManager();
         toFragment(LOGIN_MAIN);
     }
 
     /**
      * 获取验证码
      */
-    public void getRegisterVerifyCode(int type , String mobile , final String tag ){
-        addObserver(loginApi.getVerifyCode(type , mobile ),new NetworkObserver<ApiResult<String>>(){
+    public void getRegisterVerifyCode(int type, String mobile, final String tag) {
+        addObserver(loginApi.getVerifyCode(type, mobile), new NetworkObserver<ApiResult<String>>() {
 
             @Override
             public void onReady(ApiResult<String> stringApiResult) {
                 showToast(stringApiResult.getMessage());
-                if (stringApiResult.getCode() == 0){
-                    if (MobileLoginFragment.class.getSimpleName().equals(tag)){
-                        ((MobileLoginFragment)fragmentManager.findFragmentByTag(tag)).startCountDown();
-                    }else if (RegisterFragment.class.getSimpleName().equals(tag)){
-                        ((RegisterFragment)fragmentManager.findFragmentByTag(tag)).startDown();
+                if (stringApiResult.getCode() == 0) {
+                    if (MobileLoginFragment.class.getSimpleName().equals(tag)) {
+                        ((MobileLoginFragment) fragmentManager.findFragmentByTag(tag)).startCountDown();
+                    } else if (RegisterFragment.class.getSimpleName().equals(tag)) {
+                        ((RegisterFragment) fragmentManager.findFragmentByTag(tag)).startDown();
                     }
                 }
             }
@@ -83,11 +83,12 @@ public class LoginActivity extends BaseActivity {
 
     /**
      * 获取验证码
+     *
      * @param mobile
      * @param verifycode
      */
-    public void login(String mobile , String verifycode){
-        addObserver(loginApi.mobileLogin(mobile , verifycode) , new NetworkObserver<ApiResult<UserRespDTO>>(){
+    public void login(String mobile, String verifycode) {
+        addObserver(loginApi.mobileLogin(mobile, verifycode), new NetworkObserver<ApiResult<UserRespDTO>>() {
 
             @Override
             public void onReady(ApiResult<UserRespDTO> userRespDTOApiResult) {
@@ -97,45 +98,47 @@ public class LoginActivity extends BaseActivity {
                     toMain();
                 }
             }
-        } );
+        });
     }
 
-    public void register(String account , String mobile , String verifyCode , String password , String parentId){
-        addObserver(loginApi.register(account , mobile , verifyCode , password , parentId) , new NetworkObserver<ApiResult<String>>(){
+    public void register(String account, String mobile, String verifyCode, String password, String parentId) {
+        addObserver(loginApi.register(account, mobile, verifyCode, password, parentId), new NetworkObserver<ApiResult<String>>() {
 
             @Override
             public void onReady(ApiResult<String> userRespDTOApiResult) {
                 showToast(userRespDTOApiResult.getMessage());
-                if (userRespDTOApiResult.getCode() == 0){
+                if (userRespDTOApiResult.getCode() == 0) {
                     toFragment(LOGIN_MAIN);
                 }
             }
-        } );
+        });
     }
 
     /**
      * 获取验证码
+     *
      * @param mobile
      * @param verifycode
      */
-    public void loginAccount(String mobile , String verifycode){
-        addObserver(loginApi.Accountlogin(mobile , verifycode) , new NetworkObserver<ApiResult<UserRespDTO>>(){
+    public void loginAccount(String mobile, String verifycode) {
+        addObserver(loginApi.Accountlogin(mobile, verifycode), new NetworkObserver<ApiResult<UserRespDTO>>() {
 
             @Override
             public void onReady(ApiResult<UserRespDTO> userRespDTOApiResult) {
                 if (userRespDTOApiResult.getData() != null) {
                     SharedPreferencesHelp.getInstance(LoginActivity.this).putUser(userRespDTOApiResult.getData());
                     toMain();
-                }else{
+                } else {
                     showToast(userRespDTOApiResult.getMessage());
                 }
             }
-        } );
+        });
     }
 
-    private void toMain(){
-        Intent intent = new Intent(this , MainActivity.class);
+    private void toMain() {
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
     public void setIvBackShow(boolean canShow) {
@@ -160,55 +163,55 @@ public class LoginActivity extends BaseActivity {
     }
 
     @OnClick(R.id.back)
-    public void back(){
+    public void back() {
         toFragment(LOGIN_MAIN);
     }
 
     public void toFragment(int fragmentType) {
         if (fragmentManager == null) fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction() ;
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         hideAllFragment(fragmentTransaction);
-        Fragment fragment ;
-        switch (fragmentType){
+        Fragment fragment;
+        switch (fragmentType) {
             case LOGIN_MAIN:
                 fragment = fragmentManager.findFragmentByTag(LoginFragment.class.getSimpleName());
-                if (fragment == null){
+                if (fragment == null) {
                     fragment = LoginFragment.newInstance();
-                    fragmentTransaction.add(R.id.fragment , fragment ,LoginFragment.class.getSimpleName());
-                }else{
+                    fragmentTransaction.add(R.id.fragment, fragment, LoginFragment.class.getSimpleName());
+                } else {
                     fragmentTransaction.show(fragment);
                 }
-                break ;
+                break;
 
             case LOGIN_MOBILE:
                 fragment = fragmentManager.findFragmentByTag(MobileLoginFragment.class.getSimpleName());
-                if (fragment == null){
+                if (fragment == null) {
                     fragment = MobileLoginFragment.newInstance();
-                    fragmentTransaction.add(R.id.fragment , fragment , MobileLoginFragment.class.getSimpleName());
-                }else{
+                    fragmentTransaction.add(R.id.fragment, fragment, MobileLoginFragment.class.getSimpleName());
+                } else {
                     fragmentTransaction.show(fragment);
                 }
-                break ;
+                break;
 
             case REGISTER:
                 fragment = fragmentManager.findFragmentByTag(RegisterFragment.class.getSimpleName());
-                if (fragment == null){
+                if (fragment == null) {
                     fragment = RegisterFragment.newInstance();
-                    fragmentTransaction.add(R.id.fragment , fragment , RegisterFragment.class.getSimpleName());
-                }else{
+                    fragmentTransaction.add(R.id.fragment, fragment, RegisterFragment.class.getSimpleName());
+                } else {
                     fragmentTransaction.show(fragment);
                 }
-                break ;
+                break;
 
             default:
                 fragment = fragmentManager.findFragmentByTag(LoginFragment.class.getSimpleName());
-                if (fragment == null){
+                if (fragment == null) {
                     fragment = LoginFragment.newInstance();
-                    fragmentTransaction.add(R.id.fragment , fragment);
-                }else{
+                    fragmentTransaction.add(R.id.fragment, fragment);
+                } else {
                     fragmentTransaction.show(fragment);
                 }
-                break ;
+                break;
         }
 
         fragmentTransaction.commit();
@@ -216,15 +219,15 @@ public class LoginActivity extends BaseActivity {
 
     private void hideAllFragment(FragmentTransaction fragmentTransaction) {
         Fragment loginFragment = fragmentManager.findFragmentByTag(LoginFragment.class.getSimpleName());
-        if (loginFragment != null){
+        if (loginFragment != null) {
             fragmentTransaction.hide(loginFragment);
         }
         Fragment mobileLoginFragment = fragmentManager.findFragmentByTag(MobileLoginFragment.class.getSimpleName());
-        if (mobileLoginFragment != null){
+        if (mobileLoginFragment != null) {
             fragmentTransaction.hide(mobileLoginFragment);
         }
         Fragment registerFragment = fragmentManager.findFragmentByTag(RegisterFragment.class.getSimpleName());
-        if (registerFragment != null){
+        if (registerFragment != null) {
             fragmentTransaction.hide(registerFragment);
         }
     }

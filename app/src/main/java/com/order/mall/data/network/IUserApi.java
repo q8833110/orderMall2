@@ -88,7 +88,7 @@ public interface IUserApi {
 
     //我的团队
     @POST("user/userTeamInfo")
-    Observable<ApiResult<UserTeam>> userTeamInfo(@Query("userId") int userId);
+    Observable<ApiResult<UserTeam>> userTeamInfo(@Query("userId") long userId);
 
     //我的交易订单列表
     @POST("financialProductsOrder/listFinancialProductsOrder")
@@ -106,7 +106,7 @@ public interface IUserApi {
 
     //我的交易订单列表
     @POST("user/modifyPassword")
-    Observable<ApiResult> changePwd(@Query("userId") int userId,
+    Observable<ApiResult> changePwd(@Query("userId") long userId,
                                     @Query("oldPassword") String oldPassword,
                                     @Query("newPassword") String newPassword,
                                     @Query("newPasswordConfirm") String newPasswordConfirm);
@@ -167,12 +167,12 @@ public interface IUserApi {
     //现金积分转报单积分
     @POST("balanceDetails/cashIntoTrade")
     Observable<ApiResult> cashIntoTrade(@Query("value") String value,
-                                        @Query("userId") int userId);
+                                        @Query("userId") long userId);
 
     //奖金积分转现金积分
     @POST("balanceDetails/bonusIntoCash")
     Observable<ApiResult> bonusIntoCash(@Query("value") String value,
-                                        @Query("userId") int userId);
+                                        @Query("userId") long userId);
 
     //单个奖金积分明细
     @POST("balanceDetails/oneBonusBalanceDetails")

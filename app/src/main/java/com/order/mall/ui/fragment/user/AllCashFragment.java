@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.order.mall.R;
+import com.order.mall.data.SharedPreferencesHelp;
 import com.order.mall.data.network.IUserApi;
 import com.order.mall.data.network.user.CashList;
 import com.order.mall.data.network.user.RechargeCenter;
@@ -48,7 +49,7 @@ public class AllCashFragment extends LazyLoadFragment {
 
     private int pageNum = 1;
     private int pageSize = 10;
-    private long userId = 500000;
+    private long userId ;
     private int type;
 
     public static AllCashFragment newInstance(int type) {
@@ -98,7 +99,7 @@ public class AllCashFragment extends LazyLoadFragment {
         rootView = inflater.inflate(R.layout.fragment_all_grade, container, false);
         unbinder = ButterKnife.bind(this, rootView);
         iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
-//        userId = SharedPreferencesHelp.getInstance(getActivity()).getUser().getId();
+        userId = SharedPreferencesHelp.getInstance(getActivity()).getUser().getId();
         type = getArguments().getInt("type");
         init();
 
