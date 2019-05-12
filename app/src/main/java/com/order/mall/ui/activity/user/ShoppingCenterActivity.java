@@ -1,6 +1,5 @@
 package com.order.mall.ui.activity.user;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -12,10 +11,8 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.kcrason.dynamicpagerindicatorlibrary.DynamicPagerIndicator;
 import com.order.mall.R;
 import com.order.mall.ui.BaseActivity;
-import com.order.mall.ui.activity.cash.WithdrawalActivity;
 import com.order.mall.ui.adapter.TextAdapter;
 import com.order.mall.ui.fragment.user.AllShoppingFragment;
-import com.order.mall.ui.fragment.user.AllWithdrawalFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,14 +31,15 @@ public class ShoppingCenterActivity extends BaseActivity {
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.vg)
-    ViewPager pager ;
+    ViewPager pager;
     @BindView(R.id.dynamic_pager_indicator1)
     DynamicPagerIndicator dynamicPagerIndicator1;
 
-    Unbinder unbinder ;
+    Unbinder unbinder;
     private String[] titles = new String[]{
-            "全部" ,  "代发货" , "待收货"
+            "全部", "代发货", "待收货"
     };
+
     @Override
     protected void initImmersionBar() {
         ImmersionBar.with(this)

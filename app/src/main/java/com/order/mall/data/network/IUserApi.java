@@ -1,8 +1,12 @@
 package com.order.mall.data.network;
 
 import com.order.mall.data.network.user.Address;
+<<<<<<< HEAD
 import com.order.mall.data.network.user.AlipayList;
 import com.order.mall.data.network.user.BankList;
+=======
+import com.order.mall.data.network.user.AppUrlInfo;
+>>>>>>> 8eb05c574e006ef6952458af3b03acb172ace74a
 import com.order.mall.data.network.user.BonusScoreDetails;
 import com.order.mall.data.network.user.BounsScoreList;
 import com.order.mall.data.network.user.CashList;
@@ -157,6 +161,10 @@ public interface IUserApi {
                                                        @Query("pageSize") int pageSize,
                                                        @Query("userId") long userId,
                                                        @Query("encashStatus") int encashStatus);
+
+    //提现列表
+    @POST("user/getAppUrlInfo")
+    Observable<ApiResult<AppUrlInfo>> getAppUrlInfo(@Query("type") String type);
 
     //现金积分转报单积分
     @POST("balanceDetails/cashIntoTrade")

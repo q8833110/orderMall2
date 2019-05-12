@@ -1,8 +1,11 @@
 package com.order.mall.ui.activity.pay;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gyf.immersionbar.ImmersionBar;
@@ -15,6 +18,8 @@ import com.order.mall.data.network.financial.PreyPay;
 import com.order.mall.data.network.shop.ShopOrder;
 import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
+import com.order.mall.ui.activity.user.AddressActivity;
+import com.order.mall.ui.activity.user.TradeAllActivity;
 import com.order.mall.util.RetrofitUtils;
 
 import butterknife.BindView;
@@ -41,14 +46,18 @@ public class QiangdanPayActivity extends BaseActivity {
     @BindView(R.id.tv_pay)
     TextView tvPay;
 
-    IFinancialProductsApi api ;
-    IShopApi shopApi ;
+    IFinancialProductsApi api;
+    IShopApi shopApi;
+    @BindView(R.id.tv_receive)
+    TextView tvReceive;
+    @BindView(R.id.rl_receive)
+    RelativeLayout rlReceive;
 
-    private int productsId ;
+    private int productsId;
 
-    private int userId ;
+    private int userId;
 
-    private int shopId ;
+    private int shopId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,26 +72,28 @@ public class QiangdanPayActivity extends BaseActivity {
     @Override
     protected void setUp() {
         super.setUp();
-        if (getIntent() != null){
-            productsId = getIntent().getIntExtra(INTENT_KEY_PRODUCT_ID ,-1);
-            shopId = getIntent().getIntExtra(INTENT_KEY_SHOP_ID , -1);
+        if (getIntent() != null) {
+            productsId = getIntent().getIntExtra(INTENT_KEY_PRODUCT_ID, -1);
+            shopId = getIntent().getIntExtra(INTENT_KEY_SHOP_ID, -1);
         }
     }
 
-    private void showBaodan(boolean baodan){
-        if (baodan){
+    private void showBaodan(boolean baodan) {
+        if (baodan) {
             tvBaodan.setText("报单积分");
             tvBaodna1.setText("报单积分");
-        }else{
+            rlReceive.setVisibility(View.GONE);
+        } else {
             tvBaodan.setText("消费积分");
             tvBaodna1.setText("消费积分");
+            rlReceive.setVerticalGravity(View.VISIBLE);
         }
     }
 
-    private void init(){
+    private void init() {
         if (productsId != -1)
             showBaodan(true);
-        else{
+        else {
             showBaodan(false);
         }
         shopApi = RetrofitUtils.getInstance().getRetrofit().create(IShopApi.class);
@@ -99,7 +110,7 @@ public class QiangdanPayActivity extends BaseActivity {
     }
 
 
-    private void net(){
+    private void net() {
         if (productsId != -1) {
             addObserver(api.prepay(productsId, userId), new NetworkObserver<ApiResult<PreyPay>>() {
 
@@ -112,7 +123,7 @@ public class QiangdanPayActivity extends BaseActivity {
                     }
                 }
             });
-        }else if (shopId != -1){
+        } else if (shopId != -1) {
             addObserver(shopApi.shopPay(shopId, userId), new NetworkObserver<ApiResult<PreyPay>>() {
 
                 @Override
@@ -128,7 +139,7 @@ public class QiangdanPayActivity extends BaseActivity {
     }
 
     @OnClick(R.id.tv_pay)
-    public void pay(){
+    public void pay() {
         if (productsId != -1) {
             addObserver(api.pay(productsId, userId), new NetworkObserver<ApiResult<FinancialProductOrder>>() {
 
@@ -136,13 +147,15 @@ public class QiangdanPayActivity extends BaseActivity {
                 public void onReady(ApiResult<FinancialProductOrder> financialProductOrderApiResult) {
                     if (financialProductOrderApiResult.getData() != null) {
                         showToast("抢单成功");
-                        // TODO: 2019/5/11/011  跳转已购列表
+                        Intent intent = new Intent(QiangdanPayActivity.this, TradeAllActivity.class);
+                        intent.putExtra("position", 1);
+                        startActivity(intent);
                     } else {
                         showToast(financialProductOrderApiResult.getMessage());
                     }
                 }
             });
-        }else if (shopId != -1){
+        } else if (shopId != -1) {
             addObserver(shopApi.pay(shopId, userId), new NetworkObserver<ApiResult<ShopOrder>>() {
 
                 @Override
@@ -150,6 +163,9 @@ public class QiangdanPayActivity extends BaseActivity {
                     if (financialProductOrderApiResult.getData() != null) {
                         showToast("购物成功");
                         // TODO: 2019/5/11/011  跳转商品已购列表
+                        Intent intent = new Intent(QiangdanPayActivity.this, TradeAllActivity.class);
+                        intent.putExtra("position", 1);
+                        startActivity(intent);
                     } else {
                         showToast(financialProductOrderApiResult.getMessage());
                     }
@@ -161,5 +177,24 @@ public class QiangdanPayActivity extends BaseActivity {
     @OnClick(R.id.back)
     public void back() {
         this.finish();
+    }
+
+    public static final int REQUEST_CODE_RECEIVE = 01 ;
+    public static final String RESULT_ADDRESS  = "RESULT_ADDRESS" ;
+    @OnClick(R.id.rl_receive)
+    public void choseReceive(){
+        Intent intent = new Intent(this , AddressActivity.class);
+        startActivityForResult(intent , REQUEST_CODE_RECEIVE );
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_RECEIVE){
+            if (data != null) {
+                String address = data.getStringExtra(RESULT_ADDRESS);
+                tvReceive.setText(address);
+            }
+        }
     }
 }

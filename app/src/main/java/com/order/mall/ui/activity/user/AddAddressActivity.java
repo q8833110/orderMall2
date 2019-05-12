@@ -22,6 +22,7 @@ import com.order.mall.data.network.user.UserDeliverAddress;
 import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
 import com.order.mall.util.GetJsonDataUtil;
+import com.order.mall.util.InputUtils;
 import com.order.mall.util.RetrofitUtils;
 import com.order.mall.widget.MyDialog;
 import com.suke.widget.SwitchButton;
@@ -184,6 +185,7 @@ public class AddAddressActivity extends BaseActivity implements MyDialog.OkDialo
 
     @OnClick(R.id.rl_address)
     public void addAddress(){
+        InputUtils.hideSoftInputFromWindow(this , etMobile);
         pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
         pvOptions.show();
     }

@@ -146,14 +146,54 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            tools:text="1799"
+            android:text="1799"
             android:textSize="24sp"
             android:id="@+id/tv_jifen1"
             android:textColor="@color/colorBlank333333"
             android:layout_toStartOf="@id/tv_baodna1"
             />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorD9D9" />
     </RelativeLayout>
     
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:id="@+id/rl_receive"
+        android:background="@color/colorWhite">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="收货地址"
+            android:textSize="12sp"
+            android:textColor="@color/colorBlank333333"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/more"
+            android:src="@drawable/more"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:hint="请选择收货地址"
+            android:textSize="12sp"
+            android:id="@+id/tv_receive"
+            android:textColor="@color/colorBlank333333"
+            android:layout_toStartOf="@id/more"
+            android:layout_marginEnd="5dp"
+            />
+    </RelativeLayout>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

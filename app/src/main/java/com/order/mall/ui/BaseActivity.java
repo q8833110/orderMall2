@@ -1,7 +1,9 @@
 package com.order.mall.ui;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,7 +14,7 @@ import com.order.mall.R;
 import com.order.mall.data.SharedPreferencesHelp;
 import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.widget.Dialog.LoadingDialog;
-import com.order.mall.util.UiUtil;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -24,6 +26,7 @@ import rx.Observable;
 import rx.Scheduler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -38,6 +41,8 @@ public class BaseActivity extends AppCompatActivity {
 
     private LoadingDialog mProgressDialog;
 
+    protected RxPermissions rxPermissions;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +51,33 @@ public class BaseActivity extends AppCompatActivity {
         if (isImmersionBarEnabled()) {
             initImmersionBar();
         }
+        rxPermissions = RxPermissions.getInstance(this);
+    }
+
+    public void FilePermission() {
+        rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean granted) {
+                        if (granted) {
+                            downFile();
+                        } else {
+                            showToast("读写文件权限");
+                        }
+                    }
+                });
+    }
+
+
+    public void downFile() {
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
     }
 
     /**
@@ -120,7 +152,7 @@ public class BaseActivity extends AppCompatActivity {
 //    ===================== 网路请求 observable
 
 
-    public  void showLoading() {
+    public void showLoading() {
         if (mProgressDialog == null) {
             mProgressDialog = new LoadingDialog(this);
         }
@@ -191,6 +223,7 @@ public class BaseActivity extends AppCompatActivity {
     public void onBizCodeError(Error error) {
 
     }
+
 
     public abstract class NetworkObserver<T extends ApiResult> extends Subscriber<T> {
 

@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements MainFragment.Listener {
 
     @BindView(R.id.fragment)
     FrameLayout fragment;
@@ -135,9 +135,12 @@ public class MainActivity extends BaseActivity {
             case 1:
                 MainFragment mainFragment = (MainFragment) fragmentManager.findFragmentByTag(MainFragment.class.getSimpleName());
                 if (mainFragment != null) {
+                    if (mainFragment.getListener() == null)
+                        mainFragment.setListener(this);
                     transaction.show(mainFragment);
                 } else {
                     mainFragment = MainFragment.newInstance();
+                    mainFragment.setListener(this);
                     transaction.add(R.id.fragment, mainFragment, MainFragment.class.getSimpleName());
                 }
                 break;
@@ -160,7 +163,6 @@ public class MainActivity extends BaseActivity {
                 }
                 break;
             case 4:
-
                 UserFragment userFragment = (UserFragment) fragmentManager.findFragmentByTag(UserFragment.class.getSimpleName());
                 if (userFragment != null) {
                     transaction.show(userFragment);
@@ -227,6 +229,16 @@ public class MainActivity extends BaseActivity {
                 break;
             default:
                 break;
+        }
+    }
+
+    @Override
+    public void toQiangdan() {
+        FragmentTransaction transaction ;
+        if (fragmentManager != null) {
+           transaction = fragmentManager.beginTransaction();
+            hideAll(transaction);
+            switchFragment(transaction, 2);
         }
     }
 }

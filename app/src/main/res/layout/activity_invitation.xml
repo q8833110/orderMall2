@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/bg_invitation"
     android:orientation="vertical">
 
@@ -33,7 +34,7 @@
         android:layout_height="match_parent"
         android:layout_marginEnd="6dp"
         android:layout_marginStart="6dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="140dp"
         android:background="@drawable/bg8"
         android:orientation="vertical"
         android:gravity="center_horizontal">
@@ -54,43 +55,13 @@
             android:layout_height="43dp"
             android:layout_marginTop="17dp"
             android:background="@drawable/bg_radi_20"
-            android:text="5693120"
+            tools:text="5693120"
             android:textSize="18sp"
             android:textColor="@color/colorBlank333333"
             android:gravity="center"
             android:textStyle="bold"
             android:id="@+id/tv_code"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
-            android:background="@drawable/bg9"
-            android:gravity="center"
-            android:text="我的邀请链接"
-            android:textColor="@color/colorBlank333333"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="254dp"
-            android:layout_height="43dp"
-            android:layout_marginTop="17dp"
-            android:background="@drawable/bg_radi_20"
-            android:text="链接：https://xx.com/12sx?P=56931..."
-            android:textSize="12sp"
-            android:textColor="@color/colorBlank333333"
-            android:gravity="center"
-            android:id="@+id/tv_url"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_copy_url"
-            android:text="复制邀请链接"
-            android:layout_marginTop="7dp"
-            android:textSize="12sp"
-            android:textColor="@color/colorFullRed"/>
 
         <ImageView
             android:layout_width="104dp"
@@ -101,14 +72,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_yellow"
-            android:textSize="18sp"
-            android:textColor="@color/colorBlank333333"
-            android:textStyle="bold"
-            android:text="生成邀请图片"
-            android:gravity="center"
-            android:layout_marginTop="9dp"
-            android:id="@+id/make_qrcode"
+            android:text="下载二维码"
+            android:id="@+id/down"
+            android:textSize="12sp"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:textColor="@color/colorFullRed"
             />
     </LinearLayout>
 </LinearLayout>

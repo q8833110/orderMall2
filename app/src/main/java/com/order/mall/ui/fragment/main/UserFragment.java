@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +13,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.order.mall.R;
 import com.order.mall.data.SharedPreferencesHelp;
 import com.order.mall.data.network.IUserApi;
 import com.order.mall.data.network.login.UserRespDTO;
 import com.order.mall.data.network.user.UserData;
 import com.order.mall.model.netword.ApiResult;
+import com.order.mall.ui.LoginActivity;
 import com.order.mall.ui.activity.Baodanjifen;
 import com.order.mall.ui.activity.CashJifenActivity;
 import com.order.mall.ui.activity.bonus.BonusMainActivity;
@@ -28,6 +31,8 @@ import com.order.mall.ui.activity.user.MyteamActivity;
 import com.order.mall.ui.activity.user.SettingActivity;
 import com.order.mall.ui.activity.user.ShoppingCenterActivity;
 import com.order.mall.ui.activity.user.TradeAllActivity;
+import com.order.mall.util.ImageStringUtils;
+import com.order.mall.util.LoginUtils;
 import com.order.mall.util.RetrofitUtils;
 
 import butterknife.BindView;
@@ -151,7 +156,19 @@ public class UserFragment extends LazyLoadFragment {
      * 获取用户数据
      */
     private void getUserData() {
-//        UserRespDTO user = SharedPreferencesHelp.getInstance(getActivity()).getUser();
+        if (!LoginUtils.isLogin(getContext())) {
+            startActivity(new Intent(getContext() , LoginActivity.class));
+            return ;
+        }
+        UserRespDTO user = SharedPreferencesHelp.getInstance(getActivity()).getUser();
+        if (user != null) {
+            if (!TextUtils.isEmpty(user.getAvatar())) {
+                Glide.with(getContext()).load(user.getAvatar()).into(ivUser);
+            } else {
+                Glide.with(getContext()).load(R.mipmap.head_icon).into(ivUser);
+            }
+            tvGrade.setText("L"+user.getLevel()+ImageStringUtils.convertString(user.getLevel()));
+        }
         addObserver(iUserApi.getUserData(500000), new NetworkObserver<ApiResult<UserData>>() {
 
             @Override
@@ -161,6 +178,7 @@ public class UserFragment extends LazyLoadFragment {
         });
 
     }
+
 
     private void initUserData(UserData data) {
         tvName.setText(data.getAccount());
@@ -196,7 +214,6 @@ public class UserFragment extends LazyLoadFragment {
             case R.id.ll_maichu:
                 position = 4;
                 break;
-
         }
         Intent intent = new Intent(getContext(), TradeAllActivity.class);
         intent.putExtra("position", position);
