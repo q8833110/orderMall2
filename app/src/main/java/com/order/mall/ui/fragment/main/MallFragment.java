@@ -21,8 +21,11 @@ import com.order.mall.R;
 import com.order.mall.data.network.IShopApi;
 import com.order.mall.data.network.shop.ShopGoods;
 import com.order.mall.model.netword.ApiResult;
+import com.order.mall.ui.LoginActivity;
+import com.order.mall.ui.NoticeActivity;
 import com.order.mall.ui.activity.DetailsMallActivity;
 import com.order.mall.ui.adapter.MallAdapter;
+import com.order.mall.util.LoginUtils;
 import com.order.mall.util.RetrofitUtils;
 import com.order.mall.util.ScreenUtils;
 import com.order.mall.widget.SpaceItemDecoration;
@@ -39,6 +42,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class MallFragment extends LazyLoadFragment {
@@ -81,6 +85,11 @@ public class MallFragment extends LazyLoadFragment {
         return rootView;
     }
 
+    @OnClick(R.id.iv_message)
+    public void message(){
+        startActivity(new Intent(getContext() , NoticeActivity.class));
+    }
+
     private void init() {
         shopApi = RetrofitUtils.getInstance().getRetrofit().create(IShopApi.class);
         shopGoods = new ArrayList<>();
@@ -88,6 +97,10 @@ public class MallFragment extends LazyLoadFragment {
         mallAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+                if (!LoginUtils.isLogin(getContext())){
+                    startActivity(new Intent(getContext() , LoginActivity.class));
+                    return ;
+                }
                 Intent intent = new Intent(getContext(), DetailsMallActivity.class);
                 intent.putExtra(INTENT_KEY_SHOP_ID, shopGoods.get(position).getId());
                 startActivity(intent);

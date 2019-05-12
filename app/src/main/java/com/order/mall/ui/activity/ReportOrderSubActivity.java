@@ -11,6 +11,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -432,20 +433,25 @@ public class ReportOrderSubActivity extends BaseActivity {
     }
 
     private void referDelete(){
-        if (pay1.getDrawable() != null){
-            delete1.setVisibility(View.VISIBLE);
-        }else{
-            delete1.setVisibility(View.GONE);
-        }
-        if (pay2.getDrawable() != null){
+        if (!TextUtils.isEmpty(imagePath1)){
             delete2.setVisibility(View.VISIBLE);
         }else{
             delete2.setVisibility(View.GONE);
         }
+        if (!TextUtils.isEmpty(imagePath2)){
+            delete1.setVisibility(View.VISIBLE);
+        }else{
+            delete1.setVisibility(View.GONE);
+        }
+        referAdd2Bg();
     }
 
     @OnClick(R.id.tv_already_pay)
     public void confirm(){
+        if (TextUtils.isEmpty(imagePath1) && TextUtils.isEmpty(imagePath2)){
+            showToast("请上传凭证照片");
+            return  ;
+        }
         String imgs = imagePath1 +";" + imagePath2 ;
         addObserver(iUserApi.topConfirm(data.getId(), imgs), new NetworkObserver<ApiResult<String>>() {
             @Override
@@ -459,5 +465,28 @@ public class ReportOrderSubActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    @OnClick(R.id.delete1)
+    public void delete(){
+        imagePath2 = "" ;
+        pay2.setImageBitmap(null);
+        referDelete();
+
+    }
+
+    @OnClick(R.id.delete2)
+    public void delete2(){
+        imagePath1 = "" ;
+        pay1.setImageBitmap(null);
+        referDelete();
+    }
+
+    public void referAdd2Bg(){
+        if (TextUtils.isEmpty(imagePath2) && !TextUtils.isEmpty(imagePath1)) {
+            rlAdd2.setBackgroundColor(getResources().getColor(R.color.color1));
+        }else if (TextUtils.isEmpty(imagePath1)){
+            rlAdd2.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+        }
     }
 }

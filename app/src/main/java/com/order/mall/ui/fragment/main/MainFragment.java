@@ -23,10 +23,13 @@ import com.order.mall.data.network.IShopApi;
 import com.order.mall.data.network.homepage.Home;
 import com.order.mall.data.network.shop.ShopGoods;
 import com.order.mall.model.netword.ApiResult;
+import com.order.mall.ui.LoginActivity;
+import com.order.mall.ui.NoticeActivity;
 import com.order.mall.ui.activity.DetailsMallActivity;
 import com.order.mall.ui.activity.RechargeActivity;
 import com.order.mall.ui.activity.user.InvitationActivity;
 import com.order.mall.util.GlideImageLoader;
+import com.order.mall.util.LoginUtils;
 import com.order.mall.util.RetrofitUtils;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -89,6 +92,11 @@ public class MainFragment extends LazyLoadFragment {
         return rootView;
     }
 
+    @OnClick(R.id.iv_message)
+    public void message(){
+        startActivity(new Intent(getContext() , NoticeActivity.class));
+    }
+
     private Listener listener ;
 
     public void setListener(Listener listener) {
@@ -107,7 +115,11 @@ public class MainFragment extends LazyLoadFragment {
 
     @OnClick(R.id.ll_jifen)
     public void toRecharge(){
-        startActivity(new Intent(getContext() , RechargeActivity.class));
+        if (LoginUtils.isLogin(getContext())) {
+            startActivity(new Intent(getContext(), RechargeActivity.class));
+        }else{
+            startActivity(new Intent(getContext() , LoginActivity.class));
+        }
     }
 
     public interface Listener{
@@ -216,7 +228,11 @@ public class MainFragment extends LazyLoadFragment {
 
     @OnClick(R.id.ll_yaoqing)
     public void toYaoqing(){
-        startActivity(new Intent(getContext() , InvitationActivity.class));
+        if (LoginUtils.isLogin(getContext())) {
+            startActivity(new Intent(getContext(), InvitationActivity.class));
+        }else{
+            startActivity(new Intent(getContext(), LoginActivity.class));
+        }
     }
 
 

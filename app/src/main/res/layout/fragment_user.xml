@@ -552,7 +552,8 @@
             android:paddingStart="16dp"
             android:paddingTop="18dp"
             android:paddingEnd="10dp"
-            android:paddingBottom="18dp">
+            android:paddingBottom="18dp"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/iv7"

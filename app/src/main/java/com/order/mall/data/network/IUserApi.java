@@ -201,7 +201,7 @@ public interface IUserApi {
 
     //充值报单积分
     @POST("user/topUp")
-    Observable<ApiResult<RechargeDetails>> topUp(@Query("userId") long userId,
+    Observable<ApiResult<RechargeSuccess>> topUp(@Query("userId") long userId,
                                                  @Query("amount") int amount,
                                                  @Query("payWay") int payWay);
 
