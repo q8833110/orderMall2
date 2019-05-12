@@ -3,6 +3,7 @@ package com.order.mall.data.network;
 import com.order.mall.model.netword.ApiResult;
 
 import java.util.HashMap;
+import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -17,5 +18,5 @@ public interface IBaseApi {
 
     // 图片上传
     @POST("basic/uploadImg")
-    Observable<ApiResult<String>> upload(@Body RequestBody body);
+    Observable<ApiResult<List<String>>> upload(@Body RequestBody body);
 }

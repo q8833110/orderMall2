@@ -1,8 +1,5 @@
 package com.order.mall.util;
 
-import com.order.mall.model.netword.ApiResult;
-import com.order.mall.ui.BaseActivity;
-
 import java.io.File;
 import java.util.List;
 
@@ -14,18 +11,19 @@ public class FileUploadUtils {
 
     /**
      * 获取file body
+     *
      * @param fileList
      * @return
      */
-    public static RequestBody fileBody(List<File> fileList){
+    public static RequestBody fileBody(List<File> fileList) {
         if (fileList == null || fileList.size() == 0) return null;
-        RequestBody requestBody ;
-        MultipartBody.Builder builder ;
-        builder= new MultipartBody.Builder().setType(MultipartBody.FORM);
+        RequestBody requestBody;
+        MultipartBody.Builder builder;
+        builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
         for (File file : fileList) {
-            builder.addFormDataPart("imgs",file.getName() ,RequestBody.create(MediaType.parse("image/*") ,file));
+            builder.addFormDataPart("imgs", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
         }
-        requestBody = builder.build() ;
-        return requestBody ;
+        requestBody = builder.build();
+        return requestBody;
     }
 }

@@ -47,7 +47,6 @@ public class ChangePasswordActivity extends BaseActivity {
                 .init();
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +63,6 @@ public class ChangePasswordActivity extends BaseActivity {
         if (!soldPwd.isEmpty() && !sNewPwd.isEmpty() && !sNewPwd2.isEmpty()) {
             changePwd(soldPwd, sNewPwd, sNewPwd2);
         }
-
     }
 
     private void changePwd(String soldPwd, String sNewPwd, String sNewPwd2) {

@@ -1,5 +1,7 @@
 package com.order.mall.data.network.user;
 
+import java.util.List;
+
 public class RechargeDetails {
 
     /**
@@ -31,7 +33,7 @@ public class RechargeDetails {
     private String toUser;
     private String toQrCode;
     private String proofOfPay;
-    private Object proofOfPays;
+    private List<String> proofOfPays;
     private int status;
 
     public String getId() {
@@ -130,11 +132,11 @@ public class RechargeDetails {
         this.proofOfPay = proofOfPay;
     }
 
-    public Object getProofOfPays() {
+    public List<String> getProofOfPays() {
         return proofOfPays;
     }
 
-    public void setProofOfPays(Object proofOfPays) {
+    public void setProofOfPays(List<String> proofOfPays) {
         this.proofOfPays = proofOfPays;
     }
 

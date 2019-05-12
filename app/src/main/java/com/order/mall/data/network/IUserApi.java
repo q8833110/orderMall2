@@ -202,9 +202,15 @@ public interface IUserApi {
 
     //充值报单积分
     @POST("user/topUp")
-    Observable<ApiResult<RechargeSuccess>> topUp(@Query("userId") long userId,
+    Observable<ApiResult<RechargeDetails>> topUp(@Query("userId") long userId,
                                                  @Query("amount") int amount,
                                                  @Query("payWay") int payWay);
+
+    //充值去人
+    @POST("user/topUpComfirm")
+    Observable<ApiResult<String>> topConfirm(@Query("id") String id,
+                                                 @Query("proofOfPay") String proofOfPay
+                                                );
 
     //取消充值报单积分
     @POST("user/topUpCancle")
