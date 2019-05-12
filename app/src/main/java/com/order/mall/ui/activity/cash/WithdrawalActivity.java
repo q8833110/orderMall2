@@ -23,9 +23,11 @@ import com.order.mall.data.network.IUserApi;
 import com.order.mall.data.network.user.AlipayList;
 import com.order.mall.data.network.user.BankList;
 import com.order.mall.data.network.user.CashSuccess;
+import com.order.mall.data.network.user.WeixinList;
 import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
 import com.order.mall.ui.adapter.BankListAdapter;
+import com.order.mall.ui.adapter.WeixinkListAdapter;
 import com.order.mall.ui.adapter.WithdrawalAdapter;
 import com.order.mall.util.RetrofitUtils;
 import com.order.mall.util.ScreenUtils;
@@ -48,7 +50,6 @@ public class WithdrawalActivity extends BaseActivity implements TextWatcher {
 
     Dialog dialog;
 
-    WithdrawalAdapter WxAdapeter;
 
     WithdrawalAdapter ZhifubaoAdapeter;
 
@@ -79,6 +80,8 @@ public class WithdrawalActivity extends BaseActivity implements TextWatcher {
     private long userId = 500000;
     private List<AlipayList> alipayLists = new ArrayList<>();
     private List<BankList> bankLists = new ArrayList<>();
+    private List<WeixinList> weixinLists = new ArrayList<>();
+    private WeixinkListAdapter wxAdapeter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +95,7 @@ public class WithdrawalActivity extends BaseActivity implements TextWatcher {
         getRate();
         getAlipayList();
         getBankList();
+        getWeixinList();
     }
 
     private void getAlipayList() {
@@ -116,6 +120,20 @@ public class WithdrawalActivity extends BaseActivity implements TextWatcher {
                 if (listApiResult.getData() != null) {
                     bankLists.addAll(listApiResult.getData());
                     BankAdapeter.notifyDataSetChanged();
+                }
+            }
+        });
+
+    }
+
+    private void getWeixinList() {
+        addObserver(iUserApi.userPayWayWeixinList(userId), new NetworkObserver<ApiResult<List<WeixinList>>>() {
+
+            @Override
+            public void onReady(ApiResult<List<WeixinList>> listApiResult) {
+                if (listApiResult.getData() != null) {
+                    weixinLists.addAll(listApiResult.getData());
+                    wxAdapeter.notifyDataSetChanged();
                 }
             }
         });
@@ -151,11 +169,11 @@ public class WithdrawalActivity extends BaseActivity implements TextWatcher {
             RecyclerView rvBank = view.findViewById(R.id.rv_bank);
             RecyclerView rvWx = view.findViewById(R.id.rv_wx);
             final RecyclerView rvZhifubao = view.findViewById(R.id.rv_zhifubao);
-//            WxAdapeter = new WithdrawalAdapter(WithdrawalActivity.this, R.layout.item_withdrawal_amount, dataList);
+            wxAdapeter = new WeixinkListAdapter(WithdrawalActivity.this, R.layout.item_withdrawal_amount, weixinLists);
             ZhifubaoAdapeter = new WithdrawalAdapter(WithdrawalActivity.this, R.layout.item_withdrawal_amount, alipayLists);
             BankAdapeter = new BankListAdapter(WithdrawalActivity.this, R.layout.item_withdrawal_amount, bankLists);
             rvBank.setAdapter(BankAdapeter);
-            rvWx.setAdapter(WxAdapeter);
+            rvWx.setAdapter(wxAdapeter);
             rvZhifubao.setAdapter(ZhifubaoAdapeter);
             rvBank.setLayoutManager(new LinearLayoutManager(this));
             rvWx.setLayoutManager(new LinearLayoutManager(this));
@@ -197,6 +215,18 @@ public class WithdrawalActivity extends BaseActivity implements TextWatcher {
                 @Override
                 public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                     notifyCheckPayWay(position, 0);
+                }
+
+                @Override
+                public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                    return false;
+                }
+            });
+            wxAdapeter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+                    notifyCheckPayWay(position, 2);
+
                 }
 
                 @Override
@@ -248,6 +278,9 @@ public class WithdrawalActivity extends BaseActivity implements TextWatcher {
             bankLists.get(i).setCheck(false);
 
         }
+        for (int i = 0; i < weixinLists.size(); i++) {
+            weixinLists.get(i).setCheck(false);
+        }
         if (type == 0) {
             //银行卡
             bankLists.get(position).setCheck(true);
@@ -260,9 +293,14 @@ public class WithdrawalActivity extends BaseActivity implements TextWatcher {
             reciveWay = 0;
             accountNo = alipayLists.get(position).getAliPayAccount();
             accountName = alipayLists.get(position).getAccountRealName();
+        } else if (type == 2) {
+            weixinLists.get(position).setCheck(true);
+            accountNo = weixinLists.get(position).getWeixinPayAccount();
+            accountName = weixinLists.get(position).getAccountRealName();
         }
         ZhifubaoAdapeter.notifyDataSetChanged();
         BankAdapeter.notifyDataSetChanged();
+        wxAdapeter.notifyDataSetChanged();
     }
 
     private void init() {

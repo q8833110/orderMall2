@@ -4,10 +4,13 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.order.mall.R;
+import com.order.mall.data.network.IUserApi;
 import com.order.mall.data.network.user.ShoppingList;
+import com.order.mall.util.RetrofitUtils;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
@@ -16,16 +19,18 @@ import java.util.List;
 public class ShoppingAdapter extends CommonAdapter<ShoppingList.DataBean> {
 
     private Context context;
+    private final IUserApi iUserApi;
 
     public ShoppingAdapter(Context context, int layoutId, List<ShoppingList.DataBean> datas) {
         super(context, layoutId, datas);
         this.context = context;
+        iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
     }
 
     @Override
-    protected void convert(ViewHolder holder, ShoppingList.DataBean data, int position) {
+    protected void convert(ViewHolder holder, final ShoppingList.DataBean data, final int position) {
         TextView time = holder.getView(R.id.time);
-        TextView status = holder.getView(R.id.status);
+        final TextView status = holder.getView(R.id.status);
         ImageView image = holder.getView(R.id.image);
         TextView title = holder.getView(R.id.title);
         TextView tv_price = holder.getView(R.id.tv_price);
@@ -33,6 +38,7 @@ public class ShoppingAdapter extends CommonAdapter<ShoppingList.DataBean> {
         TextView total = holder.getView(R.id.total);
         TextView delete = holder.getView(R.id.delete);
         View line1 = holder.getView(R.id.line1);
+        TextView button2 = holder.getView(R.id.button2);
 
         time.setText(data.getPayTime());
         Glide.with(context).load(data.getPicture()).into(image);
@@ -46,17 +52,44 @@ public class ShoppingAdapter extends CommonAdapter<ShoppingList.DataBean> {
             status.setTextColor(context.getResources().getColor(R.color.colorFullRed));
             delete.setVisibility(View.GONE);
             line1.setVisibility(View.GONE);
+            button2.setText("再次购买");
         } else if (data.getStatus() == 2) {
             status.setText("待收货");
             status.setTextColor(context.getResources().getColor(R.color.colorFullRed));
             delete.setVisibility(View.GONE);
             line1.setVisibility(View.GONE);
+            button2.setText("确认收货");
         } else if (data.getStatus() == 3) {
             status.setText("已收货");
             status.setTextColor(context.getResources().getColor(R.color.colorBlank333333));
             delete.setVisibility(View.VISIBLE);
             line1.setVisibility(View.VISIBLE);
+            button2.setText("再次购买");
+
         }
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (data.getStatus() == 2) {
+                    //确认收货
+                    mListener.receive(data.getId());
+                } else {
+                    //再次购买
+                    Toast.makeText(context, "再次购买", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
+
+    public onReceiveListener mListener;
+
+    public interface onReceiveListener {
+        void receive(String id);
+    }
+
+    public void setonReceiveListener(onReceiveListener listener) {
+        mListener = listener;
+    }
+
 
 }

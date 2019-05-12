@@ -2,12 +2,17 @@ package com.order.mall.ui.activity.card;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.order.mall.R;
+import com.order.mall.data.network.IUserApi;
+import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
+import com.order.mall.util.RetrofitUtils;
+import com.suke.widget.SwitchButton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,8 +30,16 @@ public class AddWXActivity extends BaseActivity {
     ImageView back;
     @BindView(R.id.tv_title)
     TextView tvTitle;
-
+    @BindView(R.id.et_name)
+    EditText nameEdit;
+    @BindView(R.id.et_bank)
+    EditText accountEdit;
+    @BindView(R.id.switch_button)
+    SwitchButton switchButton;
     Unbinder unbinder;
+    private IUserApi iUserApi;
+    private long userId;
+    private String id;
 
     @Override
     protected void initImmersionBar() {
@@ -41,8 +54,74 @@ public class AddWXActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wx);
         unbinder = ButterKnife.bind(this);
+        iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
+//        userId = SharedPreferencesHelp.getInstance(this).getUser().getId();
+        userId = 500000;
+        String sName = getIntent().getStringExtra("sName");
+        String sAccount = getIntent().getStringExtra("sAccount");
+        id = getIntent().getStringExtra("id");
+        boolean openOrNot = getIntent().getBooleanExtra("openOrNot", false);
+        nameEdit.setText(sName);
+        accountEdit.setText(sAccount);
+        switchButton.setChecked(openOrNot);
+
     }
 
+    @OnClick(R.id.tv_ok)
+    public void confirm() {
+        String sName = nameEdit.getText().toString();
+        String sAccount = accountEdit.getText().toString();
+        boolean checked = switchButton.isChecked();
+        if (!sName.isEmpty() && !sAccount.isEmpty()) {
+            if (id != null) {
+                change(sName, sAccount, checked);
+            } else {
+                add(sName, sAccount, checked);
+            }
+
+        }
+    }
+
+    private void add(String sName, String sAccount, boolean checked) {
+        addObserver(iUserApi.mergeUserPayWayWeixin(userId, sAccount, sName, checked), new NetworkObserver() {
+            @Override
+            public void onReady(ApiResult apiResult) {
+                if (apiResult.getData() != null) {
+                    boolean data = (boolean) apiResult.getData();
+                    if (data) {
+                        showToast("添加成功");
+                        finish();
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+            }
+        });
+
+    }
+
+    private void change(String sName, String sAccount, boolean checked) {
+        addObserver(iUserApi.mergeUserPayWayWeixin2(userId, sAccount, sName, checked,id), new NetworkObserver() {
+            @Override
+            public void onReady(ApiResult apiResult) {
+                if (apiResult.getData() != null) {
+                    boolean data = (boolean) apiResult.getData();
+                    if (data) {
+                        showToast("添加成功");
+                        finish();
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+            }
+        });
+    }
 
     @Override
     protected void onDestroy() {
