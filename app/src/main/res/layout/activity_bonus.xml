@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorWhite"
     android:orientation="vertical">
 
@@ -19,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="64dp"
-        android:text="8000"
+        android:text="0"
         android:textColor="@color/colorWhite"
         android:textSize="30sp" />
 
@@ -28,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_jifen"
         android:layout_centerHorizontal="true"
-        android:text="报单积分"
+        android:text="奖金积分"
         android:textColor="@color/colorWhite"
         android:textSize="15sp" />
 
@@ -75,7 +76,7 @@
         android:id="@+id/rl_shouzhi"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:layout_below="@id/ll_l1"
+        android:layout_below="@id/line1"
         android:paddingEnd="10dp"
         android:paddingStart="10dp">
 
@@ -109,10 +110,20 @@
         android:layout_below="@id/rl_shouzhi"
         android:id="@+id/line2"/>
 
-    <android.support.v7.widget.RecyclerView
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/rv"
-        android:layout_below="@id/line2"/>
+        android:layout_height="match_parent"
+        android:layout_below="@id/line2"
+        app:srlAccentColor="@color/colorFullRed"
+        app:srlEnablePreviewInEditMode="true"
+        app:srlPrimaryColor="@color/colorWhite">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </RelativeLayout>

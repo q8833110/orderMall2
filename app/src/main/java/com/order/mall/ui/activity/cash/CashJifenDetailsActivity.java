@@ -32,14 +32,16 @@ public class CashJifenDetailsActivity extends BaseActivity {
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.vg)
-    ViewPager pager ;
+    ViewPager pager;
     @BindView(R.id.dynamic_pager_indicator1)
     DynamicPagerIndicator dynamicPagerIndicator1;
 
-    Unbinder unbinder ;
+    Unbinder unbinder;
     private String[] titles = new String[]{
-            "全部" , "提现" , "转账"
+            "全部", "提现", "转账"
     };
+    private int position;
+
     @Override
     protected void initImmersionBar() {
         ImmersionBar.with(this)
@@ -53,17 +55,20 @@ public class CashJifenDetailsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jifenmingxi);
         unbinder = ButterKnife.bind(this);
+        position = getIntent().getIntExtra("position", 0);
+        tvTitle.setText("现金积分明细");
         init();
     }
 
     private void init() {
         // 设置Tab底部选中的指示器 Indicator的颜色
         List<Fragment> list = new ArrayList<>();
-        list.add(CashFragment.newInstance());
-        list.add(CashFragment.newInstance());
-        list.add(CashFragment.newInstance());
+        list.add(CashFragment.newInstance(-1));
+        list.add(CashFragment.newInstance(0));
+        list.add(CashFragment.newInstance(1));
         pager.setAdapter(new TextAdapter(getSupportFragmentManager(), titles, list));
         dynamicPagerIndicator1.setViewPager(pager);
+        pager.setCurrentItem(position);
     }
 
 

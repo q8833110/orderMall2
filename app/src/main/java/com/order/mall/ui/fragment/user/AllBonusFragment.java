@@ -1,4 +1,4 @@
-package com.order.mall.ui.fragment.main;
+package com.order.mall.ui.fragment.user;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,13 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.Gson;
 import com.order.mall.R;
 import com.order.mall.data.network.IUserApi;
+import com.order.mall.data.network.user.BounsScoreList;
 import com.order.mall.data.network.user.TradeBalanceList;
 import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.activity.JifenxiangqingActivity;
 import com.order.mall.ui.adapter.BaodanjifenAdapter;
+import com.order.mall.ui.adapter.BonusScoreListAdapter;
+import com.order.mall.ui.fragment.main.LazyLoadFragment;
 import com.order.mall.util.RetrofitUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -30,9 +32,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import rx.Observable;
 
-public class AllGradeFragment extends LazyLoadFragment {
+public class AllBonusFragment extends LazyLoadFragment {
 
     @BindView(R.id.rv)
     RecyclerView rv;
@@ -40,11 +41,11 @@ public class AllGradeFragment extends LazyLoadFragment {
     SmartRefreshLayout refresh;
     Unbinder unbinder;
 
-    private BaodanjifenAdapter adapter;
+    private BonusScoreListAdapter adapter;
     private IUserApi iUserApi;
 
-    public static AllGradeFragment newInstance(int type) {
-        AllGradeFragment fragment = new AllGradeFragment();
+    public static AllBonusFragment newInstance(int type) {
+        AllBonusFragment fragment = new AllBonusFragment();
         Bundle args = new Bundle();
         args.putInt("type", type);
         fragment.setArguments(args);
@@ -58,7 +59,7 @@ public class AllGradeFragment extends LazyLoadFragment {
     private int pageSize = 10;
     private long userId = 500000;
     private int type = 0;
-    List<TradeBalanceList.DataBean> list = new ArrayList<>();
+    List<BounsScoreList.DataBean> list = new ArrayList<>();
 
     @Override
     protected void loadData() {
@@ -86,15 +87,15 @@ public class AllGradeFragment extends LazyLoadFragment {
      */
     private void getAll() {
 
-        addObserver(iUserApi.getAllTradeBalanceDetailsList(pageNum, pageSize, userId), new NetworkObserver<ApiResult<TradeBalanceList>>() {
+        addObserver(iUserApi.bonusBalanceDetailsListAll(pageNum, pageSize, userId), new NetworkObserver<ApiResult<BounsScoreList>>() {
             @Override
-            public void onReady(ApiResult<TradeBalanceList> tradeBalanceListApiResult) {
-                if (tradeBalanceListApiResult.getData() != null && tradeBalanceListApiResult.getData().getData() != null
-                        && tradeBalanceListApiResult.getData().getData().size() > 0) {
+            public void onReady(ApiResult<BounsScoreList> bounsScoreListApiResult) {
+                if (bounsScoreListApiResult.getData() != null && bounsScoreListApiResult.getData().getData() != null
+                        && bounsScoreListApiResult.getData().getData().size() > 0) {
                     if (pageNum == 1) {
                         list.clear();
                     }
-                    list.addAll(tradeBalanceListApiResult.getData().getData());
+                    list.addAll(bounsScoreListApiResult.getData().getData());
                     adapter.notifyDataSetChanged();
                 }
                 refresh.finishRefresh();
@@ -108,15 +109,15 @@ public class AllGradeFragment extends LazyLoadFragment {
      */
     private void getList() {
 
-        addObserver(iUserApi.getTradeBalanceDetailsList(pageNum, pageSize, userId, type), new NetworkObserver<ApiResult<TradeBalanceList>>() {
+        addObserver(iUserApi.bonusBalanceDetailsList(pageNum, pageSize, userId, type), new NetworkObserver<ApiResult<BounsScoreList>>() {
             @Override
-            public void onReady(ApiResult<TradeBalanceList> tradeBalanceListApiResult) {
-                if (tradeBalanceListApiResult.getData() != null && tradeBalanceListApiResult.getData().getData() != null
-                        && tradeBalanceListApiResult.getData().getData().size() > 0) {
+            public void onReady(ApiResult<BounsScoreList> bounsScoreListApiResult) {
+                if (bounsScoreListApiResult.getData() != null && bounsScoreListApiResult.getData().getData() != null
+                        && bounsScoreListApiResult.getData().getData().size() > 0) {
                     if (pageNum == 1) {
                         list.clear();
                     }
-                    list.addAll(tradeBalanceListApiResult.getData().getData());
+                    list.addAll(bounsScoreListApiResult.getData().getData());
                     adapter.notifyDataSetChanged();
                 }
                 refresh.finishRefresh();
@@ -149,13 +150,14 @@ public class AllGradeFragment extends LazyLoadFragment {
 
 
     private void initRecy() {
-        adapter = new BaodanjifenAdapter(getContext(), R.layout.item_payment1, list);
+        adapter = new BonusScoreListAdapter(getContext(), R.layout.item_payment1, list);
+
         adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                Intent intent = new Intent(getContext(), JifenxiangqingActivity.class);
-                intent.putExtra("id", list.get(position).getId());
-                startActivity(intent);
+//                Intent intent = new Intent(getContext(), JifenxiangqingActivity.class);
+//                intent.putExtra("id", list.get(position).getId());
+//                startActivity(intent);
             }
 
             @Override

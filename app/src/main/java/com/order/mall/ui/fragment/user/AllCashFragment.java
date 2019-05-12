@@ -1,4 +1,4 @@
-package com.order.mall.ui.fragment.main;
+package com.order.mall.ui.fragment.user;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,13 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.Gson;
 import com.order.mall.R;
 import com.order.mall.data.network.IUserApi;
-import com.order.mall.data.network.user.TradeBalanceList;
+import com.order.mall.data.network.user.CashList;
+import com.order.mall.data.network.user.RechargeCenter;
 import com.order.mall.model.netword.ApiResult;
-import com.order.mall.ui.activity.JifenxiangqingActivity;
-import com.order.mall.ui.adapter.BaodanjifenAdapter;
+import com.order.mall.ui.activity.ReportDetailActivity;
+import com.order.mall.ui.adapter.CashCenterAdapter;
+import com.order.mall.ui.adapter.RechargeCenterAdapter;
+import com.order.mall.ui.fragment.main.LazyLoadFragment;
 import com.order.mall.util.RetrofitUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -30,9 +32,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import rx.Observable;
 
-public class AllGradeFragment extends LazyLoadFragment {
+public class AllCashFragment extends LazyLoadFragment {
 
     @BindView(R.id.rv)
     RecyclerView rv;
@@ -40,11 +41,16 @@ public class AllGradeFragment extends LazyLoadFragment {
     SmartRefreshLayout refresh;
     Unbinder unbinder;
 
-    private BaodanjifenAdapter adapter;
+    private CashCenterAdapter adapter;
     private IUserApi iUserApi;
 
-    public static AllGradeFragment newInstance(int type) {
-        AllGradeFragment fragment = new AllGradeFragment();
+    private int pageNum = 1;
+    private int pageSize = 10;
+    private long userId = 500000;
+    private int type;
+
+    public static AllCashFragment newInstance(int type) {
+        AllCashFragment fragment = new AllCashFragment();
         Bundle args = new Bundle();
         args.putInt("type", type);
         fragment.setArguments(args);
@@ -53,12 +59,7 @@ public class AllGradeFragment extends LazyLoadFragment {
     }
 
     private View rootView;
-
-    private int pageNum = 1;
-    private int pageSize = 10;
-    private long userId = 500000;
-    private int type = 0;
-    List<TradeBalanceList.DataBean> list = new ArrayList<>();
+    private List<CashList.DataBean> dataBeans = new ArrayList<>();
 
     @Override
     protected void loadData() {
@@ -67,6 +68,25 @@ public class AllGradeFragment extends LazyLoadFragment {
         } else {
             getList();
         }
+
+    }
+
+    private void getAll() {
+        addObserver(iUserApi.userEncashmentListAll(pageNum, pageSize, userId), new NetworkObserver<ApiResult<CashList>>() {
+            @Override
+            public void onReady(ApiResult<CashList> cashListApiResult) {
+                if (cashListApiResult.getData() != null && cashListApiResult.getData().getData() != null) {
+                    if (pageNum == 1) {
+                        dataBeans.clear();
+                    }
+                    dataBeans.addAll(cashListApiResult.getData().getData());
+                    adapter.notifyDataSetChanged();
+                }
+                refresh.finishRefresh();
+                refresh.finishLoadMore();
+            }
+        });
+
     }
 
 
@@ -76,54 +96,28 @@ public class AllGradeFragment extends LazyLoadFragment {
         rootView = inflater.inflate(R.layout.fragment_all_grade, container, false);
         unbinder = ButterKnife.bind(this, rootView);
         iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
+//        userId = SharedPreferencesHelp.getInstance(getActivity()).getUser().getId();
         type = getArguments().getInt("type");
         init();
+
         return rootView;
     }
 
-    /**
-     * 获取全部列表
-     */
-    private void getAll() {
-
-        addObserver(iUserApi.getAllTradeBalanceDetailsList(pageNum, pageSize, userId), new NetworkObserver<ApiResult<TradeBalanceList>>() {
-            @Override
-            public void onReady(ApiResult<TradeBalanceList> tradeBalanceListApiResult) {
-                if (tradeBalanceListApiResult.getData() != null && tradeBalanceListApiResult.getData().getData() != null
-                        && tradeBalanceListApiResult.getData().getData().size() > 0) {
-                    if (pageNum == 1) {
-                        list.clear();
-                    }
-                    list.addAll(tradeBalanceListApiResult.getData().getData());
-                    adapter.notifyDataSetChanged();
-                }
-                refresh.finishRefresh();
-                refresh.finishLoadMore();
-            }
-        });
-    }
-
-    /**
-     * 获取列表数据
-     */
     private void getList() {
-
-        addObserver(iUserApi.getTradeBalanceDetailsList(pageNum, pageSize, userId, type), new NetworkObserver<ApiResult<TradeBalanceList>>() {
+        addObserver(iUserApi.userEncashmentList(pageNum, pageSize, userId, type), new NetworkObserver<ApiResult<CashList>>() {
             @Override
-            public void onReady(ApiResult<TradeBalanceList> tradeBalanceListApiResult) {
-                if (tradeBalanceListApiResult.getData() != null && tradeBalanceListApiResult.getData().getData() != null
-                        && tradeBalanceListApiResult.getData().getData().size() > 0) {
+            public void onReady(ApiResult<CashList> cashListApiResult) {
+                if (cashListApiResult.getData() != null && cashListApiResult.getData().getData() != null) {
                     if (pageNum == 1) {
-                        list.clear();
+                        dataBeans.clear();
                     }
-                    list.addAll(tradeBalanceListApiResult.getData().getData());
+                    dataBeans.addAll(cashListApiResult.getData().getData());
                     adapter.notifyDataSetChanged();
                 }
                 refresh.finishRefresh();
                 refresh.finishLoadMore();
             }
         });
-
     }
 
     private void init() {
@@ -147,15 +141,15 @@ public class AllGradeFragment extends LazyLoadFragment {
         });
     }
 
-
     private void initRecy() {
-        adapter = new BaodanjifenAdapter(getContext(), R.layout.item_payment1, list);
+
+        adapter = new CashCenterAdapter(getContext(), R.layout.item_recharge, dataBeans);
         adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                Intent intent = new Intent(getContext(), JifenxiangqingActivity.class);
-                intent.putExtra("id", list.get(position).getId());
-                startActivity(intent);
+//                Intent intent = new Intent(getContext(), ReportDetailActivity.class);
+//                intent.putExtra("id", dataBeans.get(position).getId());
+//                startActivity(intent);
             }
 
             @Override

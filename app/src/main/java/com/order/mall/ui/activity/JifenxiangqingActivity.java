@@ -68,7 +68,7 @@ public class JifenxiangqingActivity extends BaseActivity {
                 .init();
     }
 
-    public void bac(View view) {
+    public void back(View view) {
         finish();
     }
 }

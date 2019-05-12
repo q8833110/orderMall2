@@ -117,6 +117,8 @@ public class UserFragment extends LazyLoadFragment {
     Unbinder unbinder1;
     private IUserApi iUserApi;
     private int tradeBalance;
+    private int cashBalance;
+    private int bonusBalance;
 
     public static UserFragment newInstance() {
         UserFragment fragment = new UserFragment();
@@ -141,7 +143,6 @@ public class UserFragment extends LazyLoadFragment {
         super.onResume();
         getUserData();
         //初始化等级
-
     }
 
     /**
@@ -165,15 +166,39 @@ public class UserFragment extends LazyLoadFragment {
         tradeBalance = data.getTradeBalance();
         tvBaodanjifen.setText(tradeBalance);
         //现金积分
-        tvXianjinjifen.setText(data.getCashBalance());
+        cashBalance = data.getCashBalance();
+        tvXianjinjifen.setText(cashBalance);
         //奖金积分
-        tvJiangjinjifen.setText(data.getBonusBalance());
+        bonusBalance = data.getBonusBalance();
+        tvJiangjinjifen.setText(bonusBalance);
         //消费积分
         tvXiaofeijifen.setText(data.getConsumeBalance());
 //        SharedPreferencesHelp.getInstance(getActivity()).putUser();
 
     }
 
+    @OnClick({R.id.ll_qiangdan, R.id.ll_shouyiy, R.id.ll_guamai, R.id.ll_maichu})
+    public void onTrade(View v) {
+        int position = 0;
+        switch (v.getId()) {
+            case R.id.ll_qiangdan:
+                position = 1;
+                break;
+            case R.id.ll_shouyiy:
+                position = 2;
+                break;
+            case R.id.ll_guamai:
+                position = 3;
+                break;
+            case R.id.ll_maichu:
+                position = 4;
+                break;
+
+        }
+        Intent intent = new Intent(getContext(), TradeAllActivity.class);
+        intent.putExtra("position", position);
+        startActivity(intent);
+    }
 
     @OnClick(R.id.baodanjifen)
     public void toBaodan() {
@@ -203,6 +228,7 @@ public class UserFragment extends LazyLoadFragment {
     @OnClick(R.id.ll_xianjinjifen)
     public void toCash() {
         Intent intent = new Intent(getContext(), CashJifenActivity.class);
+        intent.putExtra("cashBalance", cashBalance);
         startActivity(intent);
     }
 
@@ -215,6 +241,7 @@ public class UserFragment extends LazyLoadFragment {
     @OnClick(R.id.ll_jiangjinjifen)
     public void toBonus() {
         Intent intent = new Intent(getContext(), BonusMainActivity.class);
+        intent.putExtra("bonusBalance", bonusBalance);
         startActivity(intent);
     }
 

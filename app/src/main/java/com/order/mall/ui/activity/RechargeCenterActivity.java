@@ -53,8 +53,9 @@ public class RechargeCenterActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_jifenmingxi);
+        setContentView(R.layout.activity_center_recharge_and_cash);
         unbinder = ButterKnife.bind(this);
+        tvTitle.setText("充值中心");
         init();
     }
 

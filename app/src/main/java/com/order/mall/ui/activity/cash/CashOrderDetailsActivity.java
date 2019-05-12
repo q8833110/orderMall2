@@ -58,9 +58,9 @@ public class CashOrderDetailsActivity extends BaseActivity {
     private void init() {
         // 设置Tab底部选中的指示器 Indicator的颜色
         List<Fragment> list = new ArrayList<>();
-        list.add(CashFragment.newInstance());
-        list.add(CashFragment.newInstance());
-        list.add(CashFragment.newInstance());
+        list.add(CashFragment.newInstance(-1));
+        list.add(CashFragment.newInstance(0));
+        list.add(CashFragment.newInstance(1));
         pager.setAdapter(new TextAdapter(getSupportFragmentManager(), titles, list));
         dynamicPagerIndicator1.setViewPager(pager);
     }

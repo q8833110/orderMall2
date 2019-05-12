@@ -11,10 +11,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.order.mall.R;
+import com.order.mall.data.network.IUserApi;
+import com.order.mall.data.network.user.CashScoreList;
+import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
 import com.order.mall.ui.activity.cash.CashJifenDetailsActivity;
-import com.order.mall.ui.activity.cash.WithdrawalCenterActivity;
-import com.order.mall.ui.adapter.PayMentDetailAdapter;
+import com.order.mall.ui.activity.cash.CashWithdrawalDetailsActivity;
+import com.order.mall.ui.adapter.CashScoreListAdapter;
+import com.order.mall.util.RetrofitUtils;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,48 +63,117 @@ public class CashJifenActivity extends BaseActivity {
     View line2;
     @BindView(R.id.rv)
     RecyclerView rv;
+    @BindView(R.id.refresh)
+    SmartRefreshLayout refresh;
 
-    private PayMentDetailAdapter adapter;
+    private CashScoreListAdapter adapter;
+    private int pageNum = 1;
+    private int pageSize = 10;
+    private long userId = 500000;
+    private IUserApi iUserApi;
+    private List<CashScoreList.DataBean> dataBeans = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cashjifen);
         unbinder = ButterKnife.bind(this);
+        iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
+        int cashBalance = getIntent().getIntExtra("cashBalance", 0);
+        tvJifen.setText(cashBalance + "");
         init();
+        getAll();
+
+    }
+
+    private void getAll() {
+        addObserver(iUserApi.cashBalanceDetailsListAll(pageNum, pageSize, userId), new NetworkObserver<ApiResult<CashScoreList>>() {
+
+            @Override
+            public void onReady(ApiResult<CashScoreList> cashListApiResult) {
+                if (cashListApiResult.getData() != null && cashListApiResult.getData().getData() != null) {
+                    if (pageNum == 1) {
+                        dataBeans.clear();
+                    }
+                    dataBeans.addAll(cashListApiResult.getData().getData());
+                    adapter.notifyDataSetChanged();
+                }
+                refresh.finishRefresh();
+                refresh.finishLoadMore();
+            }
+        });
+
+
     }
 
     private void init() {
-//        List<PayMentDetailAdapter.Payments> list = new ArrayList<>();
-//        for (int i = 0; i < 5; i++) {
-//            list.add(new PayMentDetailAdapter.Payments());
-//        }
-//        adapter = new PayMentDetailAdapter(this, R.layout.item_payment, list);
+
+        adapter = new CashScoreListAdapter(this, R.layout.item_cash_main, dataBeans);
+        adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+                Intent intent = new Intent(CashJifenActivity.this, CashWithdrawalDetailsActivity.class);
+                intent.putExtra("id", dataBeans.get(position).getId());
+                startActivity(intent);
+            }
+
+            @Override
+            public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                return false;
+            }
+        });
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
+        refresh.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshLayout) {
+                pageNum = 1;
+                getAll();
+            }
+        });
+        refresh.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(RefreshLayout refreshLayout) {
+                pageNum++;
+                getAll();
+            }
+        });
 
     }
 
     @OnClick(R.id.tv_jifen)
-    public void toCashJifenDetail(){
-        Intent intent = new Intent(this ,CashJifenDetailsActivity.class);
+    public void toCashJifenDetail() {
+        Intent intent = new Intent(this, CashJifenDetailsActivity.class);
         startActivity(intent);
     }
+
+    @OnClick(R.id.rl_shouzhi)
+    public void toCashJifenDetail2() {
+        Intent intent = new Intent(this, CashJifenDetailsActivity.class);
+        startActivity(intent);
+    }
+
     @OnClick(R.id.back)
-    public void back(){
+    public void back() {
         this.finish();
     }
 
     @OnClick(R.id.ll_withdrawal)
     public void toJifen() {
-        Intent intent = new Intent(this , WithdrawalCenterActivity.class);
+        //提现中心
+        Intent intent = new Intent(this, CashCenterActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.ll_transfer)
     public void toRecharge() {
-    }
+//        Intent intent = new Intent(this, CashJifenDetailsActivity.class);
+//        intent.putExtra("position", 2);
+//        startActivity(intent);
+        showToast("去转账");
 
+    }
 
 
     @Override
