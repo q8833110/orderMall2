@@ -75,6 +75,7 @@ public class BonusMainActivity extends BaseActivity {
     private int pageSize = 10;
     private long userId = 500000;
     private List<BounsScoreList.DataBean> dataBeans = new ArrayList<>();
+    private int bonusBalance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,11 +83,17 @@ public class BonusMainActivity extends BaseActivity {
         setContentView(R.layout.activity_bonus);
         unbinder = ButterKnife.bind(this);
         iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
-        int bonusBalance = getIntent().getIntExtra("bonusBalance", 0);
+        bonusBalance = getIntent().getIntExtra("bonusBalance", 0);
         tvJifen.setText(bonusBalance + "");
         init();
         getAll();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getAll();
     }
 
     private void getAll() {
@@ -101,6 +108,8 @@ public class BonusMainActivity extends BaseActivity {
                     dataBeans.addAll(bounsScoreListApiResult.getData().getData());
                     adapter.notifyDataSetChanged();
                 }
+                refresh.finishRefresh();
+                refresh.finishLoadMore();
             }
         });
     }
@@ -153,8 +162,9 @@ public class BonusMainActivity extends BaseActivity {
 
     @OnClick(R.id.ll_transfer)
     public void toRecharge() {
-        Intent intent = new Intent(this, BonusJifenDetailsActivity.class);
-        intent.putExtra("position", 2);
+        Intent intent = new Intent(this, TransferJifenActivity.class);
+        intent.putExtra("type", 2);
+        intent.putExtra("num", bonusBalance);
         startActivity(intent);
     }
 

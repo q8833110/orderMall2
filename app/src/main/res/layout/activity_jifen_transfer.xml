@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorF5F5F5">
+    android:background="@color/colorF5F5F5"
+    android:orientation="vertical">
 
     <include layout="@layout/title_back" />
 
@@ -12,74 +13,82 @@
         android:background="@color/colorWhite">
 
         <TextView
+            android:id="@+id/tv_cash"
             android:layout_width="115dp"
             android:layout_height="66dp"
-            android:background="@drawable/xianjinjifen"
-            android:id="@+id/tv_cash"
-            android:text="现金积分"
             android:layout_centerVertical="true"
             android:layout_marginStart="48dp"
+            android:background="@drawable/xianjinjifen"
             android:gravity="center"
-            android:textSize="15sp"
-            android:textColor="@color/colorWhite"/>
+            android:text="现金积分"
+            android:textColor="@color/colorWhite"
+            android:textSize="15sp" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:src="@drawable/sanjiaoxing"/>
+            android:src="@drawable/sanjiaoxing" />
 
         <TextView
+            android:id="@+id/tv_baodan"
             android:layout_width="115dp"
             android:layout_height="66dp"
-            android:background="@drawable/baodanjifen"
-            android:text="报单积分"
-            android:id="@+id/tv_baodan"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:textSize="15sp"
-            android:layout_marginEnd="48dp"
             android:layout_alignParentEnd="true"
-            android:textColor="@color/colorWhite"/>
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="48dp"
+            android:background="@drawable/baodanjifen"
+            android:gravity="center"
+            android:text="报单积分"
+            android:textColor="@color/colorWhite"
+            android:textSize="15sp" />
 
     </RelativeLayout>
 
-    <View android:layout_width="match_parent"
+    <View
+        android:layout_width="match_parent"
         android:layout_height="10dp"
         android:background="@color/colorF5F5F5" />
 
     <TextView
+        android:id="@+id/tips"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/colorWhite"
+        android:gravity="center_vertical"
         android:paddingStart="10dp"
         android:text="转出到报单积分数"
-        android:gravity="center_vertical"
-        android:textSize="15sp"
         android:textColor="@color/colorBlank333333"
-        android:textStyle="bold"/>
+        android:textSize="15sp"
+        android:textStyle="bold" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/colorWhite"
         android:paddingStart="10dp">
-        <TextView
-            android:layout_width="wrap_content"
+
+        <EditText
+            android:id="@+id/edit_num"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="转出到报单积分数"
+            android:layout_marginEnd="200dp"
+            android:background="@null"
+            android:inputType="number"
             android:gravity="center_vertical"
-            android:textSize="15sp"
+            android:hint="转出积分数量"
             android:textColor="#B3B3B3"
-            android:background="@null"/>
+            android:textSize="15sp" />
 
         <TextView
+            android:id="@+id/all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
             android:text="全部转出"
-            android:id="@+id/all"
-            android:layout_alignParentEnd="true"/>
+            android:textColor="#0084FF" />
     </RelativeLayout>
 
     <View
@@ -93,28 +102,29 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/colorWhite"
-        android:paddingStart="10dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:paddingStart="10dp">
 
         <TextView
+            android:id="@+id/tv_yue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="可用余额：5800现金积分"
-            android:id="@+id/tv_yue"
-            android:textSize="12sp"
-            android:textColor="@color/colorBlank333333"/>
+            android:textColor="@color/colorBlank333333"
+            android:textSize="12sp" />
     </LinearLayout>
+
     <TextView
+        android:id="@+id/tv_ok"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="127dp"
         android:layout_marginStart="43dp"
+        android:layout_marginTop="127dp"
         android:layout_marginEnd="43dp"
-        android:textSize="15sp"
-        android:textColor="@color/colorWhite"
-        android:text="确认转账"
-        android:id="@+id/tv_ok"
+        android:background="@drawable/bg_button_red"
         android:gravity="center"
-        android:background="@drawable/bg_button_red"/>
+        android:text="确认转账"
+        android:textColor="@color/colorWhite"
+        android:textSize="15sp" />
 </LinearLayout>

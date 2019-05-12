@@ -150,4 +150,14 @@ public interface IUserApi {
                                                        @Query("pageSize") int pageSize,
                                                        @Query("userId") long userId,
                                                        @Query("encashStatus") int encashStatus);
+
+    //现金积分转报单积分
+    @POST("balanceDetails/cashIntoTrade")
+    Observable<ApiResult> cashIntoTrade(@Query("value") String value,
+                                        @Query("userId") int userId);
+
+    //奖金积分转现金积分
+    @POST("balanceDetails/bonusIntoCash")
+    Observable<ApiResult> bonusIntoCash(@Query("value") String value,
+                                        @Query("userId") int userId);
 }

@@ -17,6 +17,7 @@ import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
 import com.order.mall.ui.activity.cash.CashJifenDetailsActivity;
 import com.order.mall.ui.activity.cash.CashWithdrawalDetailsActivity;
+import com.order.mall.ui.activity.cash.TransferJifenActivity;
 import com.order.mall.ui.adapter.CashScoreListAdapter;
 import com.order.mall.util.RetrofitUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -72,6 +73,7 @@ public class CashJifenActivity extends BaseActivity {
     private long userId = 500000;
     private IUserApi iUserApi;
     private List<CashScoreList.DataBean> dataBeans = new ArrayList<>();
+    private int cashBalance;
 
 
     @Override
@@ -80,11 +82,17 @@ public class CashJifenActivity extends BaseActivity {
         setContentView(R.layout.activity_cashjifen);
         unbinder = ButterKnife.bind(this);
         iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
-        int cashBalance = getIntent().getIntExtra("cashBalance", 0);
+        cashBalance = getIntent().getIntExtra("cashBalance", 0);
         tvJifen.setText(cashBalance + "");
         init();
         getAll();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getAll();
     }
 
     private void getAll() {
@@ -168,11 +176,11 @@ public class CashJifenActivity extends BaseActivity {
 
     @OnClick(R.id.ll_transfer)
     public void toRecharge() {
-//        Intent intent = new Intent(this, CashJifenDetailsActivity.class);
-//        intent.putExtra("position", 2);
-//        startActivity(intent);
-        showToast("去转账");
-
+        //现金积分转账
+        Intent intent = new Intent(this, TransferJifenActivity.class);
+        intent.putExtra("type", 1);
+        intent.putExtra("num", cashBalance);
+        startActivity(intent);
     }
 
 
