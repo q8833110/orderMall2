@@ -1,9 +1,12 @@
 package com.order.mall.ui.activity.cash;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -13,11 +16,20 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.gyf.immersionbar.ImmersionBar;
 import com.order.mall.R;
+import com.order.mall.data.network.IUserApi;
+import com.order.mall.data.network.user.AlipayList;
+import com.order.mall.data.network.user.BankList;
+import com.order.mall.data.network.user.CashSuccess;
+import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
+import com.order.mall.ui.adapter.BankListAdapter;
 import com.order.mall.ui.adapter.WithdrawalAdapter;
+import com.order.mall.util.RetrofitUtils;
 import com.order.mall.util.ScreenUtils;
+import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +42,7 @@ import butterknife.Unbinder;
 /**
  * 提现
  */
-public class WithdrawalActivity extends BaseActivity {
+public class WithdrawalActivity extends BaseActivity implements TextWatcher {
 
     Unbinder unbinder;
 
@@ -40,7 +52,7 @@ public class WithdrawalActivity extends BaseActivity {
 
     WithdrawalAdapter ZhifubaoAdapeter;
 
-    WithdrawalAdapter BankAdapeter;
+    BankListAdapter BankAdapeter;
     @BindView(R.id.sys_title)
     View sysTitle;
     @BindView(R.id.back)
@@ -61,16 +73,66 @@ public class WithdrawalActivity extends BaseActivity {
     ImageView ivMore;
     @BindView(R.id.rl_chose_withdrawal)
     RelativeLayout rlChoseWithdrawal;
-    @BindView(R.id.pay)
-    TextView pay;
+    private IUserApi iUserApi;
+    private double rate;
+    private double cashNum;
+    private long userId = 500000;
+    private List<AlipayList> alipayLists = new ArrayList<>();
+    private List<BankList> bankLists = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_withdrawal);
         unbinder = ButterKnife.bind(this);
+        iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
         init();
+        etPrice.addTextChangedListener(this);
         initDialog();
+        getRate();
+        getAlipayList();
+        getBankList();
+    }
+
+    private void getAlipayList() {
+        addObserver(iUserApi.userPayWayAliList(userId), new NetworkObserver<ApiResult<List<AlipayList>>>() {
+
+            @Override
+            public void onReady(ApiResult<List<AlipayList>> listApiResult) {
+                if (listApiResult.getData() != null) {
+                    alipayLists.addAll(listApiResult.getData());
+                    ZhifubaoAdapeter.notifyDataSetChanged();
+                }
+            }
+        });
+
+    }
+
+    private void getBankList() {
+        addObserver(iUserApi.userPayWayBankList(userId), new NetworkObserver<ApiResult<List<BankList>>>() {
+
+            @Override
+            public void onReady(ApiResult<List<BankList>> listApiResult) {
+                if (listApiResult.getData() != null) {
+                    bankLists.addAll(listApiResult.getData());
+                    BankAdapeter.notifyDataSetChanged();
+                }
+            }
+        });
+
+    }
+
+    private void getRate() {
+        addObserver(iUserApi.encashValueRate(), new NetworkObserver() {
+            @Override
+            public void onReady(ApiResult apiResult) {
+                if (apiResult.getData() != null) {
+                    rate = (double) apiResult.getData();
+                }
+            }
+
+        });
+
     }
 
     @Override
@@ -81,10 +143,6 @@ public class WithdrawalActivity extends BaseActivity {
     }
 
     private void initDialog() {
-        List<WithdrawalAdapter.Data> dataList = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            dataList.add(new WithdrawalAdapter.Data());
-        }
         if (dialog == null) {
             dialog = new Dialog(this, R.style.BottomDialogStyle);
             View view = View.inflate(this, R.layout.dialog_withdrawal, null);
@@ -92,10 +150,10 @@ public class WithdrawalActivity extends BaseActivity {
             TextView tOk = view.findViewById(R.id.ok);
             RecyclerView rvBank = view.findViewById(R.id.rv_bank);
             RecyclerView rvWx = view.findViewById(R.id.rv_wx);
-            RecyclerView rvZhifubao = view.findViewById(R.id.rv_zhifubao);
-            WxAdapeter = new WithdrawalAdapter(WithdrawalActivity.this, R.layout.item_withdrawal_amount, dataList);
-            ZhifubaoAdapeter = new WithdrawalAdapter(WithdrawalActivity.this, R.layout.item_withdrawal_amount, dataList);
-            BankAdapeter = new WithdrawalAdapter(WithdrawalActivity.this, R.layout.item_withdrawal_amount, dataList);
+            final RecyclerView rvZhifubao = view.findViewById(R.id.rv_zhifubao);
+//            WxAdapeter = new WithdrawalAdapter(WithdrawalActivity.this, R.layout.item_withdrawal_amount, dataList);
+            ZhifubaoAdapeter = new WithdrawalAdapter(WithdrawalActivity.this, R.layout.item_withdrawal_amount, alipayLists);
+            BankAdapeter = new BankListAdapter(WithdrawalActivity.this, R.layout.item_withdrawal_amount, bankLists);
             rvBank.setAdapter(BankAdapeter);
             rvWx.setAdapter(WxAdapeter);
             rvZhifubao.setAdapter(ZhifubaoAdapeter);
@@ -124,7 +182,87 @@ public class WithdrawalActivity extends BaseActivity {
                     dialog.dismiss();
                 }
             });
+            ZhifubaoAdapeter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+                    notifyCheckPayWay(position, 1);
+                }
+
+                @Override
+                public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                    return false;
+                }
+            });
+            BankAdapeter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+                    notifyCheckPayWay(position, 0);
+                }
+
+                @Override
+                public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                    return false;
+                }
+            });
         }
+    }
+
+    @OnClick(R.id.cash)
+    public void cash() {
+        String sPrice = etPrice.getText().toString();
+        if (!sPrice.isEmpty()) {
+            if (accountNo != null) {
+                toCash();
+            } else {
+                showToast("请选择到账方式");
+            }
+        }
+    }
+
+    private void toCash() {
+        addObserver(iUserApi.userEncashment(userId, cashNum, reciveWay, accountNo, accountName), new NetworkObserver<ApiResult<CashSuccess>>() {
+
+
+            @Override
+            public void onReady(ApiResult<CashSuccess> cashSuccessApiResult) {
+                if (cashSuccessApiResult.getData() != null) {
+                    //成功
+                    Intent intent = new Intent(WithdrawalActivity.this, WithdrawalStatusActivity.class);
+                    intent.putExtra("id", cashSuccessApiResult.getData().getId());
+                    startActivity(intent);
+                }
+            }
+        });
+
+    }
+
+    private int reciveWay = 0;
+    private String accountNo;
+    private String accountName;
+
+    private void notifyCheckPayWay(int position, int type) {
+        for (int i = 0; i < alipayLists.size(); i++) {
+            alipayLists.get(i).setCheck(false);
+        }
+        for (int i = 0; i < bankLists.size(); i++) {
+            bankLists.get(i).setCheck(false);
+
+        }
+        if (type == 0) {
+            //银行卡
+            bankLists.get(position).setCheck(true);
+            reciveWay = 2;
+            accountNo = bankLists.get(position).getBankNo();
+            accountName = bankLists.get(position).getAccountName();
+        } else if (type == 1) {
+            //支付宝
+            alipayLists.get(position).setCheck(true);
+            reciveWay = 0;
+            accountNo = alipayLists.get(position).getAliPayAccount();
+            accountName = alipayLists.get(position).getAccountRealName();
+        }
+        ZhifubaoAdapeter.notifyDataSetChanged();
+        BankAdapeter.notifyDataSetChanged();
     }
 
     private void init() {
@@ -145,5 +283,27 @@ public class WithdrawalActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        String string = s.toString();
+        if (!string.isEmpty()) {
+            cashNum = (Integer.valueOf(string) * rate);
+            tvEqualGrade.setText("折合" + cashNum + "元");
+        } else {
+            tvEqualGrade.setText("折合0元");
+
+        }
     }
 }

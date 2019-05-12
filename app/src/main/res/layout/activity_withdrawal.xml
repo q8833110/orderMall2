@@ -1,76 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/colorF5F5F5">
-    <include layout="@layout/title_back"
-        android:id="@+id/title" />
+    android:background="@color/colorF5F5F5"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/title_back" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:background="@color/colorF5F5F5" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:background="@color/colorWhite"
         android:gravity="center_horizontal"
-        android:background="@color/colorWhite">
+        android:orientation="vertical">
+
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@null"
             android:id="@+id/et_price"
+            android:layout_width="225dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="9dp"
+            android:background="@drawable/shape_bg_stoke_gray_3dp"
             android:gravity="center"
-            android:hint="点击输入充值金额"
-            android:textSize="15sp"
+            android:hint="点击输入提现现金积分数"
+            android:inputType="number"
             android:textColor="#999"
-            />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorF5F5F5" />
+            android:textSize="15sp" />
+
 
         <TextView
+            android:id="@+id/tv_equal_grade"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_equal_grade"
             android:layout_marginTop="9dp"
-            android:text="折合0报单积分"
-            android:textSize="15sp"
-            />
+            android:text="折合0元"
+            android:textSize="15sp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="*300起充，充整数金额"
-            android:textSize="12sp"
+            android:layout_marginBottom="9dp"
+            android:text="*操作手续费：100现金币 (0.5%)"
             android:textColor="#999"
-            android:layout_marginBottom="9dp"/>
+            android:textSize="12sp" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="10dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="20dp"
             android:background="@color/colorF5F5F5" />
 
 
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="11dp"
         android:background="@color/colorWhite"
-        android:paddingEnd="22dp"
+        android:paddingStart="11dp"
         android:paddingTop="17dp"
+        android:paddingEnd="22dp"
         android:paddingBottom="19dp"
-        android:id="@+id/tip"
-        android:textSize = "12sp"
-        android:textColor="@color/colorBlank333333"
         android:text="温馨提示:
 1、提现订单提交后，后台节点会进行审核处理，处理完成后进行提现打款，审核工作1~2个工作日。
-2、您的的提现收款账户一定要是您本人且账户信息正确，若非本人或信息错误，造成的财产损失自行承担"/>
+2、您的的提现收款账户一定要是您本人且账户信息正确，若非本人或信息错误，造成的财产损失自行承担"
+        android:textColor="@color/colorBlank333333"
+        android:textSize="12sp" />
 
     <View
         android:layout_width="match_parent"
@@ -80,23 +83,23 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:gravity="center_vertical"
-        android:background="@color/colorWhite">
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical">
 
         <ImageView
             android:layout_width="3dp"
             android:layout_height="15dp"
             android:layout_marginStart="10dp"
-            android:background="@color/colorFullRed"/>
+            android:background="@color/colorFullRed" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
             android:text="收款方式"
-            android:textStyle="bold"
+            android:textColor="@color/colorBlank333333"
             android:textSize="15sp"
-            android:textColor="@color/colorBlank333333"/>
+            android:textStyle="bold" />
 
 
     </LinearLayout>
@@ -105,53 +108,54 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/colorF5F5F5" />
+
     <RelativeLayout
+        android:id="@+id/rl_chose_withdrawal"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:background="@color/colorWhite"
         android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:id="@+id/rl_chose_withdrawal"
-        android:background="@color/colorWhite">
+        android:paddingEnd="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:textColor="@color/colorBlank333333"
-            android:text="收款到账方式"
             android:layout_centerVertical="true"
-            android:textStyle="bold"/>
+            android:text="收款到账方式"
+            android:textColor="@color/colorBlank333333"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <ImageView
+            android:id="@+id/iv_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/more"
             android:layout_alignParentEnd="true"
-            android:id="@+id/iv_more"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:src="@drawable/more" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@id/iv_more"
-            android:textSize="15sp"
+            android:hint="支付宝/微信/银行卡"
             android:textColor="#999"
-            android:hint="支付宝/微信/银行卡"/>
+            android:textSize="15sp" />
     </RelativeLayout>
+
     <TextView
+        android:id="@+id/cash"
         android:layout_width="match_parent"
         android:layout_height="43dp"
         android:layout_marginStart="43dp"
-        android:layout_marginEnd="43dp"
-        android:textSize="15sp"
-        android:id="@+id/pay"
-        android:textColor="@color/colorWhite"
-        android:gravity="center"
-        android:text="立即充值"
         android:layout_marginTop="54dp"
+        android:layout_marginEnd="43dp"
         android:background="@drawable/bg_button_red"
-        />
+        android:gravity="center"
+        android:text="积分提现"
+        android:textColor="@color/colorWhite"
+        android:textSize="15sp" />
 
 
 </LinearLayout>

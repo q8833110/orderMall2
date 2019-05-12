@@ -1,53 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/colorF5F5F5">
-    <include layout="@layout/title_back"
-        android:id="@+id/title" />
+    android:background="@color/colorF5F5F5"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/title_back" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:background="@color/colorF5F5F5" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:background="@color/colorWhite"
         android:gravity="center_horizontal"
-        android:background="@color/colorWhite">
+        android:orientation="vertical">
+
+
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@null"
             android:id="@+id/et_price"
+            android:layout_width="225dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="9dp"
+            android:background="@drawable/shape_bg_stoke_gray_3dp"
             android:gravity="center"
             android:hint="点击输入充值金额"
-            android:textSize="15sp"
+            android:inputType="number"
             android:textColor="#999"
-            />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorF5F5F5" />
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_equal_grade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp"
+            android:text="折合0报单积分"
+            android:textSize="15sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_equal_grade"
-            android:layout_marginTop="9dp"
-            android:text="折合0报单积分"
-            android:textSize="15sp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="9dp"
             android:text="*300起充，充整数金额"
-            android:textSize="12sp"
             android:textColor="#999"
-            android:layout_marginBottom="9dp"/>
+            android:textSize="12sp" />
 
         <View
             android:layout_width="match_parent"
@@ -57,104 +59,101 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
             android:paddingStart="10dp"
-            android:paddingEnd="10dp"
             android:paddingTop="19dp"
-            android:paddingBottom="16dp"
-            android:background="@color/colorWhite">
+            android:paddingEnd="10dp"
+            android:paddingBottom="16dp">
 
             <ImageView
+                android:id="@+id/iv_zhifubao"
                 android:layout_width="31dp"
                 android:layout_height="31dp"
-                android:id="@+id/iv_zhifubao"
-                android:src="@drawable/zhifubao"/>
+                android:src="@drawable/zhifubao" />
+
             <View
+                android:id="@+id/line_zhifubao"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/colorF5F5F5"
                 android:layout_below="@id/iv_zhifubao"
                 android:layout_marginTop="16dp"
-                android:id="@+id/line_zhifubao"/>
+                android:background="@color/colorF5F5F5" />
+
             <ImageView
+                android:id="@+id/iv_weixin"
                 android:layout_width="31dp"
                 android:layout_height="31dp"
                 android:layout_below="@id/iv_zhifubao"
-                android:id="@+id/iv_weixin"
-                android:src="@drawable/weixin"
                 android:layout_marginTop="33dp"
-                />
+                android:src="@drawable/weixin" />
 
             <View
+                android:id="@+id/line_weixin"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/colorF5F5F5"
                 android:layout_below="@id/iv_weixin"
                 android:layout_marginTop="16dp"
-                android:id="@+id/line_weixin"/>
+                android:background="@color/colorF5F5F5" />
 
             <ImageView
+                android:id="@+id/iv_bank"
                 android:layout_width="31dp"
                 android:layout_height="31dp"
-                android:id="@+id/iv_bank"
-                android:src="@drawable/bank"
                 android:layout_below="@id/iv_weixin"
                 android:layout_marginTop="31dp"
-                />
+                android:src="@drawable/bank" />
 
             <RadioGroup
+                android:id="@+id/radio_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/iv_weixin"
-                android:layout_marginStart="11dp">
+                android:layout_marginStart="11dp"
+                android:layout_toEndOf="@id/iv_weixin">
 
                 <RadioButton
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5dp"
-                    android:text="支付宝支付"
-                    android:button="@null"
-                    android:drawableRight="@drawable/radius_select"
-                    android:paddingBottom="24dp"
                     android:id="@+id/radio_zhifubao"
-                    />
-
-                <RadioButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="20dp"
-                    android:text="微信支付"
                     android:button="@null"
                     android:drawableRight="@drawable/radius_select"
-                    android:paddingBottom="19dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="24dp"
+                    android:text="支付宝支付" />
+
+                <RadioButton
                     android:id="@+id/radio_weixin"
-                    />
-
-                <RadioButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="24dp"
-                    android:text="银行卡支付"
                     android:button="@null"
                     android:drawableRight="@drawable/radius_select"
-                    android:paddingBottom="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="19dp"
+                    android:text="微信支付" />
+
+                <RadioButton
                     android:id="@+id/radio_bank"
-                    />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawableRight="@drawable/radius_select"
+                    android:paddingTop="24dp"
+                    android:paddingBottom="20dp"
+                    android:text="银行卡支付" />
             </RadioGroup>
         </RelativeLayout>
 
     </LinearLayout>
 
     <TextView
+        android:id="@+id/pay"
         android:layout_width="match_parent"
         android:layout_height="43dp"
         android:layout_marginStart="43dp"
+        android:layout_marginTop="62dp"
         android:layout_marginEnd="43dp"
-        android:textSize="15sp"
-        android:id="@+id/pay"
-        android:textColor="@color/colorWhite"
+        android:background="@drawable/bg_button_red"
         android:gravity="center"
         android:text="立即充值"
-        android:layout_marginTop="62dp"
-        android:background="@drawable/bg_button_red"
-        />
+        android:textColor="@color/colorWhite"
+        android:textSize="15sp" />
 </LinearLayout>

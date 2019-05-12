@@ -25,7 +25,7 @@ public class CashScoreDetails {
     private int cashType;
     private String createDate;
     private int balanceAfterOperate;
-    private Object remark;
+    private String remark;
     private String completeDate;
 
     public String getId() {
@@ -100,11 +100,11 @@ public class CashScoreDetails {
         this.balanceAfterOperate = balanceAfterOperate;
     }
 
-    public Object getRemark() {
+    public String getRemark() {
         return remark;
     }
 
-    public void setRemark(Object remark) {
+    public void setRemark(String remark) {
         this.remark = remark;
     }
 

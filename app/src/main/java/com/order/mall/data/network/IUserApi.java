@@ -1,16 +1,20 @@
 package com.order.mall.data.network;
 
 import com.order.mall.data.network.user.Address;
+import com.order.mall.data.network.user.AlipayList;
+import com.order.mall.data.network.user.BankList;
 import com.order.mall.data.network.user.AppUrlInfo;
 import com.order.mall.data.network.user.BonusScoreDetails;
 import com.order.mall.data.network.user.BounsScoreList;
 import com.order.mall.data.network.user.CashList;
 import com.order.mall.data.network.user.CashScoreList;
 import com.order.mall.data.network.user.CashScoreDetails;
+import com.order.mall.data.network.user.CashSuccess;
 import com.order.mall.data.network.user.ConsumeDetails;
 import com.order.mall.data.network.user.ConsumeList;
 import com.order.mall.data.network.user.RechargeCenter;
 import com.order.mall.data.network.user.RechargeDetails;
+import com.order.mall.data.network.user.RechargeSuccess;
 import com.order.mall.data.network.user.ShoppingList;
 import com.order.mall.data.network.user.TradeBalanceList;
 import com.order.mall.data.network.user.TradeDetails;
@@ -189,4 +193,45 @@ public interface IUserApi {
     //单个消费积分明细
     @POST("balanceDetails/oneConsumeBalanceDetails")
     Observable<ApiResult<ConsumeDetails>> oneConsumeBalanceDetails(@Query("id") String id);
+
+    //获取RMB与报单积分汇率
+    @POST("user/getExchangeRate")
+    Observable<ApiResult> getExchangeRate();
+
+
+    //充值报单积分
+    @POST("user/topUp")
+    Observable<ApiResult<RechargeSuccess>> topUp(@Query("userId") long userId,
+                                                 @Query("amount") int amount,
+                                                 @Query("payWay") int payWay);
+
+    //取消充值报单积分
+    @POST("user/topUpCancle")
+    Observable<ApiResult> topUpCancle(@Query("id") String id);
+
+    //获取现金积分与RMB汇率
+    @POST("userEncashment/encashValueRate")
+    Observable<ApiResult> encashValueRate();
+
+    //获取支付宝列表
+    @POST("userPaymentWay/userPayWayAliList")
+    Observable<ApiResult<List<AlipayList>>> userPayWayAliList(@Query("userId") long userId);
+
+    //获取微信列表
+    @POST("userPaymentWay/userPayWayBankList")
+    Observable<ApiResult<List<BankList>>> userPayWayBankList(@Query("userId") long userId);
+
+    //提现
+    @POST("/userEncashment/userEncashment")
+    Observable<ApiResult<CashSuccess>> userEncashment(@Query("userId") long userId,
+                                                      @Query("encashMoney") double encashMoney,
+                                                      @Query("reciveWay") int reciveWay,
+                                                      @Query("accountNo") String accountNo,
+                                                      @Query("accountName") String accountName);
+
+    //单个提现详情
+    @POST("/userEncashment/oneUserEncashment")
+    Observable<ApiResult<CashSuccess>> oneUserEncashment(@Query("ud") String id);
+
+
 }
