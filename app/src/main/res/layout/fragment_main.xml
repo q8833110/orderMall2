@@ -43,187 +43,207 @@
                 android:paddingStart="13dp"
                 android:textColor="@color/colorBlank333333"
                 android:textColorHint="#B3B3B3"
-                android:textSize="10sp" />
+                android:textSize="12sp"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:inputType="text"
+                android:imeOptions="actionSearch"/>
         </RelativeLayout>
 
-        <com.youth.banner.Banner
-            android:id="@+id/banner"
-            android:layout_width="match_parent"
-            android:layout_height="188dp"
-            />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="112dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
             <LinearLayout
-                android:id="@+id/ll_jifen"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
                 android:orientation="vertical">
+                <com.youth.banner.Banner
+                    android:id="@+id/banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="188dp"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="112dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/ll_jifen"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/jifen" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="我要积分"
+                            android:textColor="@color/colorBlank333333"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_qiangdan"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/qiangdan" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="限时抢单"
+                            android:textColor="@color/colorBlank333333"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_yaoqing"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/yaoqing" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="邀请好友"
+                            android:textColor="@color/colorBlank333333"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="@color/colorF5F5F5" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/jifen" />
+                    android:layout_marginBottom="14dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="17dp"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="3dp"
+                        android:layout_height="15dp"
+                        android:background="@color/colorFullRed" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="积分商城介绍"
+                        android:textColor="@color/colorBlank333333"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginEnd="11dp"
+                    android:layout_marginStart="11dp"
+                    android:background="@color/colorF5F5F5" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="我要积分"
+                    android:layout_marginEnd="11dp"
+                    android:layout_marginStart="11dp"
+                    android:layout_marginTop="11dp"
+                    android:lineSpacingExtra="10sp"
+                    android:paddingBottom="26dp"
+                    android:id="@+id/tv_mall"
+                    tools:text="积分商城是一款以积分购买产品获取收益的APP,积分商城内还可以购买实体商品"
                     android:textColor="@color/colorBlank333333"
-                    android:textSize="14sp" />
-            </LinearLayout>
+                    android:textSize="12sp" />
 
-            <LinearLayout
-                android:id="@+id/ll_qiangdan"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="@color/colorF5F5F5" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/qiangdan" />
+                    android:layout_marginBottom="14dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="17dp"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="3dp"
+                        android:layout_height="15dp"
+                        android:background="@color/colorFullRed" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="积分产品介绍"
+                        android:textColor="@color/colorBlank333333"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginEnd="11dp"
+                    android:layout_marginStart="11dp"
+                    android:background="@color/colorF5F5F5" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="限时抢单"
+                    android:layout_marginEnd="11dp"
+                    android:layout_marginStart="11dp"
+                    android:layout_marginTop="11dp"
+                    android:lineSpacingExtra="10sp"
+                    android:paddingBottom="5dp"
+                    android:id="@+id/tv_procdct"
+                    tools:text="1.抢单产品限时抢单，使用报单积分进行抢单，抢单后冻结7天，时间到了本金+收益一起拿回；"
                     android:textColor="@color/colorBlank333333"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="@color/colorF5F5F5" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_yaoqing"
-                android:layout_width="0dp"
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:id="@+id/rv_shop"
+                android:visibility="gone"
+                android:background="@color/colorWhite"/>
+        </RelativeLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/yaoqing" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="邀请好友"
-                    android:textColor="@color/colorBlank333333"
-                    android:textSize="14sp" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:background="@color/colorF5F5F5" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="14dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="17dp"
-            android:orientation="horizontal">
-
-            <View
-                android:layout_width="3dp"
-                android:layout_height="15dp"
-                android:background="@color/colorFullRed" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="积分商城介绍"
-                android:textColor="@color/colorBlank333333"
-                android:textSize="15sp" />
-
-        </LinearLayout>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginEnd="11dp"
-            android:layout_marginStart="11dp"
-            android:background="@color/colorF5F5F5" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="11dp"
-            android:layout_marginStart="11dp"
-            android:layout_marginTop="11dp"
-            android:lineSpacingExtra="10sp"
-            android:paddingBottom="26dp"
-            android:id="@+id/tv_mall"
-            tools:text="积分商城是一款以积分购买产品获取收益的APP,积分商城内还可以购买实体商品"
-            android:textColor="@color/colorBlank333333"
-            android:textSize="12sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:background="@color/colorF5F5F5" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="14dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="17dp"
-            android:orientation="horizontal">
-
-            <View
-                android:layout_width="3dp"
-                android:layout_height="15dp"
-                android:background="@color/colorFullRed" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="积分产品介绍"
-                android:textColor="@color/colorBlank333333"
-                android:textSize="15sp" />
-
-        </LinearLayout>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginEnd="11dp"
-            android:layout_marginStart="11dp"
-            android:background="@color/colorF5F5F5" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="11dp"
-            android:layout_marginStart="11dp"
-            android:layout_marginTop="11dp"
-            android:lineSpacingExtra="10sp"
-            android:paddingBottom="5dp"
-            android:id="@+id/tv_procdct"
-            tools:text="1.抢单产品限时抢单，使用报单积分进行抢单，抢单后冻结7天，时间到了本金+收益一起拿回；"
-            android:textColor="@color/colorBlank333333"
-            android:textSize="12sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:background="@color/colorF5F5F5" />
     </LinearLayout>
 
 

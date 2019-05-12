@@ -17,6 +17,7 @@ import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
 import com.order.mall.ui.adapter.AddressAdapter;
 import com.order.mall.util.RetrofitUtils;
+import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,6 +95,17 @@ public class AddressActivity extends BaseActivity implements AddressAdapter.Addr
     private void initRecy(){
         deliverAddressList = new ArrayList<>();
         adapter = new AddressAdapter(this ,R.layout.item_address  , deliverAddressList);
+        adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+                // TODO: 2019/5/12/012  返回地址
+            }
+
+            @Override
+            public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                return false;
+            }
+        });
         adapter.setListener(this);
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(adapter);

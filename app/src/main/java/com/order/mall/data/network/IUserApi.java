@@ -1,6 +1,7 @@
 package com.order.mall.data.network;
 
 import com.order.mall.data.network.user.Address;
+import com.order.mall.data.network.user.AppUrlInfo;
 import com.order.mall.data.network.user.BounsScoreList;
 import com.order.mall.data.network.user.CashList;
 import com.order.mall.data.network.user.CashScoreList;
@@ -150,4 +151,8 @@ public interface IUserApi {
                                                        @Query("pageSize") int pageSize,
                                                        @Query("userId") long userId,
                                                        @Query("encashStatus") int encashStatus);
+
+    //提现列表
+    @POST("user/getAppUrlInfo")
+    Observable<ApiResult<AppUrlInfo>> getAppUrlInfo(@Query("type") String type);
 }
