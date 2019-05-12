@@ -73,7 +73,7 @@ public class RechargeCenterActivity extends BaseActivity {
 
     @OnClick(R.id.tv_recharge)
     public void toRecharge(){
-        Intent intent = new Intent(this ,ReportOrderSubActivity.class);
+        Intent intent = new Intent(this ,RechargeActivity.class);
         startActivity(intent);
     }
     @Override

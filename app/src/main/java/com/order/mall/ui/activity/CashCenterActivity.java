@@ -12,6 +12,7 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.kcrason.dynamicpagerindicatorlibrary.DynamicPagerIndicator;
 import com.order.mall.R;
 import com.order.mall.ui.BaseActivity;
+import com.order.mall.ui.activity.cash.WithdrawalActivity;
 import com.order.mall.ui.adapter.TextAdapter;
 import com.order.mall.ui.fragment.user.AllCashFragment;
 import com.order.mall.ui.fragment.user.AllRechargeFragment;
@@ -77,7 +78,7 @@ public class CashCenterActivity extends BaseActivity {
 
     @OnClick(R.id.tv_recharge)
     public void toRecharge() {
-        Intent intent = new Intent(this, ReportOrderSubActivity.class);
+        Intent intent = new Intent(this, WithdrawalActivity.class);
         startActivity(intent);
     }
 

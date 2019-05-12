@@ -83,7 +83,7 @@ public class CashWithdrawalDetailsActivity extends BaseActivity {
         time.setText(data.getCreateDate());
         price.setText(data.getCashValue() / 100 + "现金积分");
 //        amount.setText(data.getTradeAccount());
-//        remark.setText(data.getRemark());
+        remark.setText(data.getRemark());
 
         int cashType = data.getCashType();
 

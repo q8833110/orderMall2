@@ -73,6 +73,7 @@ public class AllShoppingFragment extends LazyLoadFragment {
                         dataBeans.clear();
                     }
                     dataBeans.addAll(shoppingListApiResult.getData().getData());
+                    adapter.notifyDataSetChanged();
                 }
                 refresh.finishRefresh();
                 refresh.finishLoadMore();

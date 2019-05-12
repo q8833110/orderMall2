@@ -7,7 +7,11 @@ import android.widget.TextView;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.order.mall.R;
+import com.order.mall.data.network.IUserApi;
+import com.order.mall.data.network.user.CashSuccess;
+import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
+import com.order.mall.util.RetrofitUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,7 +43,7 @@ public class WithdrawalStatusActivity extends BaseActivity {
     @BindView(R.id.tv_progress)
     TextView tvProgress;
     @BindView(R.id.id)
-    TextView id;
+    TextView orderId;
     @BindView(R.id.price)
     TextView price;
     @BindView(R.id.service_change)
@@ -52,14 +56,53 @@ public class WithdrawalStatusActivity extends BaseActivity {
     ImageView ivPayStyle;
     @BindView(R.id.amount)
     TextView amount;
+    private String id;
+    private IUserApi iUserApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_withdrawal_status);
         unbinder = ButterKnife.bind(this);
-        init();
+        iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
+        id = getIntent().getStringExtra("id");
+        tvTitle.setText("详细信息");
+        getDetails();
     }
+
+    private void getDetails() {
+        addObserver(iUserApi.oneUserEncashment(id), new NetworkObserver<ApiResult<CashSuccess>>() {
+            @Override
+            public void onReady(ApiResult<CashSuccess> apiResult) {
+                if (apiResult.getData() != null) {
+                    init(apiResult.getData());
+                }
+            }
+
+        });
+
+    }
+
+    private void init(CashSuccess data) {
+        tvInfo.setText(data.getEncashValue()/100 + "现金积分=" + data.getRmbValue()/100 + "元");
+        orderId.setText(data.getId());
+        time.setText(data.getCreateDate());
+        price.setText(data.getEncashValue() / 100 + "");
+        serviceChange.setText(data.getServiceValue()/100);
+        if (data.getEncashStatus() == 0) {
+            tvStatus.setText("已提交提现订单，待节点处理");
+            tvProgress.setText("请耐心等待后台节点处理");
+
+        } else if (data.getEncashStatus() == 1) {
+            tvStatus.setText("提现成功");
+            tvProgress.setText("节点已处理，提现金额已到指定账户");
+        } else if (data.getEncashStatus() == 2) {
+            tvStatus.setText("提现失败");
+            tvProgress.setText("现金积分冻结中目前无法进行提现");
+
+        }
+    }
+
 
     @Override
     protected void initImmersionBar() {
@@ -68,9 +111,6 @@ public class WithdrawalStatusActivity extends BaseActivity {
                 .init();
     }
 
-    private void init() {
-        tvTitle.setText("详细信息");
-    }
 
     @Override
     protected void onDestroy() {
