@@ -17,6 +17,7 @@ public class SellAdapter extends CommonAdapter<SellOrder.DataBean> {
     private Context context ;
     public SellAdapter(Context context, int layoutId, List<SellOrder.DataBean> datas) {
         super(context, layoutId, datas);
+        this.context = context ;
     }
 
     @Override

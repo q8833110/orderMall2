@@ -2,6 +2,7 @@ package com.order.mall.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,9 +17,12 @@ import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
 import com.order.mall.ui.activity.pay.QiangdanPayActivity;
 import com.order.mall.util.GlideImageLoader;
+import com.order.mall.util.ImageStringUtils;
 import com.order.mall.util.RetrofitUtils;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,13 +46,13 @@ public class DetailsSellActivity extends BaseActivity {
     @BindView(R.id.baodanjifen)
     TextView baodanjifen;
     @BindView(R.id.et_jifen)
-    EditText etJifen;
+    TextView etJifen;
     @BindView(R.id.tv_qiangdan)
     TextView tvQiangdan;
     @BindView(R.id.tv_title)
     TextView tvTitle;
 
-    private int id;
+    private String id;
 
     private int userId ;
     private IFinancialProductsApi api;
@@ -60,14 +64,13 @@ public class DetailsSellActivity extends BaseActivity {
         ButterKnife.bind(this);
         setUp();
         init();
-        addNet();
     }
 
     @Override
     protected void setUp() {
         super.setUp();
         if (getIntent() != null) {
-            id = getIntent().getIntExtra(INTENT_KEY_ORDRE_ID, -1);
+            id = getIntent().getStringExtra(INTENT_KEY_ORDRE_ID);
         }
     }
 
@@ -84,6 +87,7 @@ public class DetailsSellActivity extends BaseActivity {
         if (user != null)
         userId = (int) user.getId();
         initBanner();
+        addNet();
     }
 
     @OnClick(R.id.tv_qiangdan)
@@ -105,7 +109,7 @@ public class DetailsSellActivity extends BaseActivity {
     }
 
     public void addNet() {
-        if (id != -1)
+        if (!TextUtils.isEmpty(id))
             addObserver(api.sellOrderDetail(id), new NetworkObserver<ApiResult<SellOrder.DataBean>>() {
 
                 @Override
@@ -120,7 +124,15 @@ public class DetailsSellActivity extends BaseActivity {
     }
 
     private void addData(SellOrder.DataBean dataBean) {
+        if (dataBean.getImagess() != null && dataBean.getImagess().size() > 0)
         banner.setImages(dataBean.getImagess());
+        else{
+            if (!TextUtils.isEmpty(dataBean.getImages())){
+                List<String> urls = ImageStringUtils.getImages(dataBean.getImages());
+                if (urls != null && urls.size() > 0)
+                banner.setImages(urls);
+            }
+        }
         banner.start();
         tvTitle.setText(dataBean.getTitle());
         tvPrice.setText(dataBean.getTradeScore() +"");
@@ -128,10 +140,10 @@ public class DetailsSellActivity extends BaseActivity {
         etJifen.setText(dataBean.getTradeScore() + dataBean.getInterest() +"");
     }
 
-    @OnClick(R.id.tv_qiangdan)
+    @OnClick(R.id.tv_sell)
     void sell(){
         if (userId != 0)
-        addObserver(api.sell(userId) , new NetworkObserver<ApiResult<Boolean>>(){
+        addObserver(api.sell(id) , new NetworkObserver<ApiResult<Boolean>>(){
 
             @Override
             public void onReady(ApiResult<Boolean> booleanApiResult) {

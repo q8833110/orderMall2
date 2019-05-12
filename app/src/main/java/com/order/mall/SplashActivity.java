@@ -14,11 +14,12 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        RxHelper.delay(3, new Action1<Long>() {
+        RxHelper.delay(2, new Action1<Long>() {
             @Override
             public void call(Long aLong) {
                 Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(intent);
+                SplashActivity.this.finish();
             }
         });
     }

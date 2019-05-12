@@ -70,11 +70,11 @@ public class ShopGoods {
          */
 
         private String details;
-        private int freight;
+        private float freight;
         private int id;
         private String name;
         private String picture;
-        private int price;
+        private float price;
         private int stock;
         private String synopsis;
 
@@ -86,11 +86,11 @@ public class ShopGoods {
             this.details = details;
         }
 
-        public int getFreight() {
+        public float getFreight() {
             return freight;
         }
 
-        public void setFreight(int freight) {
+        public void setFreight(float freight) {
             this.freight = freight;
         }
 
@@ -118,11 +118,11 @@ public class ShopGoods {
             this.picture = picture;
         }
 
-        public int getPrice() {
+        public float getPrice() {
             return price;
         }
 
-        public void setPrice(int price) {
+        public void setPrice(float price) {
             this.price = price;
         }
 

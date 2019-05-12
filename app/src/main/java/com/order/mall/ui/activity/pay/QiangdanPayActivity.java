@@ -9,8 +9,10 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.order.mall.R;
 import com.order.mall.data.SharedPreferencesHelp;
 import com.order.mall.data.network.IFinancialProductsApi;
+import com.order.mall.data.network.IShopApi;
 import com.order.mall.data.network.financial.FinancialProductOrder;
 import com.order.mall.data.network.financial.PreyPay;
+import com.order.mall.data.network.shop.ShopOrder;
 import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
 import com.order.mall.util.RetrofitUtils;
@@ -20,6 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.order.mall.ui.activity.DetailsActivity.INTENT_KEY_PRODUCT_ID;
+import static com.order.mall.ui.activity.DetailsMallActivity.INTENT_KEY_SHOP_ID;
 
 public class QiangdanPayActivity extends BaseActivity {
 
@@ -39,10 +42,13 @@ public class QiangdanPayActivity extends BaseActivity {
     TextView tvPay;
 
     IFinancialProductsApi api ;
+    IShopApi shopApi ;
 
     private int productsId ;
 
     private int userId ;
+
+    private int shopId ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +65,27 @@ public class QiangdanPayActivity extends BaseActivity {
         super.setUp();
         if (getIntent() != null){
             productsId = getIntent().getIntExtra(INTENT_KEY_PRODUCT_ID ,-1);
+            shopId = getIntent().getIntExtra(INTENT_KEY_SHOP_ID , -1);
+        }
+    }
+
+    private void showBaodan(boolean baodan){
+        if (baodan){
+            tvBaodan.setText("报单积分");
+            tvBaodna1.setText("报单积分");
+        }else{
+            tvBaodan.setText("消费积分");
+            tvBaodna1.setText("消费积分");
         }
     }
 
     private void init(){
+        if (productsId != -1)
+            showBaodan(true);
+        else{
+            showBaodan(false);
+        }
+        shopApi = RetrofitUtils.getInstance().getRetrofit().create(IShopApi.class);
         api = RetrofitUtils.getInstance().getRetrofit().create(IFinancialProductsApi.class);
         userId = (int) SharedPreferencesHelp.getInstance(this).getUser().getId();
 
@@ -77,33 +100,62 @@ public class QiangdanPayActivity extends BaseActivity {
 
 
     private void net(){
-        addObserver(api.prepay(productsId  , userId) , new NetworkObserver<ApiResult<PreyPay>>(){
+        if (productsId != -1) {
+            addObserver(api.prepay(productsId, userId), new NetworkObserver<ApiResult<PreyPay>>() {
 
-            @Override
-            public void onReady(ApiResult<PreyPay> preyPayApiResult) {
-                if (preyPayApiResult.getData() !=null){
-                      PreyPay preyPay = preyPayApiResult.getData();
-                      tvJifen.setText(preyPay.getTradeScore() +"");
-                      tvJifen1.setText(preyPay.getTradeBalance() +"");
+                @Override
+                public void onReady(ApiResult<PreyPay> preyPayApiResult) {
+                    if (preyPayApiResult.getData() != null) {
+                        PreyPay preyPay = preyPayApiResult.getData();
+                        tvJifen.setText(preyPay.getTradeScore() + "");
+                        tvJifen1.setText(preyPay.getTradeBalance() + "");
+                    }
                 }
-            }
-        });
+            });
+        }else if (shopId != -1){
+            addObserver(shopApi.shopPay(shopId, userId), new NetworkObserver<ApiResult<PreyPay>>() {
+
+                @Override
+                public void onReady(ApiResult<PreyPay> preyPayApiResult) {
+                    if (preyPayApiResult.getData() != null) {
+                        PreyPay preyPay = preyPayApiResult.getData();
+                        tvJifen.setText(preyPay.getTradeScore() + "");
+                        tvJifen1.setText(preyPay.getTradeBalance() + "");
+                    }
+                }
+            });
+        }
     }
 
     @OnClick(R.id.tv_pay)
     public void pay(){
-        addObserver(api.pay(productsId , userId) , new NetworkObserver<ApiResult<FinancialProductOrder>>(){
+        if (productsId != -1) {
+            addObserver(api.pay(productsId, userId), new NetworkObserver<ApiResult<FinancialProductOrder>>() {
 
-            @Override
-            public void onReady(ApiResult<FinancialProductOrder> financialProductOrderApiResult) {
-                if (financialProductOrderApiResult.getData() != null){
-                    showToast("抢单成功");
-                    // TODO: 2019/5/11/011  跳转已购列表 
-                }else{
-                    showToast(financialProductOrderApiResult.getMessage());
+                @Override
+                public void onReady(ApiResult<FinancialProductOrder> financialProductOrderApiResult) {
+                    if (financialProductOrderApiResult.getData() != null) {
+                        showToast("抢单成功");
+                        // TODO: 2019/5/11/011  跳转已购列表
+                    } else {
+                        showToast(financialProductOrderApiResult.getMessage());
+                    }
                 }
-            }
-        });
+            });
+        }else if (shopId != -1){
+            addObserver(shopApi.pay(shopId, userId), new NetworkObserver<ApiResult<ShopOrder>>() {
+
+                @Override
+                public void onReady(ApiResult<ShopOrder> financialProductOrderApiResult) {
+                    if (financialProductOrderApiResult.getData() != null) {
+                        showToast("购物成功");
+                        // TODO: 2019/5/11/011  跳转商品已购列表
+                    } else {
+                        showToast(financialProductOrderApiResult.getMessage());
+                    }
+                }
+            });
+        }
     }
 
     @OnClick(R.id.back)

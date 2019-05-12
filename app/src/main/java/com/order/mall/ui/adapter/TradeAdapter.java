@@ -14,13 +14,8 @@ import java.util.List;
 
 public class TradeAdapter extends CommonAdapter<TradeOrderList.DataBean> {
 
-<<<<<<< HEAD
-    public TradeAdapter(Context context, int layoutId, List<Data> datas) {
-=======
-    private Context context;
-
+    private Context context ;
     public TradeAdapter(Context context, int layoutId, List<TradeOrderList.DataBean> datas) {
->>>>>>> fc8c2f69a7fed49be0865d973073ae794abca4df
         super(context, layoutId, datas);
         this.context = context;
     }

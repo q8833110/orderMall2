@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,7 +10,7 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="#f5f5f5">
         <View
@@ -53,9 +54,12 @@
             android:paddingStart="10dp"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
-            android:text="科沃斯扫地机器人DJ35智能家用全自动吸小米粒洗擦地拖地扫一体机扫地机器人..."
+            android:id="@+id/tv_title"
+            tools:text="科沃斯扫地机器人DJ35智能家用全自动吸小米粒洗擦地拖地扫一体机扫地机器人..."
             android:textColor="@color/colorBlank333333"
-            android:textSize="14dp" />
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textSize="14sp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -66,7 +70,7 @@
             android:lineSpacingExtra="5dp"
             android:textSize="12sp"
             android:textColor="#999999"
-            android:text="科沃斯扫地机器人DJ35智能家用全自动吸小米粒洗擦地拖地扫一体机+送原装配件礼包"
+            tools:text="科沃斯扫地机器人DJ35智能家用全自动吸小米粒洗擦地拖地扫一体机+送原装配件礼包"
             android:background="@color/colorWhite"/>
 
         <RelativeLayout
@@ -81,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/vt_price"
-                android:text="1799"
+                tools:text="1799"
                 android:textSize="24sp"
                 android:textColor="@color/colorFullRed"/>
 
@@ -121,7 +125,7 @@
                 android:layout_toEndOf="@id/t1"
                 android:textSize="12sp"
                 android:textColor="#333333"
-                android:text="免运费"/>
+                tools:text="免运费"/>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -133,10 +137,10 @@
 
         </RelativeLayout>
 
-        <ImageView
+        <WebView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/image_detail"/>
+            android:layout_height="match_parent"
+            android:id="@+id/wb"/>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
 

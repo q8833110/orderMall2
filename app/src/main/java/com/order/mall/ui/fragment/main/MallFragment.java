@@ -13,11 +13,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.order.mall.R;
+import com.order.mall.data.network.IShopApi;
+import com.order.mall.data.network.shop.ShopGoods;
+import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.activity.DetailsMallActivity;
 import com.order.mall.ui.adapter.MallAdapter;
+import com.order.mall.util.RetrofitUtils;
 import com.order.mall.util.ScreenUtils;
-import com.order.mall.widget.DividerGridItemDecoration;
 import com.order.mall.widget.SpaceItemDecoration;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 
 import java.util.ArrayList;
@@ -29,6 +36,7 @@ import butterknife.Unbinder;
 
 public class MallFragment extends LazyLoadFragment {
 
+    public static final String INTENT_KEY_SHOP_ID  = "INTENT_KEY_SHOP_ID";
     @BindView(R.id.iv_message)
     ImageView ivMessage;
     @BindView(R.id.et_search)
@@ -36,10 +44,17 @@ public class MallFragment extends LazyLoadFragment {
     @BindView(R.id.rv)
     RecyclerView rv;
     Unbinder unbinder;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
     private View rootView;
 
     MallAdapter mallAdapter;
 
+    private IShopApi shopApi;
+
+    List<ShopGoods.ShopGood> shopGoods;
+
+    private int page ;
     public static MallFragment newInstance() {
         MallFragment fragment = new MallFragment();
         return fragment;
@@ -55,15 +70,14 @@ public class MallFragment extends LazyLoadFragment {
     }
 
     private void init() {
-        List<MallAdapter.Mall> list = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            list.add(new MallAdapter.Mall());
-        }
-        mallAdapter = new MallAdapter(getContext(), R.layout.item_mall, list);
+        shopApi = RetrofitUtils.getInstance().getRetrofit().create(IShopApi.class);
+        shopGoods = new ArrayList<>();
+        mallAdapter = new MallAdapter(getContext(), R.layout.item_mall, shopGoods);
         mallAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                Intent intent = new Intent(getContext() , DetailsMallActivity.class);
+                Intent intent = new Intent(getContext(), DetailsMallActivity.class);
+                intent.putExtra(INTENT_KEY_SHOP_ID , shopGoods.get(position).getId());
                 startActivity(intent);
             }
 
@@ -73,17 +87,54 @@ public class MallFragment extends LazyLoadFragment {
             }
         });
         rv.setAdapter(mallAdapter);
-        rv.addItemDecoration(new SpaceItemDecoration(ScreenUtils.dpToPxInt(getContext() , 5)));
+        rv.addItemDecoration(new SpaceItemDecoration(ScreenUtils.dpToPxInt(getContext(), 5)));
         rv.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        initBanner();
+    }
+
+    private void initBanner() {
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshLayout) {
+                refreshLayout.finishRefresh();
+                page = 1;
+                referList(page, 10);
+            }
+        });
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(RefreshLayout refreshLayout) {
+                refreshLayout.finishLoadMore();
+                page++;
+                referList(page, 10);
+            }
+        });
+        refreshLayout.setEnableLoadMore(true);
+        refreshLayout.setEnableRefresh(true);
+        refreshLayout.autoRefresh();
     }
 
     @Override
     protected void loadData() {
-        addNet();
+        if (refreshLayout != null)
+            refreshLayout.autoRefresh();
     }
 
-    private void addNet(){
+    private void referList(final int page , int pageSize) {
+        addObserver(shopApi.shopList(page , 10 , "") , new NetworkObserver<ApiResult<ShopGoods>>(){
 
+            @Override
+            public void onReady(ApiResult<ShopGoods> shopGoodsApiResult) {
+                if (shopGoodsApiResult.getData() != null &&
+                        shopGoodsApiResult.getData().getData() != null
+                        &&shopGoodsApiResult.getData().getData().size() > 0){
+                    if (page == 1)
+                        shopGoods.clear();
+                    shopGoods.addAll(shopGoodsApiResult.getData().getData());
+                    mallAdapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     @Override

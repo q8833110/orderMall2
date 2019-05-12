@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="#f0f2f5">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -54,7 +55,9 @@
             android:paddingStart="10dp"
             android:paddingTop="15dp"
             android:id="@+id/tv_title"
-            android:text="科沃斯扫地机器人DJ35智能家用全自动吸小米粒洗擦地拖地扫一体机扫地机器人..."
+            android:maxLines="2"
+            android:ellipsize="end"
+            tools:text="科沃斯扫地机器人DJ35智能家用全自动吸小米粒洗擦地拖地扫一体机扫地机器人..."
             android:textColor="@color/colorBlank333333"
             android:textSize="14dp" />
 
@@ -118,9 +121,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:layout_toEndOf="@id/tv_qiangdan_title"
-                android:text="1799"
+                tools:text="1799"
                 android:textColor="@color/colorFullRed"
-                android:textSize="24sp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -149,9 +152,9 @@
                 android:layout_marginStart="6dp"
                 android:layout_marginTop="15dp"
                 android:layout_toStartOf="@id/jifen_title"
-                android:text="800"
+                tools:text="800"
                 android:textColor="@color/colorFullRed"
-                android:textSize="24sp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -246,7 +249,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_qiangdan"
+        android:id="@+id/tv_sell"
         android:layout_width="match_parent"
         android:layout_height="49dp"
         android:layout_alignParentBottom="true"

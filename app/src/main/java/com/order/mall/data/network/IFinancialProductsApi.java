@@ -32,10 +32,10 @@ public interface IFinancialProductsApi {
 
     // 卖出商品详情
     @POST("financialProductsOrder/financialProductsOrderDetail")
-    Observable<ApiResult<SellOrder.DataBean>> sellOrderDetail(@Query("id") int  id );
+    Observable<ApiResult<SellOrder.DataBean>> sellOrderDetail(@Query("id") String  id );
 
 
     // 卖出商品订单
     @POST("financialProductsOrder/financialProductsOrderSell")
-    Observable<ApiResult<Boolean>> sell(@Query("id") int  id );
+    Observable<ApiResult<Boolean>> sell(@Query("id") String  id );
 }
