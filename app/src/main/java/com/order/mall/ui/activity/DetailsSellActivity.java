@@ -2,6 +2,7 @@ package com.order.mall.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,6 +17,7 @@ import com.order.mall.data.network.login.UserRespDTO;
 import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
 import com.order.mall.ui.activity.pay.QiangdanPayActivity;
+import com.order.mall.ui.activity.user.TradeAllActivity;
 import com.order.mall.util.GlideImageLoader;
 import com.order.mall.util.ImageStringUtils;
 import com.order.mall.util.RetrofitUtils;
@@ -28,6 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.order.mall.ui.activity.DetailsMallActivity.INTNET_KEY_PAY;
 import static com.order.mall.ui.fragment.trade.SellFragment.INTENT_KEY_ORDRE_ID;
 
 public class DetailsSellActivity extends BaseActivity {
@@ -93,7 +96,7 @@ public class DetailsSellActivity extends BaseActivity {
     @OnClick(R.id.tv_qiangdan)
     public void qiangdan() {
         Intent intent = new Intent(this, QiangdanPayActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent ,INTNET_KEY_PAY);
     }
 
     @Override
@@ -149,11 +152,23 @@ public class DetailsSellActivity extends BaseActivity {
             public void onReady(ApiResult<Boolean> booleanApiResult) {
                 if (booleanApiResult.getData() != null && booleanApiResult.getData()){
                     showToast(booleanApiResult.getMessage());
-                    // TODO: 2019/5/11/011  跳转到卖出界面
+                    Intent intent = new Intent(DetailsSellActivity.this, TradeAllActivity.class);
+                    intent.putExtra("position", 4);
+                    startActivity(intent);
                 }else{
                     showToast(booleanApiResult.getMessage());
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK){
+            if (resultCode == INTNET_KEY_PAY){
+                this.finish();
+            }
+        }
     }
 }

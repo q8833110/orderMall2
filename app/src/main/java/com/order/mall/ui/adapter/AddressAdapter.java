@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.RadioButton;
 
 import com.order.mall.R;
+import com.order.mall.data.SharedPreferencesHelp;
 import com.order.mall.data.network.user.UserDeliverAddress;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -47,6 +48,19 @@ public class AddressAdapter extends CommonAdapter<UserDeliverAddress> {
                 if (listener != null) listener.delete(position);
             }
         });
+
+        holder.setOnClickListener(R.id.radius, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RadioButton radioButton1 = holder.getView(R.id.radius);
+                if (listener != null) listener.edit(position , radioButton.isChecked() );
+            }
+        });
+
+        if (data.isIsDefault()){
+            SharedPreferencesHelp.getInstance(mContext).putAddress(data);
+        }
+
     }
 
 
@@ -55,6 +69,8 @@ public class AddressAdapter extends CommonAdapter<UserDeliverAddress> {
         void delete(int position );
 
         void edit(int position);
+
+        void edit(int position , boolean isCheck);
     }
 
 }

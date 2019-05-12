@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.order.mall.data.network.login.UserRespDTO;
+import com.order.mall.data.network.user.UserDeliverAddress;
 import com.order.mall.util.RetrofitUtils;
 
 import javax.inject.Inject;
@@ -82,6 +83,23 @@ public class SharedPreferencesHelp {
         String user =  gson.toJson(userRespDTO);
         putString(KEY_USER , user);
     }
+
+    private static final String KEY_DELIVER = "KEY_DELIVER";
+    public void putAddress(UserDeliverAddress address){
+        String user =  gson.toJson(address);
+        putString(KEY_DELIVER , user);
+    }
+
+    public UserDeliverAddress getAddress(){
+        try {
+            UserDeliverAddress address = gson.fromJson(getString(KEY_DELIVER), UserDeliverAddress.class);
+            return  address ;
+        }catch (Exception e){
+            return null ;
+        }
+    }
+
+
 
     public UserRespDTO getUser(){
         try {

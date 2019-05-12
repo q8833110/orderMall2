@@ -3,6 +3,7 @@ package com.order.mall.ui.activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -146,11 +147,22 @@ public class DetailsMallActivity extends BaseActivity {
         this.finish();
     }
 
+    public static int INTNET_KEY_PAY =  0x111;
     @OnClick(R.id.tv_mall)
     public void mall(){
         Intent intent = new Intent(this , QiangdanPayActivity.class);
         if (shopGood != null)
         intent.putExtra(INTENT_KEY_SHOP_ID ,shopGood.getId());
-        startActivity(intent);
+        startActivityForResult(intent , INTNET_KEY_PAY);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == INTNET_KEY_PAY) {
+                this.finish();
+            }
+        }
     }
 }

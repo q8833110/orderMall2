@@ -16,9 +16,11 @@ import com.order.mall.data.network.IShopApi;
 import com.order.mall.data.network.financial.FinancialProductOrder;
 import com.order.mall.data.network.financial.PreyPay;
 import com.order.mall.data.network.shop.ShopOrder;
+import com.order.mall.data.network.user.UserDeliverAddress;
 import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
 import com.order.mall.ui.activity.user.AddressActivity;
+import com.order.mall.ui.activity.user.ShoppingCenterActivity;
 import com.order.mall.ui.activity.user.TradeAllActivity;
 import com.order.mall.util.RetrofitUtils;
 
@@ -103,6 +105,17 @@ public class QiangdanPayActivity extends BaseActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (address == null){
+            UserDeliverAddress address1 = SharedPreferencesHelp.getInstance(this).getAddress();
+            if (address1 != null){
+                tvReceive.setText(address1.getAddress() + address1.getAddressDetail());
+            }
+        }
+    }
+
+    @Override
     protected void initImmersionBar() {
         ImmersionBar.with(this)
                 .statusBarDarkFont(true, 0.2f) //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
@@ -150,6 +163,8 @@ public class QiangdanPayActivity extends BaseActivity {
                         Intent intent = new Intent(QiangdanPayActivity.this, TradeAllActivity.class);
                         intent.putExtra("position", 1);
                         startActivity(intent);
+                        setResult(RESULT_OK );
+                        QiangdanPayActivity.this.finish();
                     } else {
                         showToast(financialProductOrderApiResult.getMessage());
                     }
@@ -162,10 +177,10 @@ public class QiangdanPayActivity extends BaseActivity {
                 public void onReady(ApiResult<ShopOrder> financialProductOrderApiResult) {
                     if (financialProductOrderApiResult.getData() != null) {
                         showToast("购物成功");
-                        // TODO: 2019/5/11/011  跳转商品已购列表
-                        Intent intent = new Intent(QiangdanPayActivity.this, TradeAllActivity.class);
-                        intent.putExtra("position", 1);
+                        Intent intent = new Intent(QiangdanPayActivity.this, ShoppingCenterActivity.class);
                         startActivity(intent);
+                        setResult(RESULT_OK );
+                        QiangdanPayActivity.this.finish();
                     } else {
                         showToast(financialProductOrderApiResult.getMessage());
                     }
@@ -181,19 +196,25 @@ public class QiangdanPayActivity extends BaseActivity {
 
     public static final int REQUEST_CODE_RECEIVE = 01 ;
     public static final String RESULT_ADDRESS  = "RESULT_ADDRESS" ;
+    public static final String INTENT_KEY_ADDRESS = "INTENT_KEY_ADDRESS" ;
     @OnClick(R.id.rl_receive)
     public void choseReceive(){
         Intent intent = new Intent(this , AddressActivity.class);
+        intent.putExtra(INTENT_KEY_ADDRESS , 2);
         startActivityForResult(intent , REQUEST_CODE_RECEIVE );
     }
 
+    UserDeliverAddress address ;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_RECEIVE){
             if (data != null) {
-                String address = data.getStringExtra(RESULT_ADDRESS);
-                tvReceive.setText(address);
+                address = data.getParcelableExtra(RESULT_ADDRESS);
+                if (address != null){
+                    String add = address.getAddress() + address.getAddressDetail();
+                    tvReceive.setText(add);
+                }
             }
         }
     }

@@ -121,6 +121,7 @@ public class AddAddressActivity extends BaseActivity implements MyDialog.OkDialo
                 etMobile.setText(mobile);
                 etAddressDetail.setText(addressDetails);
                 tvAddress.setText(address);
+                switchButton.setChecked(userDeliverAddress.isIsDefault());
                 showDelete();
             } else {
                 hideDelete();
@@ -130,6 +131,23 @@ public class AddAddressActivity extends BaseActivity implements MyDialog.OkDialo
                 tvAddress.setText("");
             }
         }
+    }
+
+    @OnClick(R.id.delete)
+    public  void delete(){
+        if (userDeliverAddress == null) return ;
+        addObserver(userApi.delUserDelivery(userDeliverAddress.getId() , userId) , new NetworkObserver<ApiResult<Boolean>>(){
+
+            @Override
+            public void onReady(ApiResult<Boolean> stringApiResult) {
+                if (stringApiResult.getData()!= null && stringApiResult.getData()){
+                    showToast("删除成功");
+                    AddAddressActivity.this.finish();
+                }else{
+                    showToast(stringApiResult.getMessage());
+                }
+            }
+        });
     }
 
     private void showDate() {
@@ -295,6 +313,8 @@ public class AddAddressActivity extends BaseActivity implements MyDialog.OkDialo
         String address = tvAddress.getText().toString();
         String addressDetail = etAddressDetail.getText().toString();
         HashMap<String, Object> hashMap = new HashMap<>();
+        if(userDeliverAddress != null)
+            hashMap.put("id" ,userDeliverAddress.getId() );
         hashMap.put("userId", userId);
         hashMap.put("reciver", name);
         hashMap.put("mobile", mobile);
@@ -306,10 +326,18 @@ public class AddAddressActivity extends BaseActivity implements MyDialog.OkDialo
             @Override
             public void onReady(ApiResult<Boolean> booleanApiResult) {
                 if (booleanApiResult.getData()) {
-                    showToast("添加地址成功");
+                    if (userDeliverAddress != null){
+                        showToast("修改地址成功");
+                    }else {
+                        showToast("添加地址成功");
+                    }
                     back();
                 } else {
-                    showToast("添加地址失败");
+                    if (userDeliverAddress != null){
+                        showToast("修改地址失败");
+                    }else {
+                        showToast("添加地址失败");
+                    }
                 }
             }
         });

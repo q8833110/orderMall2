@@ -24,35 +24,35 @@ public class FinancialProductOrder {
      * userId : 0
      */
 
-    private int annualizedRate;
-    private int consumeRate;
+    private float annualizedRate;
+    private float consumeRate;
     private String createTime;
     private int days;
     private int endTimeMs;
     private String finishTime;
     private String id;
     private String images;
-    private int interest;
+    private float interest;
     private String onsaleTime;
     private int status;
     private String title;
-    private int tradeScore;
+    private float tradeScore;
     private int userId;
     private List<String> imagess;
 
-    public int getAnnualizedRate() {
+    public float getAnnualizedRate() {
         return annualizedRate;
     }
 
-    public void setAnnualizedRate(int annualizedRate) {
+    public void setAnnualizedRate(float annualizedRate) {
         this.annualizedRate = annualizedRate;
     }
 
-    public int getConsumeRate() {
+    public float getConsumeRate() {
         return consumeRate;
     }
 
-    public void setConsumeRate(int consumeRate) {
+    public void setConsumeRate(float consumeRate) {
         this.consumeRate = consumeRate;
     }
 
@@ -104,11 +104,11 @@ public class FinancialProductOrder {
         this.images = images;
     }
 
-    public int getInterest() {
+    public float getInterest() {
         return interest;
     }
 
-    public void setInterest(int interest) {
+    public void setInterest(float interest) {
         this.interest = interest;
     }
 
@@ -136,11 +136,11 @@ public class FinancialProductOrder {
         this.title = title;
     }
 
-    public int getTradeScore() {
+    public float getTradeScore() {
         return tradeScore;
     }
 
-    public void setTradeScore(int tradeScore) {
+    public void setTradeScore(float tradeScore) {
         this.tradeScore = tradeScore;
     }
 

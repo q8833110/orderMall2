@@ -299,5 +299,15 @@ public interface IUserApi {
     @POST("shoppingOrder/receive")
     Observable<ApiResult> receive(@Query("id") String id);
 
+    /**
+     * 删除地址
+     * @param deliveryId
+     * @param userId
+     * @return
+     */
+    @POST("userDelivery/delUserDeliveryById")
+    Observable<ApiResult<Boolean>> delUserDelivery(@Query("deliveryId") String deliveryId ,
+                                          @Query("userId") int userId);
+
 
 }
