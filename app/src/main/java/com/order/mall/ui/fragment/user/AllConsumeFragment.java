@@ -12,10 +12,13 @@ import android.view.ViewGroup;
 
 import com.order.mall.R;
 import com.order.mall.data.network.IUserApi;
-import com.order.mall.data.network.user.BounsScoreList;
+import com.order.mall.data.network.user.CashList;
+import com.order.mall.data.network.user.ConsumeList;
 import com.order.mall.model.netword.ApiResult;
+import com.order.mall.ui.BaseActivity;
 import com.order.mall.ui.activity.Jifenxiangqing2Activity;
-import com.order.mall.ui.adapter.BonusScoreListAdapter;
+import com.order.mall.ui.adapter.CashCenterAdapter;
+import com.order.mall.ui.adapter.ConsumeScoreListAdapter;
 import com.order.mall.ui.fragment.main.LazyLoadFragment;
 import com.order.mall.util.RetrofitUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -31,7 +34,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class AllBonusFragment extends LazyLoadFragment {
+public class AllConsumeFragment extends LazyLoadFragment {
 
     @BindView(R.id.rv)
     RecyclerView rv;
@@ -39,11 +42,16 @@ public class AllBonusFragment extends LazyLoadFragment {
     SmartRefreshLayout refresh;
     Unbinder unbinder;
 
-    private BonusScoreListAdapter adapter;
+    private ConsumeScoreListAdapter adapter;
     private IUserApi iUserApi;
 
-    public static AllBonusFragment newInstance(int type) {
-        AllBonusFragment fragment = new AllBonusFragment();
+    private int pageNum = 1;
+    private int pageSize = 10;
+    private long userId = 500000;
+    private int type;
+
+    public static AllConsumeFragment newInstance(int type) {
+        AllConsumeFragment fragment = new AllConsumeFragment();
         Bundle args = new Bundle();
         args.putInt("type", type);
         fragment.setArguments(args);
@@ -52,12 +60,7 @@ public class AllBonusFragment extends LazyLoadFragment {
     }
 
     private View rootView;
-
-    private int pageNum = 1;
-    private int pageSize = 10;
-    private long userId = 500000;
-    private int type = 0;
-    List<BounsScoreList.DataBean> list = new ArrayList<>();
+    private List<ConsumeList.DataBean> dataBeans = new ArrayList<>();
 
     @Override
     protected void loadData() {
@@ -66,6 +69,26 @@ public class AllBonusFragment extends LazyLoadFragment {
         } else {
             getList();
         }
+
+    }
+
+    private void getAll() {
+        addObserver(iUserApi.consumeBalanceDetailsListAll(pageNum, pageSize, userId), new NetworkObserver<ApiResult<ConsumeList>>() {
+
+            @Override
+            public void onReady(ApiResult<ConsumeList> consumeListApiResult) {
+                if (consumeListApiResult.getData() != null && consumeListApiResult.getData().getData() != null) {
+                    if (pageNum == 1) {
+                        dataBeans.clear();
+                    }
+                    dataBeans.addAll(consumeListApiResult.getData().getData());
+                    adapter.notifyDataSetChanged();
+                }
+                refresh.finishRefresh();
+                refresh.finishLoadMore();
+            }
+        });
+
     }
 
 
@@ -75,54 +98,28 @@ public class AllBonusFragment extends LazyLoadFragment {
         rootView = inflater.inflate(R.layout.fragment_all_grade, container, false);
         unbinder = ButterKnife.bind(this, rootView);
         iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
+//        userId = SharedPreferencesHelp.getInstance(getActivity()).getUser().getId();
         type = getArguments().getInt("type");
         init();
+
         return rootView;
     }
 
-    /**
-     * 获取全部列表
-     */
-    private void getAll() {
-
-        addObserver(iUserApi.bonusBalanceDetailsListAll(pageNum, pageSize, userId), new NetworkObserver<ApiResult<BounsScoreList>>() {
-            @Override
-            public void onReady(ApiResult<BounsScoreList> bounsScoreListApiResult) {
-                if (bounsScoreListApiResult.getData() != null && bounsScoreListApiResult.getData().getData() != null
-                        && bounsScoreListApiResult.getData().getData().size() > 0) {
-                    if (pageNum == 1) {
-                        list.clear();
-                    }
-                    list.addAll(bounsScoreListApiResult.getData().getData());
-                    adapter.notifyDataSetChanged();
-                }
-                refresh.finishRefresh();
-                refresh.finishLoadMore();
-            }
-        });
-    }
-
-    /**
-     * 获取列表数据
-     */
     private void getList() {
-
-        addObserver(iUserApi.bonusBalanceDetailsList(pageNum, pageSize, userId, type), new NetworkObserver<ApiResult<BounsScoreList>>() {
+        addObserver(iUserApi.consumeBalanceDetailsList(pageNum, pageSize, userId, type), new NetworkObserver<ApiResult<ConsumeList>>() {
             @Override
-            public void onReady(ApiResult<BounsScoreList> bounsScoreListApiResult) {
-                if (bounsScoreListApiResult.getData() != null && bounsScoreListApiResult.getData().getData() != null
-                        && bounsScoreListApiResult.getData().getData().size() > 0) {
+            public void onReady(ApiResult<ConsumeList> consumeListApiResult) {
+                if (consumeListApiResult.getData() != null && consumeListApiResult.getData().getData() != null) {
                     if (pageNum == 1) {
-                        list.clear();
+                        dataBeans.clear();
                     }
-                    list.addAll(bounsScoreListApiResult.getData().getData());
+                    dataBeans.addAll(consumeListApiResult.getData().getData());
                     adapter.notifyDataSetChanged();
                 }
                 refresh.finishRefresh();
                 refresh.finishLoadMore();
             }
         });
-
     }
 
     private void init() {
@@ -146,16 +143,15 @@ public class AllBonusFragment extends LazyLoadFragment {
         });
     }
 
-
     private void initRecy() {
-        adapter = new BonusScoreListAdapter(getContext(), R.layout.item_payment1, list);
 
+        adapter = new ConsumeScoreListAdapter(getContext(), R.layout.item_payment1, dataBeans);
         adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                 Intent intent = new Intent(getContext(), Jifenxiangqing2Activity.class);
-                intent.putExtra("id", list.get(position).getId());
-                intent.putExtra("type",1);
+                intent.putExtra("id", dataBeans.get(position).getId());
+                intent.putExtra("type",2);
                 startActivity(intent);
             }
 

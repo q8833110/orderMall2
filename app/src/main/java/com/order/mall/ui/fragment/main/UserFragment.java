@@ -21,6 +21,7 @@ import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.activity.Baodanjifen;
 import com.order.mall.ui.activity.CashJifenActivity;
 import com.order.mall.ui.activity.bonus.BonusMainActivity;
+import com.order.mall.ui.activity.consume.ConsumeMainActivity;
 import com.order.mall.ui.activity.user.AddressActivity;
 import com.order.mall.ui.activity.user.InvitationActivity;
 import com.order.mall.ui.activity.user.MyteamActivity;
@@ -119,6 +120,7 @@ public class UserFragment extends LazyLoadFragment {
     private int tradeBalance;
     private int cashBalance;
     private int bonusBalance;
+    private int consumeBalance;
 
     public static UserFragment newInstance() {
         UserFragment fragment = new UserFragment();
@@ -172,7 +174,8 @@ public class UserFragment extends LazyLoadFragment {
         bonusBalance = data.getBonusBalance();
         tvJiangjinjifen.setText(bonusBalance);
         //消费积分
-        tvXiaofeijifen.setText(data.getConsumeBalance());
+        consumeBalance = data.getConsumeBalance();
+        tvXiaofeijifen.setText(consumeBalance);
 //        SharedPreferencesHelp.getInstance(getActivity()).putUser();
 
     }
@@ -204,6 +207,12 @@ public class UserFragment extends LazyLoadFragment {
     public void toBaodan() {
         Intent intent = new Intent(getContext(), Baodanjifen.class);
         intent.putExtra("tradeBalance", tradeBalance);
+        startActivity(intent);
+    }
+    @OnClick(R.id.ll_xiaofeijifen)
+    public void toXiaofei() {
+        Intent intent = new Intent(getContext(), ConsumeMainActivity.class);
+        intent.putExtra("consumeBalance", consumeBalance);
         startActivity(intent);
     }
 

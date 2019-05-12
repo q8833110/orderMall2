@@ -1,10 +1,13 @@
 package com.order.mall.data.network;
 
 import com.order.mall.data.network.user.Address;
+import com.order.mall.data.network.user.BonusScoreDetails;
 import com.order.mall.data.network.user.BounsScoreList;
 import com.order.mall.data.network.user.CashList;
 import com.order.mall.data.network.user.CashScoreList;
 import com.order.mall.data.network.user.CashScoreDetails;
+import com.order.mall.data.network.user.ConsumeDetails;
+import com.order.mall.data.network.user.ConsumeList;
 import com.order.mall.data.network.user.RechargeCenter;
 import com.order.mall.data.network.user.RechargeDetails;
 import com.order.mall.data.network.user.ShoppingList;
@@ -160,4 +163,25 @@ public interface IUserApi {
     @POST("balanceDetails/bonusIntoCash")
     Observable<ApiResult> bonusIntoCash(@Query("value") String value,
                                         @Query("userId") int userId);
+
+    //单个奖金积分明细
+    @POST("balanceDetails/oneBonusBalanceDetails")
+    Observable<ApiResult<BonusScoreDetails>> oneBonusBalanceDetails(@Query("id") String id);
+
+    //消费积分列表（全部）
+    @POST("balanceDetails/consumeBalanceDetailsList")
+    Observable<ApiResult<ConsumeList>> consumeBalanceDetailsListAll(@Query("pageNum") int pageNum,
+                                                                    @Query("pageSize") int pageSize,
+                                                                    @Query("userId") long userId);
+
+    //消费积分列表
+    @POST("balanceDetails/consumeBalanceDetailsList")
+    Observable<ApiResult<ConsumeList>> consumeBalanceDetailsList(@Query("pageNum") int pageNum,
+                                                                 @Query("pageSize") int pageSize,
+                                                                 @Query("userId") long userId,
+                                                                 @Query("type") int type);
+
+    //单个消费积分明细
+    @POST("balanceDetails/oneConsumeBalanceDetails")
+    Observable<ApiResult<ConsumeDetails>> oneConsumeBalanceDetails(@Query("id") String id);
 }

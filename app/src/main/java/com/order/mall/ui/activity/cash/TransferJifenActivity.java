@@ -134,7 +134,7 @@ public class TransferJifenActivity extends BaseActivity {
     }
 
     private void init() {
-        tvTitle.setText("详细信息");
+        tvTitle.setText("积分转账");
         if (type == 1) {
             tvYue.setText("可用余额：" + num + "现金积分");
             tips.setText("转出到报单积分数");

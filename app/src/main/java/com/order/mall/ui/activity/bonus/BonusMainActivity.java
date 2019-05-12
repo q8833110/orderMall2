@@ -16,6 +16,7 @@ import com.order.mall.data.network.user.BounsScoreList;
 import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
 import com.order.mall.ui.activity.JiFenDetails;
+import com.order.mall.ui.activity.Jifenxiangqing2Activity;
 import com.order.mall.ui.activity.RechargeCenterActivity;
 import com.order.mall.ui.activity.ReportDetailActivity;
 import com.order.mall.ui.activity.cash.TransferJifenActivity;
@@ -121,9 +122,10 @@ public class BonusMainActivity extends BaseActivity {
         adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-//                Intent intent = new Intent(getContext(), ReportDetailActivity.class);
-//                intent.putExtra("id",dataBeans.get(position).getId());
-//                startActivity(intent);
+                Intent intent = new Intent(BonusMainActivity.this, Jifenxiangqing2Activity.class);
+                intent.putExtra("id",dataBeans.get(position).getId());
+                intent.putExtra("type",1);
+                startActivity(intent);
             }
 
             @Override

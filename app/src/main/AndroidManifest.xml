@@ -201,6 +201,10 @@
         <activity
             android:name=".ui.activity.cash.TransferJifenActivity"
             android:screenOrientation="portrait" />
+        <!--奖金 消费积分详情-->
+        <activity
+            android:name=".ui.activity.Jifenxiangqing2Activity"
+            android:screenOrientation="portrait" />
 
         <!-- 添加支付宝 -->
         <activity
