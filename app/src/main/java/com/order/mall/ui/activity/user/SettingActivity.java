@@ -331,6 +331,8 @@ public class SettingActivity extends BaseActivity {
                     List<String> urls = stringApiResult.getData();
                     Glide.with(SettingActivity.this).load(urls.get(0)).into(ivHead);
                     showToast("修改头像成功");
+                    user.setAvatar(urls.get(0));
+                    SharedPreferencesHelp.getInstance(SettingActivity.this).putUser(user);
                 } else {
                     showToast(stringApiResult.getMessage());
                 }

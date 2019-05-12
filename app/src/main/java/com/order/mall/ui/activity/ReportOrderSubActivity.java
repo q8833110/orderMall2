@@ -1,24 +1,50 @@
 package com.order.mall.ui.activity;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.gyf.immersionbar.ImmersionBar;
 import com.order.mall.R;
+import com.order.mall.data.SharedPreferencesHelp;
+import com.order.mall.data.network.IBaseApi;
 import com.order.mall.data.network.IUserApi;
 import com.order.mall.data.network.user.RechargeDetails;
 import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
+import com.order.mall.ui.MainActivity;
+import com.order.mall.ui.activity.user.SettingActivity;
+import com.order.mall.ui.widget.Dialog.ActionSheetDialog;
 import com.order.mall.util.RetrofitUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+
+import static android.provider.MediaStore.Images.Media.getBitmap;
+import static com.order.mall.ui.activity.user.SettingActivity.getRealPathFromUri;
 
 /**
  * 订单提交
@@ -61,8 +87,38 @@ public class ReportOrderSubActivity extends BaseActivity {
     ImageView pay2;
 
     Unbinder unbinder;
+    @BindView(R.id.line1)
+    View line1;
+    @BindView(R.id.line5)
+    View line5;
+    @BindView(R.id.add1)
+    ImageView add1;
+    @BindView(R.id.delete2)
+    ImageView delete2;
+    @BindView(R.id.rl_add1)
+    RelativeLayout rlAdd1;
+    @BindView(R.id.add2)
+    ImageView add2;
+    @BindView(R.id.delete1)
+    ImageView delete1;
+    @BindView(R.id.rl_add2)
+    RelativeLayout rlAdd2;
+    @BindView(R.id.tv_contact)
+    TextView tvContact;
+    @BindView(R.id.tv_cancel)
+    TextView tvCancel;
+    @BindView(R.id.tv_already_pay)
+    TextView tvAlreadyPay;
     private IUserApi iUserApi;
     private String orderId;
+
+    private int choseImage = -1;
+
+    private Uri mPhotoImageUri;
+    private Uri mPickImageUri;
+    private Uri mCropImageUri;
+
+    private IBaseApi baseApi ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +128,7 @@ public class ReportOrderSubActivity extends BaseActivity {
         iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
         orderId = getIntent().getStringExtra("id");
         tvTitle.setText("订单详情");
+        baseApi = RetrofitUtils.getInstance().getRetrofit().create(IBaseApi.class);
         getDetails();
     }
 
@@ -94,8 +151,9 @@ public class ReportOrderSubActivity extends BaseActivity {
         });
 
     }
-
+    private  RechargeDetails data ;
     private void init(RechargeDetails data) {
+        this.data = data ;
         id.setText(data.getId());
         price.setText(data.getAmount() + "");
         time.setText(data.getCreateTime());
@@ -104,7 +162,6 @@ public class ReportOrderSubActivity extends BaseActivity {
         amount.setText(data.getToAccount());
         name.setText(data.getToUser());
         Glide.with(this).load(data.getToQrCode()).into(ivQrcode);
-
         String proofOfPay = data.getProofOfPay();
 //        if (proofOfPay.contains(";")) {
 //            String[] split = proofOfPay.split(";");
@@ -170,5 +227,237 @@ public class ReportOrderSubActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+    }
+
+    private Uri getCropUri(String fileName) {
+        String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/xiaolian/";
+        File path = new File(filePath);
+        if (!path.exists() && !path.mkdirs()) {
+            showToast("没有SD卡权限");
+            return null;
+        }
+        File outputImage = new File(path, fileName + ".jpg");
+        try {
+            if (outputImage.exists() && !outputImage.delete()) {
+                showToast("没有SD卡权限");
+                return null;
+            }
+            if (!outputImage.createNewFile()) {
+                showToast("没有SD卡权限");
+                return null;
+            }
+        } catch (IOException e) {
+            Log.e(TAG, e.getMessage());
+        }
+        return Uri.fromFile(outputImage);
+    }
+
+    ActionSheetDialog actionSheetDialog;
+
+    private static final int REQUEST_CODE_CAMERA = 0x1103;
+    private static final int REQUEST_CODE_PICK = 0x1104;
+    private static final int REQUEST_CODE_CROP = 0x1105;
+
+    @OnClick({R.id.rl_add1, R.id.rl_add2})
+    public void choseHead(View view) {
+        switch (view.getId()) {
+            case R.id.rl_add1:
+                choseImage = 1;
+                break;
+            case R.id.rl_add2:
+                choseImage = 2;
+                break;
+                default:
+                    choseImage = 1 ;
+        }
+        if (actionSheetDialog == null) {
+            actionSheetDialog = new ActionSheetDialog(this)
+                    .builder()
+                    .setTitle("选择")
+                    .addSheetItem("相机", ActionSheetDialog.SheetItemColor.Orange,
+                            i -> rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+                                    .subscribe(granted -> {
+                                        if (granted) {
+                                            takePhoto();
+                                        } else {
+                                            showToast("没有相机权限");
+                                        }
+                                    }))
+                    .addSheetItem("相册", ActionSheetDialog.SheetItemColor.Orange,
+                            i -> rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE)
+                                    .subscribe(granted -> {
+                                        if (granted) {
+                                            selectPhoto();
+                                        } else {
+                                            showToast("没有SD卡权限");
+                                        }
+                                    }));
+            actionSheetDialog.show();
+        } else {
+            actionSheetDialog.show();
+        }
+    }
+
+    File outputImage;
+
+    private void selectPhoto() {
+        mPickImageUri = getImageUri("pick");
+        Intent intent = new Intent(Intent.ACTION_PICK, null);
+        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        startActivityForResult(intent, REQUEST_CODE_PICK);
+    }
+
+    private void takePhoto() {
+        mPhotoImageUri = getImageUri("photo");
+        //调用相机
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, mPhotoImageUri);
+        startActivityForResult(intent, REQUEST_CODE_CAMERA);
+    }
+
+    /**
+     * @param activity    当前activity
+     * @param orgUri      剪裁原图的Uri
+     * @param desUri      剪裁后的图片的Uri
+     * @param aspectX     X方向的比例
+     * @param aspectY     Y方向的比例
+     * @param width       剪裁图片的宽度
+     * @param height      剪裁图片高度
+     * @param requestCode 剪裁图片的请求码
+     */
+    public static void cropImageUri(Activity activity, Uri orgUri, Uri desUri, int aspectX, int aspectY, int width, int height, int requestCode) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        }
+        intent.setDataAndType(orgUri, "image/*");
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX", aspectX);
+        intent.putExtra("aspectY", aspectY);
+        intent.putExtra("outputX", width);
+        intent.putExtra("outputY", height);
+        intent.putExtra("scale", true);
+        //将剪切的图片保存到目标Uri中
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, desUri);
+        intent.putExtra("return-data", false);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        intent.putExtra("noFaceDetection", true);
+        activity.startActivityForResult(intent, requestCode);
+    }
+
+    private Uri getImageUri(String fileName) {
+        String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/orderMall/";
+        File path = new File(filePath);
+        if (!path.exists()) {
+            boolean isPathSuccess = path.mkdirs();
+            if (!isPathSuccess) {
+                showToast("没有SD卡权限");
+                return null;
+            }
+        }
+        Uri imageUri;
+        outputImage = new File(path, fileName + System.currentTimeMillis() + ".jpg");
+        try {
+            if (outputImage.exists()) {
+                boolean isDeleteSuccess = outputImage.delete();
+                if (!isDeleteSuccess) {
+                    showToast("没有SD卡权限");
+                    return null;
+                }
+            }
+            if (!outputImage.createNewFile()) {
+                showToast("没有SD卡权限");
+                return null;
+            }
+        } catch (IOException e) {
+            Log.e(TAG, e.getMessage());
+        }
+        if (Build.VERSION.SDK_INT >= 24) {
+            imageUri = FileProvider.getUriForFile(this, "com.order.mall", outputImage);
+        } else {
+            imageUri = Uri.fromFile(outputImage);
+        }
+        return imageUri;
+    }
+
+    private String imagePath1;
+    private String imagePath2;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        int output_X = 480, output_Y = 480;
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_CODE_CAMERA) {
+                mCropImageUri = getCropUri("crop");
+                cropImageUri(this, mPhotoImageUri, mCropImageUri, 1, 1, output_X, output_Y, REQUEST_CODE_CROP);
+            } else if (requestCode == REQUEST_CODE_PICK) {
+                mCropImageUri = getCropUri("crop");
+                cropImageUri(this, data.getData(), mCropImageUri, 1, 1, output_X, output_Y, REQUEST_CODE_CROP);
+            } else if (requestCode == REQUEST_CODE_CROP) {
+               String imagePath = getRealPathFromUri(this, mCropImageUri);
+               uploadFile(imagePath);
+            }
+        }
+    }
+
+    public void uploadFile(String fileName) {
+        File file = new File(fileName);
+        if (!file.exists()) return;
+        RequestBody requestBody;
+        MultipartBody.Builder builder;
+        builder = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("imgs", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
+        requestBody = builder.build();
+        addObserver(baseApi.upload(requestBody), new NetworkObserver<ApiResult<List<String>>>() {
+            @Override
+            public void onReady(ApiResult<List<String>> stringApiResult) {
+                if (stringApiResult.getData() != null && stringApiResult.getData().size() > 0) {
+                    List<String> urls = stringApiResult.getData();
+                    if (choseImage == 1) {
+                        Glide.with(ReportOrderSubActivity.this).load(urls.get(0)).into(pay1);
+                        imagePath1 = urls.get(0);
+                    }
+                    else {
+                        Glide.with(ReportOrderSubActivity.this).load(urls.get(0)).into(pay2);
+                        imagePath2 = urls.get(0);
+                    }
+                    referDelete();
+                } else {
+                    showToast(stringApiResult.getMessage());
+                }
+            }
+        });
+    }
+
+    private void referDelete(){
+        if (pay1.getDrawable() != null){
+            delete1.setVisibility(View.VISIBLE);
+        }else{
+            delete1.setVisibility(View.GONE);
+        }
+        if (pay2.getDrawable() != null){
+            delete2.setVisibility(View.VISIBLE);
+        }else{
+            delete2.setVisibility(View.GONE);
+        }
+    }
+
+    @OnClick(R.id.tv_already_pay)
+    public void confirm(){
+        String imgs = imagePath1 +";" + imagePath2 ;
+        addObserver(iUserApi.topConfirm(data.getId(), imgs), new NetworkObserver<ApiResult<String>>() {
+            @Override
+            public void onReady(ApiResult<String> apiResult) {
+                if (apiResult.getData() != null){
+                    showToast("充值成功");
+                    Intent intent = new Intent(ReportOrderSubActivity.this , MainActivity.class);
+                    startActivity(intent);
+                }else{
+                    showToast(apiResult.getMessage());
+                }
+            }
+        });
     }
 }

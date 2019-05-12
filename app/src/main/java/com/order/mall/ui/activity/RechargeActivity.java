@@ -108,6 +108,21 @@ public class RechargeActivity extends BaseActivity implements TextWatcher, Radio
                     }
 
                 }
+
+                @Override
+                public void onError(Throwable e) {
+                    super.onError(e);
+                }
+
+                @Override
+                public void onNext(ApiResult<RechargeSuccess> rechargeSuccessApiResult) {
+                    super.onNext(rechargeSuccessApiResult);
+                }
+
+                @Override
+                public void onCompleted() {
+                    super.onCompleted();
+                }
             });
         }
     }
