@@ -12,6 +12,7 @@ import com.kcrason.dynamicpagerindicatorlibrary.DynamicPagerIndicator;
 import com.order.mall.R;
 import com.order.mall.ui.BaseActivity;
 import com.order.mall.ui.adapter.TextAdapter;
+import com.order.mall.ui.fragment.user.AllConsumeFragment;
 import com.order.mall.ui.fragment.user.AllRechargeFragment;
 
 import java.util.ArrayList;
@@ -31,14 +32,15 @@ public class ConsumeJifenDetailsActivity extends BaseActivity {
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.vg)
-    ViewPager pager ;
+    ViewPager pager;
     @BindView(R.id.dynamic_pager_indicator1)
     DynamicPagerIndicator dynamicPagerIndicator1;
 
-    Unbinder unbinder ;
+    Unbinder unbinder;
     private String[] titles = new String[]{
-            "全部" ,"购物", "转入" , "转出"
+            "全部", "购物", "转入"
     };
+
     @Override
     protected void initImmersionBar() {
         ImmersionBar.with(this)
@@ -52,16 +54,16 @@ public class ConsumeJifenDetailsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jifenmingxi);
         unbinder = ButterKnife.bind(this);
+        tvTitle.setText("消费积分明细");
         init();
     }
 
     private void init() {
         // 设置Tab底部选中的指示器 Indicator的颜色
         List<Fragment> list = new ArrayList<>();
-        list.add(AllRechargeFragment.newInstance(1));
-        list.add(AllRechargeFragment.newInstance(2));
-        list.add(AllRechargeFragment.newInstance(3));
-        list.add(AllRechargeFragment.newInstance(4));
+        list.add(AllConsumeFragment.newInstance(-1));
+        list.add(AllConsumeFragment.newInstance(0));
+        list.add(AllConsumeFragment.newInstance(1));
         pager.setAdapter(new TextAdapter(getSupportFragmentManager(), titles, list));
         dynamicPagerIndicator1.setViewPager(pager);
     }

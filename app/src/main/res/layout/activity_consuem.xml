@@ -75,7 +75,7 @@
         android:id="@+id/rl_shouzhi"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:layout_below="@id/ll_l1"
+        android:layout_below="@id/line1"
         android:paddingEnd="10dp"
         android:paddingStart="10dp">
 
@@ -109,10 +109,19 @@
         android:layout_below="@id/rl_shouzhi"
         android:id="@+id/line2"/>
 
-    <android.support.v7.widget.RecyclerView
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/rv"
-        android:layout_below="@id/line2"/>
+        android:layout_height="match_parent"
+        android:layout_below="@id/line2">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite" />
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
 
 </RelativeLayout>
