@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.order.mall.R;
+import com.order.mall.data.SharedPreferencesHelp;
 import com.order.mall.data.network.IUserApi;
 import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
@@ -52,7 +53,7 @@ public class TransferJifenActivity extends BaseActivity {
     private int type;   //1  现金积分转账  2：奖金积分转账
     private int num;   //全部数量
     private IUserApi iUserApi;
-    private int userId = 500000;
+    private long userId ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class TransferJifenActivity extends BaseActivity {
         unbinder = ButterKnife.bind(this);
 
         iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
+        userId = SharedPreferencesHelp.getInstance(this).getUser().getId();
 
         type = getIntent().getIntExtra("type", 0);
         num = getIntent().getIntExtra("num", 0);

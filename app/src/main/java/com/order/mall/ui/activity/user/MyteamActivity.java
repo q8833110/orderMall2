@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.order.mall.R;
+import com.order.mall.data.SharedPreferencesHelp;
 import com.order.mall.data.network.IUserApi;
 import com.order.mall.data.network.user.UserTeam;
 import com.order.mall.model.netword.ApiResult;
@@ -53,7 +54,7 @@ public class MyteamActivity extends BaseActivity {
     private TeamAdapter adapter;
     private Unbinder unbinder;
     private IUserApi iUserApi;
-    private int userId = 500000;
+    private long userId ;
     private List<UserTeam.UserVoBean> userVoBeans = new ArrayList<>();
 
     @Override
@@ -62,6 +63,8 @@ public class MyteamActivity extends BaseActivity {
         setContentView(R.layout.activity_team);
         unbinder = ButterKnife.bind(this);
         iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
+        userId = SharedPreferencesHelp.getInstance(this).getUser().getId();
+
         init();
         initView();
         getInfo();

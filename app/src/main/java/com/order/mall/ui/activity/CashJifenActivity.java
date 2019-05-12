@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.order.mall.R;
+import com.order.mall.data.SharedPreferencesHelp;
 import com.order.mall.data.network.IUserApi;
 import com.order.mall.data.network.user.CashScoreList;
 import com.order.mall.model.netword.ApiResult;
@@ -70,7 +71,7 @@ public class CashJifenActivity extends BaseActivity {
     private CashScoreListAdapter adapter;
     private int pageNum = 1;
     private int pageSize = 10;
-    private long userId = 500000;
+    private long userId ;
     private IUserApi iUserApi;
     private List<CashScoreList.DataBean> dataBeans = new ArrayList<>();
     private int cashBalance;
@@ -84,6 +85,8 @@ public class CashJifenActivity extends BaseActivity {
         iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
         cashBalance = getIntent().getIntExtra("cashBalance", 0);
         tvJifen.setText(cashBalance + "");
+        userId = SharedPreferencesHelp.getInstance(this).getUser().getId();
+
         init();
         getAll();
 

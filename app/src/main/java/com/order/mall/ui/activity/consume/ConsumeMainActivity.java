@@ -11,11 +11,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.order.mall.R;
+import com.order.mall.data.SharedPreferencesHelp;
 import com.order.mall.data.network.IUserApi;
 import com.order.mall.data.network.user.CashScoreList;
 import com.order.mall.data.network.user.ConsumeList;
 import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
+import com.order.mall.ui.MainActivity;
 import com.order.mall.ui.activity.Jifenxiangqing2Activity;
 import com.order.mall.ui.activity.bonus.BonusJifenDetailsActivity;
 import com.order.mall.ui.activity.cash.TransferJifenActivity;
@@ -72,7 +74,7 @@ public class ConsumeMainActivity extends BaseActivity {
     private IUserApi iUserApi;
     private int pageNum = 1;
     private int pageSize = 10;
-    private long userId = 500000;
+    private long userId ;
     private List<ConsumeList.DataBean> dataBeans = new ArrayList<>();
 
     @Override
@@ -83,6 +85,8 @@ public class ConsumeMainActivity extends BaseActivity {
         iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
         int consumeBalance = getIntent().getIntExtra("consumeBalance", 0);
         tvJifen.setText(consumeBalance + "");
+        userId = SharedPreferencesHelp.getInstance(this).getUser().getId();
+
         init();
         getAll();
     }
@@ -155,9 +159,10 @@ public class ConsumeMainActivity extends BaseActivity {
 
     @OnClick(R.id.ll_transfer)
     public void toBuy() {
-//        Intent intent = new Intent(this, TransferJifenActivity.class);
-//        startActivity(intent);
-        showToast("去购物");
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("position", 3);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     @Override

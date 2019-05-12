@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.order.mall.R;
+import com.order.mall.data.SharedPreferencesHelp;
 import com.order.mall.data.network.IUserApi;
 import com.order.mall.data.network.user.CashScoreList;
 import com.order.mall.model.netword.ApiResult;
@@ -43,7 +44,7 @@ public class CashFragment extends LazyLoadFragment {
     private IUserApi iUserApi;
     private int pageNum = 1;
     private int pageSize = 10;
-    private long userId = 500000;
+    private long userId ;
     private int type = 0;
 
     private List<CashScoreList.DataBean> dataBeans = new ArrayList<>();
@@ -115,6 +116,8 @@ public class CashFragment extends LazyLoadFragment {
         unbinder = ButterKnife.bind(this, rootView);
         iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
         type = getArguments().getInt("type");
+        userId = SharedPreferencesHelp.getInstance(getContext()).getUser().getId();
+
         init();
         return rootView;
     }

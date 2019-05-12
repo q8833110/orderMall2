@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.order.mall.R;
+import com.order.mall.data.SharedPreferencesHelp;
 import com.order.mall.data.network.IUserApi;
 import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
@@ -38,7 +39,7 @@ public class ChangePasswordActivity extends BaseActivity {
     Unbinder unbinder;
     AddressAdapter adapter;
     private IUserApi iUserApi;
-    private int userId = 500000;
+    private long userId ;
 
     @Override
     protected void initImmersionBar() {
@@ -52,6 +53,8 @@ public class ChangePasswordActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password);
         unbinder = ButterKnife.bind(this);
+        userId = SharedPreferencesHelp.getInstance(this).getUser().getId();
+
         iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
     }
 

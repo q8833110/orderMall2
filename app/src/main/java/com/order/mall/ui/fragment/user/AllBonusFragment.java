@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.order.mall.R;
+import com.order.mall.data.SharedPreferencesHelp;
 import com.order.mall.data.network.IUserApi;
 import com.order.mall.data.network.user.BounsScoreList;
 import com.order.mall.model.netword.ApiResult;
@@ -55,7 +56,7 @@ public class AllBonusFragment extends LazyLoadFragment {
 
     private int pageNum = 1;
     private int pageSize = 10;
-    private long userId = 500000;
+    private long userId ;
     private int type = 0;
     List<BounsScoreList.DataBean> list = new ArrayList<>();
 
@@ -76,6 +77,8 @@ public class AllBonusFragment extends LazyLoadFragment {
         unbinder = ButterKnife.bind(this, rootView);
         iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
         type = getArguments().getInt("type");
+        userId = SharedPreferencesHelp.getInstance(getContext()).getUser().getId();
+
         init();
         return rootView;
     }
