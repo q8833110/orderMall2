@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.gyf.immersionbar.ImmersionBar;
 import com.order.mall.R;
 import com.order.mall.data.network.IUserApi;
@@ -56,6 +57,13 @@ public class WithdrawalStatusActivity extends BaseActivity {
     ImageView ivPayStyle;
     @BindView(R.id.amount)
     TextView amount;
+    @BindView(R.id.circle1)
+    ImageView circle1;
+    @BindView(R.id.circle2)
+    ImageView circle2;
+    @BindView(R.id.mid_line)
+    View midLine;
+
     private String id;
     private IUserApi iUserApi;
 
@@ -67,6 +75,7 @@ public class WithdrawalStatusActivity extends BaseActivity {
         iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
         id = getIntent().getStringExtra("id");
         tvTitle.setText("详细信息");
+        circle1.setSelected(true);
         getDetails();
     }
 
@@ -84,21 +93,44 @@ public class WithdrawalStatusActivity extends BaseActivity {
     }
 
     private void init(CashSuccess data) {
-        tvInfo.setText(data.getEncashValue()/100 + "现金积分=" + data.getRmbValue()/100 + "元");
+        tvInfo.setText(data.getEncashValue() / 100 + "现金积分=" + data.getRmbValue() / 100 + "元");
         orderId.setText(data.getId());
         time.setText(data.getCreateDate());
-        price.setText(data.getEncashValue() / 100 + "");
-        serviceChange.setText(data.getServiceValue()/100);
+        price.setText(data.getEncashValue() / 100 + "现金积分");
+        serviceChange.setText(data.getServiceValue() / 100 + "现金积分(0.5%手续费)");
+        if (data.getReciveWay() == 0) {
+            payStyle.setText("支付宝");
+            Glide.with(this).load(R.drawable.zhifubao).into(ivPayStyle);
+
+        } else if (data.getReciveWay() == 1) {
+            payStyle.setText("微信");
+            Glide.with(this).load(R.drawable.weixin).into(ivPayStyle);
+
+        } else if (data.getReciveWay() == 2) {
+            payStyle.setText("银行卡");
+
+            Glide.with(this).load(R.drawable.bank).into(ivPayStyle);
+        }
+        amount.setText(data.getAccountNo());
         if (data.getEncashStatus() == 0) {
             tvStatus.setText("已提交提现订单，待节点处理");
             tvProgress.setText("请耐心等待后台节点处理");
-
+            Glide.with(this).load(R.drawable.success).into(ivStatus);
+            circle2.setSelected(false);
+            midLine.setBackgroundColor(getResources().getColor(R.color.colorBDBDBD));
         } else if (data.getEncashStatus() == 1) {
             tvStatus.setText("提现成功");
             tvProgress.setText("节点已处理，提现金额已到指定账户");
+            Glide.with(this).load(R.drawable.success).into(ivStatus);
+            circle2.setSelected(true);
+            midLine.setBackgroundColor(getResources().getColor(R.color.colorFullRed));
+
         } else if (data.getEncashStatus() == 2) {
             tvStatus.setText("提现失败");
             tvProgress.setText("现金积分冻结中目前无法进行提现");
+            Glide.with(this).load(R.drawable.pay_failure).into(ivStatus);
+            circle2.setSelected(true);
+            midLine.setBackgroundColor(getResources().getColor(R.color.colorFullRed));
 
         }
     }

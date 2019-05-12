@@ -129,6 +129,27 @@ public class AllShoppingFragment extends LazyLoadFragment {
         });
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter.setonReceiveListener(new ShoppingAdapter.onReceiveListener() {
+            @Override
+            public void receive(String id) {
+                toReceive(id);
+            }
+        });
+    }
+
+    private void toReceive(String id) {
+        addObserver(iUserApi.receive(id), new NetworkObserver() {
+            @Override
+            public void onReady(ApiResult apiResult) {
+                if (apiResult.getData() != null) {
+                    boolean data = (boolean) apiResult.getData();
+                    if (data) {
+                        pageNum = 1;
+                        loadData();
+                    }
+                }
+            }
+        });
     }
 
 

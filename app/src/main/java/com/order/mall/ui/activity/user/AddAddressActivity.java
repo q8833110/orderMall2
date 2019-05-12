@@ -78,14 +78,15 @@ public class AddAddressActivity extends BaseActivity implements MyDialog.OkDialo
 
     private UserDeliverAddress userDeliverAddress;
 
-    private IUserApi userApi ;
+    private IUserApi userApi;
     private List<JsonBean> options1Items = new ArrayList<>();
     private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
     private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
 
-    Unbinder unbinder ;
+    Unbinder unbinder;
 
-    int userId ;
+    int userId;
+
     @Override
     protected void initImmersionBar() {
         ImmersionBar.with(this)
@@ -130,6 +131,7 @@ public class AddAddressActivity extends BaseActivity implements MyDialog.OkDialo
             }
         }
     }
+
     private void showDate() {
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -140,7 +142,9 @@ public class AddAddressActivity extends BaseActivity implements MyDialog.OkDialo
         });
         thread.start();
     }
-    OptionsPickerView pvOptions ;
+
+    OptionsPickerView pvOptions;
+
     private void init() {
         dialog = new MyDialog(this);
         dialog.setCancelDialogListener(this);
@@ -150,7 +154,7 @@ public class AddAddressActivity extends BaseActivity implements MyDialog.OkDialo
         switchButton.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
-                isDefault = isChecked ;
+                isDefault = isChecked;
             }
         });
 
@@ -184,13 +188,13 @@ public class AddAddressActivity extends BaseActivity implements MyDialog.OkDialo
     }
 
     @OnClick(R.id.rl_address)
-    public void addAddress(){
-        InputUtils.hideSoftInputFromWindow(this , etMobile);
+    public void addAddress() {
+        InputUtils.hideSoftInputFromWindow(this, etMobile);
         pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
         pvOptions.show();
     }
 
-    boolean isDefault ;
+    boolean isDefault;
 
     private void initJsonData() {//解析数据
 
@@ -261,8 +265,8 @@ public class AddAddressActivity extends BaseActivity implements MyDialog.OkDialo
 
     @OnClick(R.id.tv_ok)
     public void tvOk() {
-        String content = etName.getText().toString() +" ," + etMobile.getText().toString() +
-                " ," + tvAddress.getText().toString() +  etAddressDetail.getText().toString() ;
+        String content = etName.getText().toString() + " ," + etMobile.getText().toString() +
+                " ," + tvAddress.getText().toString() + etAddressDetail.getText().toString();
         dialog.setContent(content);
         dialog.show();
 
@@ -290,25 +294,24 @@ public class AddAddressActivity extends BaseActivity implements MyDialog.OkDialo
         String mobile = etMobile.getText().toString();
         String address = tvAddress.getText().toString();
         String addressDetail = etAddressDetail.getText().toString();
-        HashMap<String , Object> hashMap = new HashMap<>();
-        hashMap.put("id" , "");
-        hashMap.put("userId" , userId);
-        hashMap.put("reciver" , name);
-        hashMap.put("mobile" , mobile);
-        hashMap.put("address" , address);
-        hashMap.put("addressDetail" , addressDetail);
-        hashMap.put("isDefault" ,isDefault);
-        addObserver(userApi.mergeAddress(hashMap), new NetworkObserver<ApiResult<Boolean>>(){
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("userId", userId);
+        hashMap.put("reciver", name);
+        hashMap.put("mobile", mobile);
+        hashMap.put("address", address);
+        hashMap.put("addressDetail", addressDetail);
+        hashMap.put("isDefault", isDefault);
+        addObserver(userApi.mergeAddress(hashMap), new NetworkObserver<ApiResult<Boolean>>() {
 
-                    @Override
-                    public void onReady(ApiResult<Boolean> booleanApiResult) {
-                        if (booleanApiResult.getData()){
-                            showToast("添加地址成功");
-                            back();
-                        }else{
-                            showToast("添加地址失败");
-                        }
-                    }
-                });
+            @Override
+            public void onReady(ApiResult<Boolean> booleanApiResult) {
+                if (booleanApiResult.getData()) {
+                    showToast("添加地址成功");
+                    back();
+                } else {
+                    showToast("添加地址失败");
+                }
+            }
+        });
     }
 }

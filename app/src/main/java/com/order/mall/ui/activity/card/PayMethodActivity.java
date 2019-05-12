@@ -11,9 +11,18 @@ import android.widget.TextView;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.order.mall.R;
+import com.order.mall.data.network.IUserApi;
+import com.order.mall.data.network.user.AlipayList;
+import com.order.mall.data.network.user.BankList;
+import com.order.mall.data.network.user.WeixinList;
+import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
 import com.order.mall.ui.activity.user.ChangePasswordActivity;
+import com.order.mall.ui.adapter.AlipayMethodAdapter;
 import com.order.mall.ui.adapter.PayMethodAdapter;
+import com.order.mall.ui.adapter.WeixinMethodAdapter;
+import com.order.mall.util.RetrofitUtils;
+import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +80,13 @@ public class PayMethodActivity extends BaseActivity {
     RelativeLayout rlWx;
     @BindView(R.id.rv_weixin)
     RecyclerView rvWeixin;
+    private IUserApi iUserApi;
+    private long userId = 500000;
+    private List<AlipayList> alipayLists = new ArrayList<>();
+    private List<BankList> bankLists = new ArrayList<>();
+    private List<WeixinList> weixinLists = new ArrayList<>();
+    private AlipayMethodAdapter alipayMethodAdapter;
+    private WeixinMethodAdapter weixinMethodAdapter;
 
     @Override
     protected void initImmersionBar() {
@@ -84,24 +100,151 @@ public class PayMethodActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay_method);
+        iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
         unbinder = ButterKnife.bind(this);
         initRecy();
     }
 
-    private void initRecy() {
-        List<PayMethodAdapter.Data> data = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            data.add(new PayMethodAdapter.Data());
-        }
-        adapter = new PayMethodAdapter(this, R.layout.item_paymentod, data);
-        rvBank.setLayoutManager(new LinearLayoutManager(this));
-        rvBank.setAdapter(adapter);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        alipayLists.clear();
+        bankLists.clear();
+        weixinLists.clear();
+        getAlipayList();
+        getBankList();
+        getWeixinList();
+
     }
 
-    @OnClick(R.id.rl_password)
-    public void toPassword() {
-        Intent intent = new Intent(this, ChangePasswordActivity.class);
-        startActivity(intent);
+    private void getAlipayList() {
+        addObserver(iUserApi.userPayWayAliList(userId), new NetworkObserver<ApiResult<List<AlipayList>>>() {
+
+            @Override
+            public void onReady(ApiResult<List<AlipayList>> listApiResult) {
+                if (listApiResult.getData() != null) {
+                    alipayLists.addAll(listApiResult.getData());
+                    alipayMethodAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+
+    }
+
+    private void getBankList() {
+        addObserver(iUserApi.userPayWayBankList(userId), new NetworkObserver<ApiResult<List<BankList>>>() {
+
+            @Override
+            public void onReady(ApiResult<List<BankList>> listApiResult) {
+                if (listApiResult.getData() != null) {
+                    bankLists.addAll(listApiResult.getData());
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
+
+    }
+
+    private void getWeixinList() {
+        addObserver(iUserApi.userPayWayWeixinList(userId), new NetworkObserver<ApiResult<List<WeixinList>>>() {
+
+            @Override
+            public void onReady(ApiResult<List<WeixinList>> listApiResult) {
+                if (listApiResult.getData() != null) {
+                    weixinLists.addAll(listApiResult.getData());
+                    weixinMethodAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+
+    }
+
+    private void initRecy() {
+
+        //银行卡
+        adapter = new PayMethodAdapter(this, R.layout.item_paymentod, bankLists);
+        rvBank.setLayoutManager(new LinearLayoutManager(this));
+        rvBank.setAdapter(adapter);
+        adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+                Intent intent = new Intent(PayMethodActivity.this, AddBankActivity.class);
+                intent.putExtra("sName", bankLists.get(position).getAccountName());
+                intent.putExtra("sBank", bankLists.get(position).getBankName());
+                intent.putExtra("sSubBank", bankLists.get(position).getSubbranchName());
+                intent.putExtra("sCard", bankLists.get(position).getBankNo());
+                intent.putExtra("openOrNot", bankLists.get(position).isOpenOrNot());
+                intent.putExtra("id", bankLists.get(position).getId());
+                startActivity(intent);
+            }
+
+            @Override
+            public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                return false;
+            }
+        });
+
+        //支付宝
+        alipayMethodAdapter = new AlipayMethodAdapter(this, R.layout.item_paymentod, alipayLists);
+        rvZhifubao.setLayoutManager(new LinearLayoutManager(this));
+        rvZhifubao.setAdapter(alipayMethodAdapter);
+        alipayMethodAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+                Intent intent = new Intent(PayMethodActivity.this, AddZhifubaoActivity.class);
+                intent.putExtra("sName", alipayLists.get(position).getAccountRealName());
+                intent.putExtra("sAccount", alipayLists.get(position).getAliPayAccount());
+                intent.putExtra("openOrNot", alipayLists.get(position).isOpenOrNot());
+                intent.putExtra("id", alipayLists.get(position).getId());
+                startActivity(intent);
+            }
+
+            @Override
+            public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                return false;
+            }
+        });
+
+        //微信
+        weixinMethodAdapter = new WeixinMethodAdapter(this, R.layout.item_paymentod, weixinLists);
+        rvWeixin.setLayoutManager(new LinearLayoutManager(this));
+        rvWeixin.setAdapter(weixinMethodAdapter);
+        weixinMethodAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+                Intent intent = new Intent(PayMethodActivity.this, AddWXActivity.class);
+                intent.putExtra("sName", weixinLists.get(position).getAccountRealName());
+                intent.putExtra("sAccount", weixinLists.get(position).getWeixinPayAccount());
+                intent.putExtra("openOrNot", weixinLists.get(position).isOpenOrNot());
+                intent.putExtra("id", weixinLists.get(position).getId());
+
+                startActivity(intent);
+            }
+
+            @Override
+            public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                return false;
+            }
+        });
+
+    }
+
+    @OnClick(R.id.add_bank)
+    public void addBank() {
+        startActivity(new Intent(this, AddBankActivity.class));
+
+    }
+
+    @OnClick(R.id.add_zhifubao)
+    public void addAlipay() {
+        startActivity(new Intent(this, AddZhifubaoActivity.class));
+
+    }
+
+    @OnClick(R.id.add_weixin)
+    public void addWx() {
+        startActivity(new Intent(this, AddWXActivity.class));
+
     }
 
     @Override

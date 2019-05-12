@@ -62,6 +62,13 @@ public class ReportDetailActivity extends BaseActivity {
     ImageView pay1;
     @BindView(R.id.pay2)
     ImageView pay2;
+    @BindView(R.id.circle1)
+    ImageView circle1;
+    @BindView(R.id.circle2)
+    ImageView circle2;
+    @BindView(R.id.mid_line)
+    View midLine;
+
 
     Unbinder unbinder;
     private IUserApi iUserApi;
@@ -76,6 +83,7 @@ public class ReportDetailActivity extends BaseActivity {
 
         String id = getIntent().getStringExtra("id");
         iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
+        circle1.setSelected(true);
         getDetails(id);
 
     }
@@ -125,24 +133,35 @@ public class ReportDetailActivity extends BaseActivity {
                 Glide.with(this).load(R.drawable.pay_failure).into(ivStatus);
                 tvStatus.setText("充值失败");
                 tvProgress.setText("上传凭证无效，系统未查询到到账记录");
+                circle2.setSelected(false);
+                midLine.setBackgroundColor(getResources().getColor(R.color.colorFullRed));
                 break;
             case -1:
                 tvStatus.setText("订单已取消");
                 Glide.with(this).load(R.drawable.pay_failure).into(ivStatus);
+                circle2.setSelected(false);
+                midLine.setBackgroundColor(getResources().getColor(R.color.colorFullRed));
                 break;
             case 0:
                 tvStatus.setText("待支付");
                 Glide.with(this).load(R.drawable.success).into(ivStatus);
+                circle2.setSelected(false);
+                midLine.setBackgroundColor(getResources().getColor(R.color.colorBDBDBD));
                 break;
             case 1:
                 Glide.with(this).load(R.drawable.success).into(ivStatus);
                 tvStatus.setText("已提交订单，等待节点处理");
                 tvProgress.setText("请耐心等待后台节点处理");
+                circle2.setSelected(false);
+                midLine.setBackgroundColor(getResources().getColor(R.color.colorBDBDBD));
                 break;
             case 2:
                 Glide.with(this).load(R.drawable.success).into(ivStatus);
                 tvStatus.setText("订单已完成");
                 tvProgress.setText("节点已确认，充值积分已到账");
+                circle2.setSelected(true);
+                midLine.setBackgroundColor(getResources().getColor(R.color.colorFullRed));
+
                 break;
         }
         if (data.getPayWayValue() == 1) {

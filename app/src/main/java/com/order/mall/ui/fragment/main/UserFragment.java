@@ -24,6 +24,7 @@ import com.order.mall.ui.LoginActivity;
 import com.order.mall.ui.activity.Baodanjifen;
 import com.order.mall.ui.activity.CashJifenActivity;
 import com.order.mall.ui.activity.bonus.BonusMainActivity;
+import com.order.mall.ui.activity.card.PayMethodActivity;
 import com.order.mall.ui.activity.consume.ConsumeMainActivity;
 import com.order.mall.ui.activity.user.AddressActivity;
 import com.order.mall.ui.activity.user.InvitationActivity;
@@ -157,8 +158,8 @@ public class UserFragment extends LazyLoadFragment {
      */
     private void getUserData() {
         if (!LoginUtils.isLogin(getContext())) {
-            startActivity(new Intent(getContext() , LoginActivity.class));
-            return ;
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            return;
         }
         UserRespDTO user = SharedPreferencesHelp.getInstance(getActivity()).getUser();
         if (user != null) {
@@ -167,7 +168,7 @@ public class UserFragment extends LazyLoadFragment {
             } else {
                 Glide.with(getContext()).load(R.mipmap.head_icon).into(ivUser);
             }
-            tvGrade.setText("L"+user.getLevel()+ImageStringUtils.convertString(user.getLevel()));
+            tvGrade.setText("L" + user.getLevel() + ImageStringUtils.convertString(user.getLevel()));
         }
         addObserver(iUserApi.getUserData(500000), new NetworkObserver<ApiResult<UserData>>() {
 
@@ -226,6 +227,7 @@ public class UserFragment extends LazyLoadFragment {
         intent.putExtra("tradeBalance", tradeBalance);
         startActivity(intent);
     }
+
     @OnClick(R.id.ll_xiaofeijifen)
     public void toXiaofei() {
         Intent intent = new Intent(getContext(), ConsumeMainActivity.class);
@@ -261,6 +263,12 @@ public class UserFragment extends LazyLoadFragment {
     @OnClick(R.id.rl_dizhiguanli)
     public void toDizhi() {
         Intent intent = new Intent(getContext(), AddressActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.rl_shoukuanfangshi)
+    public void toPayWay() {
+        Intent intent = new Intent(getContext(), PayMethodActivity.class);
         startActivity(intent);
     }
 

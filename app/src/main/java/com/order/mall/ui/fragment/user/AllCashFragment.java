@@ -16,6 +16,8 @@ import com.order.mall.data.network.user.CashList;
 import com.order.mall.data.network.user.RechargeCenter;
 import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.activity.ReportDetailActivity;
+import com.order.mall.ui.activity.cash.WithdrawalActivity;
+import com.order.mall.ui.activity.cash.WithdrawalStatusActivity;
 import com.order.mall.ui.adapter.CashCenterAdapter;
 import com.order.mall.ui.adapter.RechargeCenterAdapter;
 import com.order.mall.ui.fragment.main.LazyLoadFragment;
@@ -147,9 +149,9 @@ public class AllCashFragment extends LazyLoadFragment {
         adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-//                Intent intent = new Intent(getContext(), ReportDetailActivity.class);
-//                intent.putExtra("id", dataBeans.get(position).getId());
-//                startActivity(intent);
+                Intent intent = new Intent(getContext(), WithdrawalStatusActivity.class);
+                intent.putExtra("id", dataBeans.get(position).getId());
+                startActivity(intent);
             }
 
             @Override

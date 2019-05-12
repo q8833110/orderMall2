@@ -22,6 +22,7 @@ import com.order.mall.data.network.user.TradeOrderList;
 import com.order.mall.data.network.user.UserData;
 import com.order.mall.data.network.user.UserDeliverAddress;
 import com.order.mall.data.network.user.UserTeam;
+import com.order.mall.data.network.user.WeixinList;
 import com.order.mall.model.netword.ApiResult;
 
 import java.util.List;
@@ -51,7 +52,7 @@ public interface IUserApi {
     @FormUrlEncoded
     @Headers("Content-Type:application/x-www-form-urlencoded; charset=utf-8")
     @POST("userDelivery/mergeUserDelivery")
-    Observable<ApiResult<String>> mergeAddress(@FieldMap Map<String, Object> map);
+    Observable<ApiResult<Boolean>> mergeAddress(@FieldMap Map<String, Object> map);
 
 
     @POST("userDelivery/oneUserDeliverAddress")
@@ -223,12 +224,16 @@ public interface IUserApi {
     @POST("userPaymentWay/userPayWayAliList")
     Observable<ApiResult<List<AlipayList>>> userPayWayAliList(@Query("userId") long userId);
 
-    //获取微信列表
+    //获取银行卡列表
     @POST("userPaymentWay/userPayWayBankList")
     Observable<ApiResult<List<BankList>>> userPayWayBankList(@Query("userId") long userId);
 
+    //获取微信列表
+    @POST("userPaymentWay/userPayWayWeixinList")
+    Observable<ApiResult<List<WeixinList>>> userPayWayWeixinList(@Query("userId") long userId);
+
     //提现
-    @POST("/userEncashment/userEncashment")
+    @POST("userEncashment/userEncashment")
     Observable<ApiResult<CashSuccess>> userEncashment(@Query("userId") long userId,
                                                       @Query("encashMoney") double encashMoney,
                                                       @Query("reciveWay") int reciveWay,
@@ -236,8 +241,63 @@ public interface IUserApi {
                                                       @Query("accountName") String accountName);
 
     //单个提现详情
-    @POST("/userEncashment/oneUserEncashment")
-    Observable<ApiResult<CashSuccess>> oneUserEncashment(@Query("ud") String id);
+    @POST("userEncashment/oneUserEncashment")
+    Observable<ApiResult<CashSuccess>> oneUserEncashment(@Query("id") String id);
+
+
+    //新增或保存支付宝
+    @POST("userPaymentWay/mergeUserPayWayAli")
+    Observable<ApiResult> mergeUserPayWayAli(@Query("userId") long userId,
+                                             @Query("aliPayAccount") String aliPayAccount,
+                                             @Query("accountRealName") String accountRealName,
+                                             @Query("openOrNot") boolean openOrNot);
+
+    //保存支付宝
+    @POST("userPaymentWay/mergeUserPayWayAli")
+    Observable<ApiResult> mergeUserPayWayAli2(@Query("userId") long userId,
+                                              @Query("aliPayAccount") String aliPayAccount,
+                                              @Query("accountRealName") String accountRealName,
+                                              @Query("openOrNot") boolean openOrNot,
+                                              @Query("id") String id);
+
+
+    //新增微信
+    @POST("userPaymentWay/mergeUserPayWayWeixin")
+    Observable<ApiResult> mergeUserPayWayWeixin(@Query("userId") long userId,
+                                                @Query("weixinPayAccount") String aliPayAccount,
+                                                @Query("accountRealName") String accountRealName,
+                                                @Query("openOrNot") boolean openOrNot);
+
+    //修改微信
+    @POST("userPaymentWay/mergeUserPayWayWeixin")
+    Observable<ApiResult> mergeUserPayWayWeixin2(@Query("userId") long userId,
+                                                 @Query("weixinPayAccount") String aliPayAccount,
+                                                 @Query("accountRealName") String accountRealName,
+                                                 @Query("openOrNot") boolean openOrNot,
+                                                 @Query("id") String id);
+
+
+    //新增微信
+    @POST("userPaymentWay/mergeUserPayWayBank")
+    Observable<ApiResult> mergeUserPayWayBank(@Query("userId") long userId,
+                                              @Query("accountName") String accountName,
+                                              @Query("bankName") String bankName,
+                                              @Query("subbranchName") String subbranchName,
+                                              @Query("bankNo") String bankNo,
+                                              @Query("openOrNot") boolean openOrNot);
+
+    //修改微信
+    @POST("userPaymentWay/mergeUserPayWayBank")
+    Observable<ApiResult> mergeUserPayWayBank2(@Query("userId") long userId,
+                                               @Query("accountName") String accountName,
+                                               @Query("bankName") String bankName,
+                                               @Query("subbranchName") String subbranchName,
+                                               @Query("bankNo") String bankNo,
+                                               @Query("openOrNot") boolean openOrNot,
+                                               @Query("id") String id); //修改微信
+
+    @POST("shoppingOrder/receive")
+    Observable<ApiResult> receive(@Query("id") String id);
 
 
 }
