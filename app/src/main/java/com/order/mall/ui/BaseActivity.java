@@ -3,6 +3,7 @@ package com.order.mall.ui;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -53,22 +54,23 @@ public class BaseActivity extends AppCompatActivity {
         rxPermissions = RxPermissions.getInstance(this);
     }
 
-    public void FilePermission(){
-        rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE ,
+    public void FilePermission() {
+        rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .subscribe(new Action1<Boolean>() {
                     @Override
                     public void call(Boolean granted) {
-                            if (granted) {
-                                downFile();
-                            } else {
-                                showToast("读写文件权限");
-                            }
+                        if (granted) {
+                            downFile();
+                        } else {
+                            showToast("读写文件权限");
+                        }
                     }
                 });
     }
 
-    public  void downFile(){
+
+    public void downFile() {
 
     }
 

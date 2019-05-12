@@ -24,6 +24,7 @@ import com.order.mall.data.network.homepage.Home;
 import com.order.mall.data.network.shop.ShopGoods;
 import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.activity.DetailsMallActivity;
+import com.order.mall.ui.activity.RechargeActivity;
 import com.order.mall.ui.activity.user.InvitationActivity;
 import com.order.mall.util.GlideImageLoader;
 import com.order.mall.util.RetrofitUtils;
@@ -102,6 +103,11 @@ public class MainFragment extends LazyLoadFragment {
     public void toQiangdan(){
         if (listener != null)
         listener.toQiangdan();
+    }
+
+    @OnClick(R.id.ll_jifen)
+    public void toRecharge(){
+        startActivity(new Intent(getContext() , RechargeActivity.class));
     }
 
     public interface Listener{

@@ -19,6 +19,7 @@ import com.order.mall.data.network.shop.ShopOrder;
 import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
 import com.order.mall.ui.activity.user.AddressActivity;
+import com.order.mall.ui.activity.user.TradeAllActivity;
 import com.order.mall.util.RetrofitUtils;
 
 import butterknife.BindView;
@@ -146,7 +147,9 @@ public class QiangdanPayActivity extends BaseActivity {
                 public void onReady(ApiResult<FinancialProductOrder> financialProductOrderApiResult) {
                     if (financialProductOrderApiResult.getData() != null) {
                         showToast("抢单成功");
-                        // TODO: 2019/5/11/011  跳转已购列表
+                        Intent intent = new Intent(QiangdanPayActivity.this, TradeAllActivity.class);
+                        intent.putExtra("position", 1);
+                        startActivity(intent);
                     } else {
                         showToast(financialProductOrderApiResult.getMessage());
                     }
@@ -160,6 +163,9 @@ public class QiangdanPayActivity extends BaseActivity {
                     if (financialProductOrderApiResult.getData() != null) {
                         showToast("购物成功");
                         // TODO: 2019/5/11/011  跳转商品已购列表
+                        Intent intent = new Intent(QiangdanPayActivity.this, TradeAllActivity.class);
+                        intent.putExtra("position", 1);
+                        startActivity(intent);
                     } else {
                         showToast(financialProductOrderApiResult.getMessage());
                     }
