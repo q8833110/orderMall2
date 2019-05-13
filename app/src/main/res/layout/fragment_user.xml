@@ -28,6 +28,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="29dp"
             app:civ_border_color="#ffffff"
+            android:src="@mipmap/head_icon"
             app:civ_border_width="2dp" />
 
 
@@ -37,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/iv_user"
             android:layout_centerHorizontal="true"
-            android:text="卡卡"
+            android:text="您还未登录"
             android:textColor="@color/colorBlank333333"
             android:textSize="15sp" />
 

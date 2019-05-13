@@ -154,12 +154,6 @@ public class UserFragment extends LazyLoadFragment {
         //初始化等级
     }
 
-    private void isLogin() {
-        if (!LoginUtils.isLogin(getContext())) {
-            startActivity(new Intent(getContext(), LoginActivity.class));
-            return;
-        }
-    }
 
     /**
      * 获取用户数据
@@ -173,14 +167,16 @@ public class UserFragment extends LazyLoadFragment {
                 Glide.with(getContext()).load(R.mipmap.head_icon).into(ivUser);
             }
             tvGrade.setText("L" + user.getLevel() + ImageStringUtils.convertString(user.getLevel()));
-        }
-        addObserver(iUserApi.getUserData(user.getId()), new NetworkObserver<ApiResult<UserData>>() {
+            tvName.setText(user.getAccount());
+            //刷新数据
+            addObserver(iUserApi.getUserData(user.getId()), new NetworkObserver<ApiResult<UserData>>() {
 
-            @Override
-            public void onReady(ApiResult<UserData> userDataApiResult) {
-                initUserData(userDataApiResult.getData());
-            }
-        });
+                @Override
+                public void onReady(ApiResult<UserData> userDataApiResult) {
+                    initUserData(userDataApiResult.getData());
+                }
+            });
+        }
 
     }
 
@@ -219,7 +215,10 @@ public class UserFragment extends LazyLoadFragment {
                 position = 4;
                 break;
         }
-        isLogin();
+        if (!LoginUtils.isLogin(getContext())) {
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            return;
+        }
         Intent intent = new Intent(getContext(), TradeAllActivity.class);
         intent.putExtra("position", position);
         startActivity(intent);
@@ -227,7 +226,10 @@ public class UserFragment extends LazyLoadFragment {
 
     @OnClick(R.id.baodanjifen)
     public void toBaodan() {
-        isLogin();
+        if (!LoginUtils.isLogin(getContext())) {
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            return;
+        }
         Intent intent = new Intent(getContext(), Baodanjifen.class);
         intent.putExtra("tradeBalance", tradeBalance);
         startActivity(intent);
@@ -235,7 +237,10 @@ public class UserFragment extends LazyLoadFragment {
 
     @OnClick(R.id.ll_xiaofeijifen)
     public void toXiaofei() {
-        isLogin();
+        if (!LoginUtils.isLogin(getContext())) {
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            return;
+        }
         Intent intent = new Intent(getContext(), ConsumeMainActivity.class);
         intent.putExtra("consumeBalance", consumeBalance);
         startActivity(intent);
@@ -243,28 +248,40 @@ public class UserFragment extends LazyLoadFragment {
 
     @OnClick(R.id.rl_gouwudingdan)
     public void toShopping() {
-        isLogin();
+        if (!LoginUtils.isLogin(getContext())) {
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            return;
+        }
         Intent intent = new Intent(getContext(), ShoppingCenterActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.ll_jiaoyi_title)
     public void toTrade() {
-        isLogin();
+        if (!LoginUtils.isLogin(getContext())) {
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            return;
+        }
         Intent intent = new Intent(getContext(), TradeAllActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.rl_setting)
     public void toSetting() {
-        isLogin();
+        if (!LoginUtils.isLogin(getContext())) {
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            return;
+        }
         Intent intent = new Intent(getContext(), SettingActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.ll_xianjinjifen)
     public void toCash() {
-        isLogin();
+        if (!LoginUtils.isLogin(getContext())) {
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            return;
+        }
         Intent intent = new Intent(getContext(), CashJifenActivity.class);
         intent.putExtra("cashBalance", cashBalance);
         startActivity(intent);
@@ -272,21 +289,30 @@ public class UserFragment extends LazyLoadFragment {
 
     @OnClick(R.id.rl_dizhiguanli)
     public void toDizhi() {
-        isLogin();
+        if (!LoginUtils.isLogin(getContext())) {
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            return;
+        }
         Intent intent = new Intent(getContext(), AddressActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.rl_shoukuanfangshi)
     public void toPayWay() {
-        isLogin();
+        if (!LoginUtils.isLogin(getContext())) {
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            return;
+        }
         Intent intent = new Intent(getContext(), PayMethodActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.ll_jiangjinjifen)
     public void toBonus() {
-        isLogin();
+        if (!LoginUtils.isLogin(getContext())) {
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            return;
+        }
         Intent intent = new Intent(getContext(), BonusMainActivity.class);
         intent.putExtra("bonusBalance", bonusBalance);
         startActivity(intent);
@@ -294,14 +320,20 @@ public class UserFragment extends LazyLoadFragment {
 
     @OnClick(R.id.rl_yaoqinghaoyou)
     public void toYaoqing() {
-        isLogin();
+        if (!LoginUtils.isLogin(getContext())) {
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            return;
+        }
         Intent intent = new Intent(getContext(), InvitationActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.rl_tuandui)
     public void toTeam() {
-        isLogin();
+        if (!LoginUtils.isLogin(getContext())) {
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            return;
+        }
         Intent intent = new Intent(getContext(), MyteamActivity.class);
         startActivity(intent);
     }

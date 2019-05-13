@@ -31,6 +31,7 @@ import com.order.mall.data.network.IBaseApi;
 import com.order.mall.data.network.login.UserRespDTO;
 import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
+import com.order.mall.ui.LoginActivity;
 import com.order.mall.ui.adapter.AddressAdapter;
 import com.order.mall.ui.widget.Dialog.ActionSheetDialog;
 import com.order.mall.util.RetrofitUtils;
@@ -138,6 +139,15 @@ public class SettingActivity extends BaseActivity {
     @OnClick(R.id.rl_password)
     public void toPassword() {
         Intent intent = new Intent(this, ChangePasswordActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.login_out)
+    public void loginOut() {
+        //退出登录
+        SharedPreferencesHelp.getInstance(this).putUser(null);
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 

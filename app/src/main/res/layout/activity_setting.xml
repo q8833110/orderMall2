@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorF5F5F5"
     android:orientation="vertical">
 
@@ -15,7 +15,7 @@
     <RelativeLayout
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:layout_below="@id/sys_title"
         android:layout_marginBottom="11dp"
         android:background="@color/colorWhite">
@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="地址管理"
+            android:text="系统设置"
             android:textColor="@color/colorBlank333333"
             android:textSize="18sp" />
     </RelativeLayout>
@@ -110,10 +110,10 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="18dp"
             android:layout_toStartOf="@id/iv_name_right"
-            tools:text="卡卡"
             android:textColor="#999"
             android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="卡卡" />
     </RelativeLayout>
 
     <View
@@ -152,10 +152,10 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="18dp"
             android:layout_toStartOf="@id/iv_mobile_right"
-            tools:text="卡卡"
             android:textColor="#999"
             android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="卡卡" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -223,9 +223,20 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="45dp"
-            tools:text="v1.2.1"
             android:textColor="#999"
             android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="v1.2.1" />
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/login_out"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorWhite"
+        android:gravity="center"
+        android:text="退出登录"
+        android:textColor="@color/colorBlank333333"
+        android:textSize="15sp" />
 </LinearLayout>
