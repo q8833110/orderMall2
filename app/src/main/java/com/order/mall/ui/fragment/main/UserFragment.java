@@ -197,6 +197,14 @@ public class UserFragment extends LazyLoadFragment {
         tvXiaofeijifen.setText(consumeBalance);
     }
 
+    @OnClick(R.id.iv_user)
+    public void headClick() {
+        if (!LoginUtils.isLogin(getContext())) {
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            return;
+        }
+    }
+
     @OnClick({R.id.ll_qiangdan, R.id.ll_shouyiy, R.id.ll_guamai, R.id.ll_maichu})
     public void onTrade(View v) {
         int position = 0;
