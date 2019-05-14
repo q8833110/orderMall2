@@ -59,8 +59,7 @@ public class AddZhifubaoActivity extends BaseActivity {
         setContentView(R.layout.activity_zhifubao);
         unbinder = ButterKnife.bind(this);
         iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
-//        userId = SharedPreferencesHelp.getInstance(this).getUser().getId();
-        userId = 500000;
+        userId = SharedPreferencesHelp.getInstance(this).getUser().getId();
         String sName = getIntent().getStringExtra("sName");
         String sAccount = getIntent().getStringExtra("sAccount");
         boolean openOrNot = getIntent().getBooleanExtra("openOrNot", false);

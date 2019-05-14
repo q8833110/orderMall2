@@ -195,7 +195,6 @@ public class UserFragment extends LazyLoadFragment {
         //消费积分
         consumeBalance = data.getConsumeBalance();
         tvXiaofeijifen.setText(consumeBalance);
-
     }
 
     @OnClick({R.id.ll_qiangdan, R.id.ll_shouyiy, R.id.ll_guamai, R.id.ll_maichu})

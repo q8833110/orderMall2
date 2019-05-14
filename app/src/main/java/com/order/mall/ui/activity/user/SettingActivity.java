@@ -173,7 +173,9 @@ public class SettingActivity extends BaseActivity {
                     .builder()
                     .setTitle("选择")
                     .addSheetItem("相机", ActionSheetDialog.SheetItemColor.Orange,
-                            i -> rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+                            i -> rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                    Manifest.permission.CAMERA)
                                     .subscribe(granted -> {
                                         if (granted) {
                                             takePhoto();
@@ -182,7 +184,7 @@ public class SettingActivity extends BaseActivity {
                                         }
                                     }))
                     .addSheetItem("相册", ActionSheetDialog.SheetItemColor.Orange,
-                            i -> rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE)
+                            i -> rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE ,Manifest.permission.WRITE_EXTERNAL_STORAGE)
                                     .subscribe(granted -> {
                                         if (granted) {
                                             selectPhoto();

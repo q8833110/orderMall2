@@ -13,6 +13,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.gson.Gson;
 import com.order.mall.R;
+import com.order.mall.data.SharedPreferencesHelp;
 import com.order.mall.data.network.IUserApi;
 import com.order.mall.data.network.user.AppUrlInfo;
 import com.order.mall.model.netword.ApiResult;
@@ -44,6 +45,10 @@ public class InvitationActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invitation);
         ButterKnife.bind(this);
+
+        long id = SharedPreferencesHelp.getInstance(this).getUser().getId();
+        tvCode.setText(id +"");
+
         init();
         addNet();
     }
@@ -58,7 +63,6 @@ public class InvitationActivity extends BaseActivity {
             public void onReady(ApiResult<AppUrlInfo> appUrlInfoApiResult) {
                 if (appUrlInfoApiResult.getData() != null) {
                     AppUrlInfo appUrlInfo = appUrlInfoApiResult.getData();
-                    tvCode.setText(appUrlInfo.getValue() +"");
                     String key = appUrlInfo.getKey() ;
                     if (!TextUtils.isEmpty(key)){
                         AppUrlInfo.QrCode qrCode = new Gson().fromJson(key , AppUrlInfo.QrCode.class);

@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="每邀请一个好友注册获得10个奖金积分"
+        android:text="邀请好友一起购物吧"
         android:textColor="@color/colorWhite"
         android:textSize="20dp" />
 
