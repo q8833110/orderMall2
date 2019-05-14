@@ -53,7 +53,7 @@ public class TransferJifenActivity extends BaseActivity {
     private int type;   //1  现金积分转账  2：奖金积分转账
     private int num;   //全部数量
     private IUserApi iUserApi;
-    private long userId ;
+    private long userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,12 +85,12 @@ public class TransferJifenActivity extends BaseActivity {
 
     @OnClick(R.id.tv_ok)
     public void confirm() {
-        String sNum = numEdit.getText().toString();
-        if (!sNum.isEmpty()) {
+        int sNum = Integer.parseInt(numEdit.getText().toString());
+        if (sNum != 0) {
             if (type == 1) {
-                cashIntoTrade(sNum);
+                cashIntoTrade(String.valueOf(sNum));
             } else {
-                bonusIntoCash(sNum);
+                bonusIntoCash(String.valueOf(sNum));
             }
         }
 
@@ -100,11 +100,13 @@ public class TransferJifenActivity extends BaseActivity {
         addObserver(iUserApi.bonusIntoCash(sNum, userId), new NetworkObserver<ApiResult>() {
             @Override
             public void onReady(ApiResult apiResult) {
-                boolean data = (boolean) apiResult.getData();
-                if (data) {
-                    //成功
-                    showToast(apiResult.getMessage());
-                    finish();
+                showToast(apiResult.getMessage());
+                if (apiResult.getData()!=null){
+                    boolean data = (boolean) apiResult.getData();
+                    if (data) {
+                        //成功
+                        finish();
+                    }
                 }
             }
         });
@@ -116,11 +118,13 @@ public class TransferJifenActivity extends BaseActivity {
 
             @Override
             public void onReady(ApiResult apiResult) {
-                boolean data = (boolean) apiResult.getData();
-                if (data) {
-                    //成功
-                    showToast(apiResult.getMessage());
-                    finish();
+                showToast(apiResult.getMessage());
+                if (apiResult.getData()!=null){
+                    boolean data = (boolean) apiResult.getData();
+                    if (data) {
+                        //成功
+                        finish();
+                    }
                 }
             }
         });

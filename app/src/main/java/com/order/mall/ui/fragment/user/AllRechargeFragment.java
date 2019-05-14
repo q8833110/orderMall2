@@ -48,7 +48,7 @@ public class AllRechargeFragment extends LazyLoadFragment {
 
     private int pageNum = 1;
     private int pageSize = 10;
-    private long userId = 500000;
+    private long userId;
     private int type;
 
     public static AllRechargeFragment newInstance(int type) {
@@ -76,7 +76,7 @@ public class AllRechargeFragment extends LazyLoadFragment {
         rootView = inflater.inflate(R.layout.fragment_all_grade, container, false);
         unbinder = ButterKnife.bind(this, rootView);
         iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
-//        userId = SharedPreferencesHelp.getInstance(getActivity()).getUser().getId();
+        userId = SharedPreferencesHelp.getInstance(getActivity()).getUser().getId();
         type = getArguments().getInt("type");
         init();
 
@@ -128,7 +128,7 @@ public class AllRechargeFragment extends LazyLoadFragment {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                 Intent intent = new Intent(getContext(), ReportDetailActivity.class);
-                intent.putExtra("id",dataBeans.get(position).getId());
+                intent.putExtra("id", dataBeans.get(position).getId());
                 startActivity(intent);
             }
 

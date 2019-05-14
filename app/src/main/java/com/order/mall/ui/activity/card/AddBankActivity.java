@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.order.mall.R;
+import com.order.mall.data.SharedPreferencesHelp;
 import com.order.mall.data.network.IUserApi;
 import com.order.mall.model.netword.ApiResult;
 import com.order.mall.ui.BaseActivity;
@@ -71,8 +72,7 @@ public class AddBankActivity extends BaseActivity {
         setContentView(R.layout.activity_add_bank);
         unbinder = ButterKnife.bind(this);
         iUserApi = RetrofitUtils.getInstance().getRetrofit().create(IUserApi.class);
-        //        userId = SharedPreferencesHelp.getInstance(this).getUser().getId();
-        userId = 500000;
+                userId = SharedPreferencesHelp.getInstance(this).getUser().getId();
         id = getIntent().getStringExtra("id");
         String sName = getIntent().getStringExtra("sName");
         String sBank = getIntent().getStringExtra("sBank");

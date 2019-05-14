@@ -78,7 +78,7 @@ public class WithdrawalActivity extends BaseActivity implements TextWatcher {
     private IUserApi iUserApi;
     private double rate;
     private double cashNum;
-    private long userId ;
+    private long userId;
     private List<AlipayList> alipayLists = new ArrayList<>();
     private List<BankList> bankLists = new ArrayList<>();
     private List<WeixinList> weixinLists = new ArrayList<>();
@@ -258,6 +258,7 @@ public class WithdrawalActivity extends BaseActivity implements TextWatcher {
 
             @Override
             public void onReady(ApiResult<CashSuccess> cashSuccessApiResult) {
+                showToast(cashSuccessApiResult.getMessage());
                 if (cashSuccessApiResult.getData() != null) {
                     //成功
                     Intent intent = new Intent(WithdrawalActivity.this, WithdrawalStatusActivity.class);
